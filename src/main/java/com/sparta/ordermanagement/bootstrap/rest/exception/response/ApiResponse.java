@@ -11,24 +11,25 @@ import org.springframework.http.ResponseEntity;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class ApiResponse {
 
-    public static ResponseEntity<Error> error(String message, HttpStatus httpStatus) {
+    public static ResponseEntity<Error> error(HttpStatus httpStatus, String message) {
         return ResponseEntity.status(httpStatus)
-            .body(Error.of(message));
+            .body(Error.of(httpStatus.value(), message));
     }
 
     public static ResponseEntity<Error> error(ErrorCode errorCode) {
         return ResponseEntity.status(errorCode.getHttpStatus())
-            .body(Error.of(errorCode.getMessage()));
+            .body(Error.of(errorCode.getHttpStatus().value(), errorCode.getMessage()));
     }
 
     @Getter
     @AllArgsConstructor(access = AccessLevel.PRIVATE)
     public static class Error {
 
+        private int StatusCode;
         private String message;
 
-        public static Error of(String errorMessage) {
-            return new Error(errorMessage);
+        public static Error of(int statusCode, String errorMessage) {
+            return new Error(statusCode, errorMessage);
         }
     }
 
