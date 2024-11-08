@@ -1,5 +1,7 @@
 package com.sparta.ordermanagement.framework.persistence.entity.shop;
 
+import com.sparta.ordermanagement.application.domain.shop.ShopCategory;
+import com.sparta.ordermanagement.application.domain.shop.ShopCategoryForCreate;
 import com.sparta.ordermanagement.framework.persistence.entity.BaseEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -20,4 +22,11 @@ public class ShopCategoryEntity extends BaseEntity {
     @Column(nullable = false, columnDefinition = "varchar(255)")
     private String shopCategoryName;
 
+    public static ShopCategoryEntity from(ShopCategoryForCreate shopCategoryForCreate) {
+        return new ShopCategoryEntity(null, shopCategoryForCreate.categoryName());
+    }
+
+    public ShopCategory toDomain() {
+        return new ShopCategory(id, shopCategoryName);
+    }
 }
