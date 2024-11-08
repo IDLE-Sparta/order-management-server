@@ -25,7 +25,7 @@ public class BaseEntity {
     private LocalDateTime updatedAt;
     private String updatedBy;
 
-    @Column(nullable = false, columnDefinition = "TIMESTAMP")
+    @Column(columnDefinition = "TIMESTAMP")
     private LocalDateTime deletedAt;
     private String deletedBy;
 
