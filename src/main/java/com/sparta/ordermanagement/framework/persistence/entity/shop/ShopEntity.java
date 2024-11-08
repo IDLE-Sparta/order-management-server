@@ -1,5 +1,7 @@
 package com.sparta.ordermanagement.framework.persistence.entity.shop;
 
+import com.sparta.ordermanagement.application.domain.shop.Shop;
+import com.sparta.ordermanagement.application.domain.shop.ShopCategory;
 import com.sparta.ordermanagement.framework.persistence.entity.BaseEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -21,9 +23,6 @@ public class ShopEntity extends BaseEntity {
     private String userId;
 
     @Column(nullable = false, columnDefinition = "varchar(255)")
-    private String shopCategoryId;
-
-    @Column(nullable = false, columnDefinition = "varchar(255)")
     private String shopName;
 
     @Column(nullable = false, columnDefinition = "DOUBLE PRECISION")
@@ -32,4 +31,11 @@ public class ShopEntity extends BaseEntity {
     @JoinColumn(nullable = false)
     @ManyToOne(fetch = FetchType.LAZY)
     private ShopCategoryEntity shopCategoryEntity;
+
+    public Shop toDomain() {
+        ShopCategory shopCategory =
+            new ShopCategory(shopCategoryEntity.getId(), shopCategoryEntity.getShopCategoryName());
+
+        return new Shop(id, shopCategory, shopName, rating);
+    }
 }
