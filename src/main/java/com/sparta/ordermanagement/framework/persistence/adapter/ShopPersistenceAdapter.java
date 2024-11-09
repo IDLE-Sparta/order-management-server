@@ -5,6 +5,8 @@ import com.sparta.ordermanagement.framework.persistence.entity.shop.ShopEntity;
 import com.sparta.ordermanagement.framework.persistence.repository.ShopRepository;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
 @RequiredArgsConstructor
@@ -23,5 +25,10 @@ public class ShopPersistenceAdapter {
         return shopRepository.findByIdWithCategory(shopId)
             .map(ShopEntity::toDomain)
             .or(Optional::empty);
+    }
+
+    public Page<Shop> findAll(Pageable pageable) {
+        return shopRepository.findAll(pageable)
+            .map(ShopEntity::toDomain);
     }
 }
