@@ -43,4 +43,14 @@ public class ShopQueryController {
 
         return shopPersistenceAdapter.findAll(pageable).map(ShopListResponse::from);
     }
+
+    @ResponseStatus(HttpStatus.OK)
+    @PaginationConstraint
+    @GetMapping("/categories/{categoryId}")
+    public Page<ShopListResponse> findAllByCategoryId(
+         @PathVariable(name = "categoryId") String categoryId, Pageable pageable) {
+
+        return shopPersistenceAdapter.findAllByCategoryId(categoryId, pageable)
+            .map(ShopListResponse::from);
+    }
 }
