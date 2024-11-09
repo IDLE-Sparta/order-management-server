@@ -31,4 +31,9 @@ public class ShopPersistenceAdapter {
         return shopRepository.findAll(pageable)
             .map(ShopEntity::toDomain);
     }
+
+    public Page<Shop> findAllByCategoryId(String categoryId, Pageable pageable) {
+        return shopRepository.findAllByCategoryId(categoryId, pageable)
+            .map(ShopEntity::toDomain);
+    }
 }
