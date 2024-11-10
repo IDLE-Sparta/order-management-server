@@ -1,5 +1,6 @@
 package com.sparta.ordermanagement.application.service;
 
+import com.sparta.ordermanagement.application.domain.shop.ShopCategory;
 import com.sparta.ordermanagement.application.domain.shop.ShopCategoryForCreate;
 import com.sparta.ordermanagement.application.exception.shop.ShopCategoryIdInvalidException;
 import com.sparta.ordermanagement.application.exception.shop.ShopCategoryNameDuplicatedException;
@@ -25,7 +26,11 @@ public class ShopCategoryService {
     }
 
     public void validateCategoryId(String shopCategoryId) {
-        shopCategoryOutputPort.findById(shopCategoryId)
+        validateCategoryIdAndGet(shopCategoryId);
+    }
+
+    public ShopCategory validateCategoryIdAndGet(String shopCategoryId) {
+        return shopCategoryOutputPort.findById(shopCategoryId)
             .orElseThrow(() -> new ShopCategoryIdInvalidException(shopCategoryId));
     }
 }

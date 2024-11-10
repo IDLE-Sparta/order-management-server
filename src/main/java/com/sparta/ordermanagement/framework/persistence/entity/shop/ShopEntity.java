@@ -3,6 +3,7 @@ package com.sparta.ordermanagement.framework.persistence.entity.shop;
 import com.sparta.ordermanagement.application.domain.shop.Shop;
 import com.sparta.ordermanagement.application.domain.shop.ShopCategory;
 import com.sparta.ordermanagement.application.domain.shop.ShopForCreate;
+import com.sparta.ordermanagement.application.domain.shop.ShopForUpdate;
 import com.sparta.ordermanagement.framework.persistence.entity.BaseEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -62,5 +63,18 @@ public class ShopEntity extends BaseEntity {
             shopForCreate.shopName(),
             shopCategoryEntity,
             shopForCreate.createdUserId());
+    }
+
+    public void updateFrom(ShopForUpdate shopForUpdate) {
+
+        if (!isSameShopCategory(shopForUpdate.shopCategoryId())) {
+            shopCategoryEntity = ShopCategoryEntity.generateWithoutName(shopForUpdate.shopCategoryId());
+        }
+        shopName = shopForUpdate.shopName();
+        super.updateFrom(shopForUpdate.updateUserId());
+    }
+
+    private boolean isSameShopCategory(String categoryId) {
+        return this.shopCategoryEntity.getId().equals(categoryId);
     }
 }
