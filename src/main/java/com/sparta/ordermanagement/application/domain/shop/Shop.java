@@ -15,6 +15,10 @@ public class Shop {
         this.rating = rating;
     }
 
+    public boolean isSameCategory(String shopCategoryId) {
+        return category.getId().equals(shopCategoryId);
+    }
+
     public String getId() {
         return id;
     }
