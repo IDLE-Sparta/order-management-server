@@ -1,6 +1,7 @@
 package com.sparta.ordermanagement.bootstrap.rest.exception;
 
 import com.sparta.ordermanagement.application.exception.ConstraintException;
+import com.sparta.ordermanagement.application.exception.InvalidValueException;
 import com.sparta.ordermanagement.bootstrap.rest.exception.response.ApiResponse;
 import com.sparta.ordermanagement.bootstrap.rest.exception.response.ApiResponse.Error;
 import lombok.extern.slf4j.Slf4j;
@@ -16,6 +17,13 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(ConstraintException.class)
     public ResponseEntity<Error> exceptionHandle(ConstraintException e) {
         log.error("constraintExceptionHandle", e);
+
+        return ApiResponse.error(HttpStatus.BAD_REQUEST, e.getMessage());
+    }
+
+    @ExceptionHandler(InvalidValueException.class)
+    public ResponseEntity<Error> exceptionHandle(InvalidValueException e) {
+        log.error("invalidValueExceptionHandle", e);
 
         return ApiResponse.error(HttpStatus.BAD_REQUEST, e.getMessage());
     }
