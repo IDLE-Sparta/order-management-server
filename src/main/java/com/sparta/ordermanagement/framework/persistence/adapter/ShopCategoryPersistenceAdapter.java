@@ -27,4 +27,11 @@ public class ShopCategoryPersistenceAdapter implements ShopCategoryOutputPort {
             .map(ShopCategoryEntity::toDomain)
             .or(Optional::empty);
     }
+
+    @Override
+    public Optional<ShopCategory> findById(String shopCategoryId) {
+        return shopCategoryRepository.findById(shopCategoryId)
+            .map(ShopCategoryEntity::toDomain)
+            .or(Optional::empty);
+    }
 }

@@ -9,4 +9,6 @@ public interface ShopCategoryOutputPort {
     String saveCategory(ShopCategoryForCreate categoryForCreate);
 
     Optional<ShopCategory> findByCategoryName(String categoryName);
+
+    Optional<ShopCategory> findById(String shopCategoryId);
 }
