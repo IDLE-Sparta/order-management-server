@@ -1,6 +1,8 @@
 package com.sparta.ordermanagement.framework.persistence.adapter;
 
 import com.sparta.ordermanagement.application.domain.shop.Shop;
+import com.sparta.ordermanagement.application.domain.shop.ShopForCreate;
+import com.sparta.ordermanagement.application.output.ShopOutputPort;
 import com.sparta.ordermanagement.framework.persistence.entity.shop.ShopEntity;
 import com.sparta.ordermanagement.framework.persistence.repository.ShopRepository;
 import java.util.Optional;
@@ -11,7 +13,7 @@ import org.springframework.stereotype.Component;
 
 @RequiredArgsConstructor
 @Component
-public class ShopPersistenceAdapter {
+public class ShopPersistenceAdapter implements ShopOutputPort {
 
     private final ShopRepository shopRepository;
 
@@ -35,5 +37,10 @@ public class ShopPersistenceAdapter {
     public Page<Shop> findAllByCategoryId(String categoryId, Pageable pageable) {
         return shopRepository.findAllByCategoryId(categoryId, pageable)
             .map(ShopEntity::toDomain);
+    }
+
+    @Override
+    public String saveShop(ShopForCreate shopForCreate) {
+        return shopRepository.save(ShopEntity.from(shopForCreate)).getId();
     }
 }

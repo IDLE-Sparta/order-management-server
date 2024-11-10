@@ -22,8 +22,16 @@ public class ShopCategoryEntity extends BaseEntity {
     @Column(nullable = false, columnDefinition = "varchar(255)")
     private String shopCategoryName;
 
+    private ShopCategoryEntity(String id) {
+        this.id = id;
+    }
+
     public static ShopCategoryEntity from(ShopCategoryForCreate shopCategoryForCreate) {
         return new ShopCategoryEntity(null, shopCategoryForCreate.categoryName());
+    }
+
+    public static ShopCategoryEntity generateWithoutName(String id) {
+        return new ShopCategoryEntity(id);
     }
 
     public ShopCategory toDomain() {
