@@ -18,7 +18,7 @@ public class ShopCategoryCommandController {
 
     private final ShopCategoryService shopCategoryService;
 
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
     public String createShopCategory(@RequestBody ShopCategoryCreateRequest categoryCreateRequest) {
         ShopCategoryForCreate categoryForCreate = categoryCreateRequest.toDomain();
