@@ -7,6 +7,6 @@ import com.sparta.ordermanagement.application.exception.InvalidValueException;
 public class ShopCategoryIdInvalidException extends InvalidValueException {
 
     public ShopCategoryIdInvalidException(String shopCategoryId) {
-        super(CATEGORY_ID_INVALID.getMessage() + shopCategoryId);
+        super(String.format(CATEGORY_ID_INVALID.getMessage(), shopCategoryId));
     }
 }
