@@ -1,4 +1,4 @@
-package com.sparta.ordermanagement.bootstrap.rest.pagination;
+package com.sparta.ordermanagement.bootstrap.rest.pagination.offset;
 
 import org.springframework.core.MethodParameter;
 import org.springframework.data.domain.PageRequest;

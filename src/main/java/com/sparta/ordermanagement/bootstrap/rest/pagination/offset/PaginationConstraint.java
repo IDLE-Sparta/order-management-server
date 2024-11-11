@@ -1,4 +1,4 @@
-package com.sparta.ordermanagement.bootstrap.rest.pagination;
+package com.sparta.ordermanagement.bootstrap.rest.pagination.offset;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
