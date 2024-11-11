@@ -6,7 +6,6 @@ import com.sparta.ordermanagement.bootstrap.rest.dto.shop.ShopDetailResponse;
 import com.sparta.ordermanagement.bootstrap.rest.dto.shop.ShopListResponse;
 import com.sparta.ordermanagement.bootstrap.rest.exception.exceptions.ShopNotFoundException;
 import com.sparta.ordermanagement.framework.persistence.adapter.ShopPersistenceAdapter;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
