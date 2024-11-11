@@ -6,6 +6,8 @@ import com.sparta.ordermanagement.application.domain.shop.ShopForCreate;
 import com.sparta.ordermanagement.application.domain.shop.ShopForUpdate;
 import com.sparta.ordermanagement.framework.persistence.entity.BaseEntity;
 import jakarta.persistence.*;
+import java.util.Objects;
+import java.util.UUID;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,8 +20,11 @@ public class ShopEntity extends BaseEntity {
 
     @Id
     @Column(name = "shop_id")
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(unique = true, name = "uuid")
+    private String shopUuid;
 
     @Column(nullable = false, columnDefinition = "varchar(255)")
     private String userId;
@@ -35,22 +40,26 @@ public class ShopEntity extends BaseEntity {
     private ShopCategoryEntity shopCategoryEntity;
 
     private ShopEntity(
-        String id, String userId, String shopName,
+        String userId, String shopName,
         ShopCategoryEntity shopCategoryEntity, String createdUserId) {
 
         super(createdUserId, createdUserId);
-        this.id = id;
         this.userId = userId;
         this.shopName = shopName;
         this.rating = 0.0;
         this.shopCategoryEntity = shopCategoryEntity;
     }
 
+    @PrePersist
+    private void prePersistence() {
+        shopUuid = UUID.randomUUID().toString();
+    }
+
     public Shop toDomain() {
         ShopCategory shopCategory =
             new ShopCategory(shopCategoryEntity.getId(), shopCategoryEntity.getShopCategoryName());
 
-        return new Shop(id, shopCategory, shopName, rating);
+        return new Shop(id, shopUuid, shopCategory, shopName, rating);
     }
 
     public static ShopEntity from(ShopForCreate shopForCreate) {
@@ -58,7 +67,6 @@ public class ShopEntity extends BaseEntity {
             ShopCategoryEntity.generateWithoutName(shopForCreate.shopCategoryId());
 
         return new ShopEntity(
-            null,
             shopForCreate.ownerUserId(),
             shopForCreate.shopName(),
             shopCategoryEntity,
@@ -75,6 +83,6 @@ public class ShopEntity extends BaseEntity {
     }
 
     private boolean isSameShopCategory(String categoryId) {
-        return this.shopCategoryEntity.getId().equals(categoryId);
+        return Objects.equals(shopCategoryEntity.getId(), categoryId);
     }
 }

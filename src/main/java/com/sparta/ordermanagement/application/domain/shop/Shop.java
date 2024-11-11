@@ -3,13 +3,15 @@ package com.sparta.ordermanagement.application.domain.shop;
 
 public class Shop {
 
-    private String id;
+    private Long id;
+    private String uuid;
     private ShopCategory category;
     private String shopName;
     private double rating;
 
-    public Shop(String id, ShopCategory category, String shopName, double rating) {
+    public Shop(Long id, String uuid, ShopCategory category, String shopName, double rating) {
         this.id = id;
+        this.uuid = uuid;
         this.category = category;
         this.shopName = shopName;
         this.rating = rating;
@@ -19,8 +21,12 @@ public class Shop {
         return category.getId().equals(shopCategoryId);
     }
 
-    public String getId() {
+    public Long getId() {
         return id;
+    }
+
+    public String getUuid() {
+        return uuid;
     }
 
     public ShopCategory getCategory() {

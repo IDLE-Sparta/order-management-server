@@ -10,9 +10,11 @@ import org.springframework.data.repository.query.Param;
 
 public interface ShopRepository extends JpaRepository<ShopEntity, String> {
 
-    @Query("SELECT s FROM p_shop s JOIN FETCH s.shopCategoryEntity WHERE s.id = :shopId")
+    @Query("SELECT s FROM p_shop s JOIN FETCH s.shopCategoryEntity WHERE s.shopUuid = :shopId")
     Optional<ShopEntity> findByIdWithCategory(@Param("shopId") String shopId);
 
     @Query("SELECT s FROM p_shop s WHERE s.shopCategoryEntity.id = :categoryId")
     Page<ShopEntity> findAllByCategoryId(@Param("categoryId") String categoryId, Pageable pageable);
+
+    Optional<ShopEntity> findByShopUuid(String uuid);
 }

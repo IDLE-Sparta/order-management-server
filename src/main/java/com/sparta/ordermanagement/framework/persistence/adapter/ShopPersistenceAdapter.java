@@ -20,7 +20,7 @@ public class ShopPersistenceAdapter implements ShopOutputPort {
     private final ShopRepository shopRepository;
 
     public Optional<Shop> findById(String shopId) {
-        return shopRepository.findById(shopId)
+        return shopRepository.findByShopUuid(shopId)
             .map(ShopEntity::toDomain)
             .or(Optional::empty);
     }
@@ -43,7 +43,7 @@ public class ShopPersistenceAdapter implements ShopOutputPort {
 
     @Override
     public String saveShop(ShopForCreate shopForCreate) {
-        return shopRepository.save(ShopEntity.from(shopForCreate)).getId();
+        return shopRepository.save(ShopEntity.from(shopForCreate)).getShopUuid();
     }
 
     @Transactional
@@ -52,6 +52,6 @@ public class ShopPersistenceAdapter implements ShopOutputPort {
         ShopEntity shopEntity = shopRepository.findById(shopForUpdate.shopId()).get();
         shopEntity.updateFrom(shopForUpdate);
 
-        return shopEntity.getId();
+        return shopEntity.getShopUuid();
     }
 }

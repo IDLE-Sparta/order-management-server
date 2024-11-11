@@ -16,7 +16,7 @@ public class ShopDetailResponse {
 
     public static ShopDetailResponse from(Shop shop) {
         return new ShopDetailResponse(
-            shop.getId(),
+            shop.getUuid(),
             shop.getShopName(),
             shop.getCategory().getId(),
             shop.getCategory().getShopCategoryName(),

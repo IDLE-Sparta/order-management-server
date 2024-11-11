@@ -27,6 +27,4 @@ public class UserEntity extends BaseEntity {
     @JoinColumn(name = "region_id", nullable = false)
     @ManyToOne(fetch = FetchType.LAZY)
     private RegionEntity regionEntity;
-
-
 }
