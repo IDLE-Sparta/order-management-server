@@ -58,7 +58,7 @@ public class ShopQueryRepository {
             .on(shopCategoryEntity.id.eq(shopEntity.shopCategoryEntity.id))
             .where(shopNameLikeCondition(keyword).and(shopEntity.id.gt(basedShopId)))
             .limit(size)
-            .orderBy(shopEntity.createdAt.asc())
+            .orderBy(shopEntity.id.asc(), shopEntity.createdAt.asc())
             .fetch();
     }
 
