@@ -3,6 +3,7 @@ package com.sparta.ordermanagement.bootstrap.rest.pagination.offset;
 import org.springframework.core.MethodParameter;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.support.WebDataBinderFactory;
@@ -31,12 +32,26 @@ public class PaginationArgumentResolver extends PageableHandlerMethodArgumentRes
         PaginationConstraint paginationConstraint =
             methodParameter.getMethodAnnotation(PaginationConstraint.class);
 
+        Sort sort = validateSortAndGet(pageable, paginationConstraint);
+        int size = validateSizeAndGet(pageable, paginationConstraint);
+
+        return PageRequest.of(pageable.getPageNumber(), size, sort);
+    }
+
+    private static Sort validateSortAndGet(Pageable pageable, PaginationConstraint paginationConstraint) {
+        if (pageable.getSort().isSorted()) {
+            return pageable.getSort();
+        }
+        return Sort.by(Sort.Direction.fromString(paginationConstraint.defaultDirection()), paginationConstraint.defaultSort());
+    }
+
+    private static int validateSizeAndGet(Pageable pageable, PaginationConstraint paginationConstraint) {
         int[] availableSizes = paginationConstraint.availableSizes();
         for (int availableSize : availableSizes) {
             if (pageable.getPageSize() == availableSize) {
-                return pageable;
+                return pageable.getPageSize();
             }
         }
-        return PageRequest.of(pageable.getPageNumber(), paginationConstraint.defaultSize());
+        return paginationConstraint.defaultSize();
     }
 }

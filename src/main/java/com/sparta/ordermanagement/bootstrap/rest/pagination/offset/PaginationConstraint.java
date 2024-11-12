@@ -11,5 +11,7 @@ public @interface PaginationConstraint {
 
     int[] availableSizes() default {10, 30, 50};
     int defaultSize() default 10;
+    String defaultSort() default "createdAt";
+    String defaultDirection() default "ASC";
 }
 
