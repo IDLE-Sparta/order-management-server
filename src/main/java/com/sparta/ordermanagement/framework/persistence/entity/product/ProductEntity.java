@@ -97,8 +97,7 @@ public class ProductEntity extends BaseEntity {
     }
 
     public void deleteProduct(ProductForDelete productForDelete) {
-        super.delete(productForDelete.deleteRequest());
-        super.deleteFrom(productForDelete.userUuid());
+        super.deleteFrom(productForDelete.userId());
     }
 
     private ProductEntity(String productUuid) {

@@ -43,12 +43,9 @@ public class BaseEntity {
         this.updatedBy = updatedUserId;
     }
 
-    protected void delete(boolean deleteRequest) {
-        this.isDeleted = deleteRequest;
+    protected void deleteFrom(String deletedUserId) {
+        this.isDeleted = true;
         this.deletedAt = LocalDateTime.now();
-    }
-
-    protected void deleteFrom(String deletedUserUuid) {
-        this.deletedBy = deletedUserUuid;
+        this.deletedBy = deletedUserId;
     }
 }

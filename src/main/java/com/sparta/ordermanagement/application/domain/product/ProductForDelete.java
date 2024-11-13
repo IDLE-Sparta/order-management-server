@@ -4,7 +4,7 @@ public record ProductForDelete (
     boolean deleteRequest,
     String shopUuid,
     String productUuid,
-    String userUuid
+    String userId
 ) {
 
 }
