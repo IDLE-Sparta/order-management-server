@@ -1,6 +1,5 @@
 package com.sparta.ordermanagement.framework.persistence.entity.product;
 
-import com.sparta.ordermanagement.application.domain.order.OrderForCreate;
 import com.sparta.ordermanagement.application.domain.product.Product;
 import com.sparta.ordermanagement.application.domain.product.ProductForCreate;
 import com.sparta.ordermanagement.application.domain.product.ProductForDelete;
@@ -94,7 +93,7 @@ public class ProductEntity extends BaseEntity {
 
     public void updateProductState(ProductStateForUpdate productStateForUpdate) {
         productState = productStateForUpdate.productState();
-        super.updateFrom(productStateForUpdate.userUuid());
+        super.updateFrom(productStateForUpdate.userId());
     }
 
     public void deleteProduct(ProductForDelete productForDelete) {

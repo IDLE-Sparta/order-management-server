@@ -18,13 +18,13 @@ public class ProductStateUpdateRequest {
     public ProductStateForUpdate toDomain(
         String shopUuid,
         String productUuid,
-        String userUuid
+        String userId
     ) {
         return new ProductStateForUpdate(
             productState,
             shopUuid,
             productUuid,
-            userUuid
+            userId
         );
     }
 }

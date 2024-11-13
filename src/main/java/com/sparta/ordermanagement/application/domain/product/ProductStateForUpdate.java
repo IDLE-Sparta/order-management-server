@@ -6,7 +6,7 @@ public record ProductStateForUpdate(
     ProductState productState,
     String shopUuid,
     String productUuid,
-    String userUuid
+    String userId
 ) {
 
 }
