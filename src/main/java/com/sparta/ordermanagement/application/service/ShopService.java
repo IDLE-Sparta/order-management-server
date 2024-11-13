@@ -34,4 +34,9 @@ public class ShopService {
         shopOutputPort.findByShopUuid(shopUuid)
             .orElseThrow(() -> new ShopUuidInvalidException(shopUuid));
     }
+
+    public Shop validateShopUuidAndGetShop(String shopUuid) {
+        return shopOutputPort.findById(shopUuid)
+            .orElseThrow(() -> new ShopIdInvalidException(shopUuid));
+    }
 }
