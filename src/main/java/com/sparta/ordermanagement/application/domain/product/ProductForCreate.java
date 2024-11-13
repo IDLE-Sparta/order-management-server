@@ -8,7 +8,7 @@ public record ProductForCreate (
     String productDescription,
     ProductState productState,
     String shopUuid,
-    String userUuid
+    String userId
 ) {
 
 }

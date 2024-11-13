@@ -30,14 +30,14 @@ public class ProductCreateRequest {
 
     ProductState productState;
 
-    public ProductForCreate toDomain(String shopUuid, String userUuid) {
+    public ProductForCreate toDomain(String shopUuid, String userId) {
         return new ProductForCreate(
             productName,
             productPrice,
             productDescription,
             productState,
             shopUuid,
-            userUuid
+            userId
         );
     }
 }
