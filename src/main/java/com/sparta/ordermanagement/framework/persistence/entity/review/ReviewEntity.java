@@ -45,9 +45,9 @@ public class ReviewEntity extends BaseEntity {
         String content,
         ShopEntity shopEntity,
 //        UserEntity userEntity,
-        String createUserUuid
+        String createUserId
     ) {
-        super(createUserUuid, createUserUuid);
+        super(createUserId, createUserId);
         this.rating = rating;
         this.content = content;
         this.shopEntity = shopEntity;
@@ -69,7 +69,7 @@ public class ReviewEntity extends BaseEntity {
             reviewForCreate.content(),
             shopEntity,
 //            userEntity,
-            reviewForCreate.userUuid()
+            reviewForCreate.userId()
         );
     }
 

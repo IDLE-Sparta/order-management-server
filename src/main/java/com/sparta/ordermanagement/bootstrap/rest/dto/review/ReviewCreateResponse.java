@@ -12,7 +12,7 @@ public class ReviewCreateResponse {
 
     private final String shopUuid;
     private final String reviewUuid;
-    private final String userUuid;
+    private final String userId;
 
     public static ReviewCreateResponse from (Review review) {
         return new ReviewCreateResponse(
