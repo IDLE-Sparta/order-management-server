@@ -2,9 +2,11 @@ package com.sparta.ordermanagement.framework.persistence.entity.review;
 
 import com.sparta.ordermanagement.application.domain.review.Review;
 import com.sparta.ordermanagement.application.domain.review.ReviewForCreate;
+import com.sparta.ordermanagement.application.domain.review.ReviewForUpdate;
 import com.sparta.ordermanagement.framework.persistence.entity.BaseEntity;
 import com.sparta.ordermanagement.framework.persistence.entity.shop.ShopEntity;
 import jakarta.persistence.*;
+import java.util.Optional;
 import java.util.UUID;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -83,5 +85,11 @@ public class ReviewEntity extends BaseEntity {
 //            userEntity.toDomain(),
             super.isDeleted()
         );
+    }
+
+    public void updateReview(ReviewForUpdate reviewForUpdate) {
+        super.updateFrom(reviewForUpdate.userId());
+        Optional.ofNullable(reviewForUpdate.rating()).ifPresent(value -> rating = value);
+        Optional.ofNullable(reviewForUpdate.content()).ifPresent(value -> content = value);
     }
 }
