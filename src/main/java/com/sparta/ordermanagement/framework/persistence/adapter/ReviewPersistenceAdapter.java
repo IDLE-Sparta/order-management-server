@@ -8,8 +8,11 @@ import com.sparta.ordermanagement.application.exception.shop.ShopUuidInvalidExce
 import com.sparta.ordermanagement.application.output.ReviewOutputPort;
 import com.sparta.ordermanagement.framework.persistence.entity.review.ReviewEntity;
 import com.sparta.ordermanagement.framework.persistence.entity.shop.ShopEntity;
+import com.sparta.ordermanagement.framework.persistence.repository.ReviewQueryRepository;
 import com.sparta.ordermanagement.framework.persistence.repository.ReviewRepository;
 import com.sparta.ordermanagement.framework.persistence.repository.ShopRepository;
+import com.sparta.ordermanagement.framework.persistence.vo.Cursor;
+import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -21,6 +24,7 @@ public class ReviewPersistenceAdapter implements ReviewOutputPort {
 
     private final ReviewRepository reviewRepository;
     private final ShopRepository shopRepository;
+    private final ReviewQueryRepository reviewQueryRepository;
 
     public Optional<Review> findByReviewUuid(String reviewUuid) {
         return reviewRepository.findByReviewUuid(reviewUuid)
@@ -32,6 +36,11 @@ public class ReviewPersistenceAdapter implements ReviewOutputPort {
         return reviewRepository.findByReviewUuidAndShopIdAndIsDeletedFalse(reviewUuid, shopId)
             .map(ReviewEntity::toDomain)
             .or(Optional::empty);
+    }
+
+    public List<Review> findAllByShopUuidAndIsDeletedFalse(String shopUuid, Cursor cursor) {
+        return reviewQueryRepository.findAllByShopUuidAndIsDeletedFalse(shopUuid, cursor).stream()
+            .map(ReviewEntity::toDomain).toList();
     }
 
     @Override
