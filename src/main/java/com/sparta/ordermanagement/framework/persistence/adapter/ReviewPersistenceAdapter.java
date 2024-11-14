@@ -2,6 +2,7 @@ package com.sparta.ordermanagement.framework.persistence.adapter;
 
 import com.sparta.ordermanagement.application.domain.review.Review;
 import com.sparta.ordermanagement.application.domain.review.ReviewForCreate;
+import com.sparta.ordermanagement.application.domain.review.ReviewForDelete;
 import com.sparta.ordermanagement.application.domain.review.ReviewForUpdate;
 import com.sparta.ordermanagement.application.exception.shop.ShopUuidInvalidException;
 import com.sparta.ordermanagement.application.output.ReviewOutputPort;
@@ -42,10 +43,23 @@ public class ReviewPersistenceAdapter implements ReviewOutputPort {
     @Override
     public Review updateReview(ReviewForUpdate reviewForUpdate) {
 
-        ReviewEntity reviewEntity = reviewRepository.findByReviewUuid(reviewForUpdate.reviewUuid()).get();
-
+        ReviewEntity reviewEntity = getReviewByReviewUuid(reviewForUpdate.reviewUuid());
         reviewEntity.updateReview(reviewForUpdate);
 
         return reviewEntity.toDomain();
+    }
+
+    @Transactional
+    @Override
+    public Review deleteReview(ReviewForDelete reviewForDelete) {
+
+        ReviewEntity reviewEntity = getReviewByReviewUuid(reviewForDelete.reviewUuid());
+        reviewEntity.deleteReview(reviewForDelete.userId());
+
+        return reviewEntity.toDomain();
+    }
+
+    private ReviewEntity getReviewByReviewUuid(String reviewUuid) {
+        return reviewRepository.findByReviewUuid(reviewUuid).get();
     }
 }
