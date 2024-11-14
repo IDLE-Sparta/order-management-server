@@ -3,6 +3,7 @@ package com.sparta.ordermanagement.application.service;
 import com.sparta.ordermanagement.application.domain.order.Order;
 import com.sparta.ordermanagement.application.domain.review.Review;
 import com.sparta.ordermanagement.application.domain.review.ReviewForCreate;
+import com.sparta.ordermanagement.application.domain.review.ReviewForDelete;
 import com.sparta.ordermanagement.application.domain.review.ReviewForUpdate;
 import com.sparta.ordermanagement.application.domain.shop.Shop;
 import com.sparta.ordermanagement.application.exception.review.ReviewUuidInvalidException;
@@ -35,9 +36,20 @@ public class ReviewService {
 
         validateReviewUuid(reviewForUpdate.reviewUuid());
 
-        // TODO: User 확인 && User가 Order에 속해있는지 확인
+        // TODO: User 확인 && User가 Order에 속해있는지 확인 && 삭제된 리뷰, 가게, 사용자, ...인지 확인
 
         return reviewOutputPort.updateReview(reviewForUpdate);
+    }
+
+    public Review deleteReview(ReviewForDelete reviewForDelete) {
+        Order order = orderService.validateOrderUuidAndGetOrder(reviewForDelete.orderUuid());
+        shopService.validateShopUuid(order.getShopId());
+
+        validateReviewUuid(reviewForDelete.reviewUuid());
+
+        // TODO: User 확인 && User가 Order에 속해있는지 확인 && 삭제된 리뷰, 가게, 사용자, ...인지 확인
+
+        return reviewOutputPort.deleteReview(reviewForDelete);
     }
 
     private void validateReviewUuid(String reviewUuid) {
