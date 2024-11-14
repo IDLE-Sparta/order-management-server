@@ -77,9 +77,14 @@ public class OrderService {
                 .orElseThrow(() -> new InvalidOrderException(orderId));
     }
 
+    public Order validateOrderUuidAndGetOrder(String orderId) {
+        return orderOutPutPort.findByOrderId(orderId)
+                .orElseThrow(() -> new OrderUuidInvalidException(orderId));
+    }
+
     public Order validateOrderUuidAndGetNotDeletedOrder(String orderUuid) {
         Order order = validateOrderUuidAndGetOrder(orderUuid);
-        if (validateOrderUuidAndGetOrder(orderUuid).getIsDeleted()) {
+        if (order.getIsDeleted()) {
             throw new OrderDeletedException(orderUuid);
         }
         return order;
