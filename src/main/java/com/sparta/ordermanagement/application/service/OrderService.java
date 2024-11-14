@@ -7,6 +7,8 @@ import com.sparta.ordermanagement.application.domain.order.OrderState;
 import com.sparta.ordermanagement.application.exception.order.InvalidOrderException;
 import com.sparta.ordermanagement.application.exception.order.OrderCancellationTimeExceededException;
 import com.sparta.ordermanagement.application.exception.order.OrderStateChangedException;
+import com.sparta.ordermanagement.application.exception.order.OrderDeletedException;
+import com.sparta.ordermanagement.application.exception.order.OrderUuidInvalidException;
 import com.sparta.ordermanagement.application.output.OrderOutputPort;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -73,5 +75,13 @@ public class OrderService {
     private Order validateOrderIdAndGetOrder(String orderId) {
         return orderOutPutPort.findByOrderId(orderId)
                 .orElseThrow(() -> new InvalidOrderException(orderId));
+    }
+
+    public Order validateOrderUuidAndGetNotDeletedOrder(String orderUuid) {
+        Order order = validateOrderUuidAndGetOrder(orderUuid);
+        if (validateOrderUuidAndGetOrder(orderUuid).getIsDeleted()) {
+            throw new OrderDeletedException(orderUuid);
+        }
+        return order;
     }
 }

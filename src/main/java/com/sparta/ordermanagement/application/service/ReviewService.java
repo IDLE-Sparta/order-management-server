@@ -6,6 +6,7 @@ import com.sparta.ordermanagement.application.domain.review.ReviewForCreate;
 import com.sparta.ordermanagement.application.domain.review.ReviewForDelete;
 import com.sparta.ordermanagement.application.domain.review.ReviewForUpdate;
 import com.sparta.ordermanagement.application.domain.shop.Shop;
+import com.sparta.ordermanagement.application.exception.review.ReviewDeletedException;
 import com.sparta.ordermanagement.application.exception.review.ReviewUuidInvalidException;
 import com.sparta.ordermanagement.application.output.ReviewOutputPort;
 import lombok.RequiredArgsConstructor;
@@ -21,8 +22,8 @@ public class ReviewService {
 
     public Review createReview(ReviewForCreate reviewForCreate) {
 
-        Order order = orderService.validateOrderUuidAndGetOrder(reviewForCreate.orderUuid());
-        Shop shop = shopService.validateShopUuidAndGetShop(order.getShopId());
+        Order order = orderService.validateOrderUuidAndGetNotDeletedOrder(reviewForCreate.orderUuid());
+        Shop shop = shopService.validateShopUuidAndGetNotDeletedShop(order.getShopId());
 
         // TODO: User 확인
 
@@ -31,29 +32,35 @@ public class ReviewService {
 
     public Review updateReview(ReviewForUpdate reviewForUpdate) {
 
-        Order order = orderService.validateOrderUuidAndGetOrder(reviewForUpdate.orderUuid());
-        shopService.validateShopUuid(order.getShopId());
+        Order order = orderService.validateOrderUuidAndGetNotDeletedOrder(reviewForUpdate.orderUuid());
+        shopService.validateNotDeletedShopUuid(order.getShopId());
 
-        validateReviewUuid(reviewForUpdate.reviewUuid());
+        validateReviewUuidAndNotDeletedShopUuid(reviewForUpdate.reviewUuid());
 
-        // TODO: User 확인 && User가 Order에 속해있는지 확인 && 삭제된 리뷰, 가게, 사용자, ...인지 확인
+        // TODO: User 확인 && User가 Order에 속해있는지 확인
 
         return reviewOutputPort.updateReview(reviewForUpdate);
     }
 
     public Review deleteReview(ReviewForDelete reviewForDelete) {
-        Order order = orderService.validateOrderUuidAndGetOrder(reviewForDelete.orderUuid());
-        shopService.validateShopUuid(order.getShopId());
+        Order order = orderService.validateOrderUuidAndGetNotDeletedOrder(reviewForDelete.orderUuid());
+        shopService.validateNotDeletedShopUuid(order.getShopId());
 
-        validateReviewUuid(reviewForDelete.reviewUuid());
+        validateReviewUuidAndNotDeletedShopUuid(reviewForDelete.reviewUuid());
 
-        // TODO: User 확인 && User가 Order에 속해있는지 확인 && 삭제된 리뷰, 가게, 사용자, ...인지 확인
+        // TODO: User 확인 && User가 Order에 속해있는지 확인
 
         return reviewOutputPort.deleteReview(reviewForDelete);
     }
 
-    private void validateReviewUuid(String reviewUuid) {
-        reviewOutputPort.findByReviewUuid(reviewUuid)
+    private Review validateReviewUuidAndGet(String reviewUuid) {
+        return reviewOutputPort.findByReviewUuid(reviewUuid)
             .orElseThrow(() -> new ReviewUuidInvalidException(reviewUuid));
+    }
+
+    private void validateReviewUuidAndNotDeletedShopUuid(String reviewUuid) {
+        if(validateReviewUuidAndGet(reviewUuid).getIsDeleted()) {
+            throw new ReviewDeletedException(reviewUuid);
+        }
     }
 }

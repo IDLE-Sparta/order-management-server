@@ -2,6 +2,7 @@ package com.sparta.ordermanagement.application.service;
 
 import com.sparta.ordermanagement.application.domain.shop.Shop;
 import com.sparta.ordermanagement.application.domain.shop.ShopForUpdate;
+import com.sparta.ordermanagement.application.exception.shop.ShopDeletedException;
 import com.sparta.ordermanagement.application.exception.shop.ShopIdInvalidException;
 import com.sparta.ordermanagement.application.exception.shop.ShopUuidInvalidException;
 import com.sparta.ordermanagement.application.output.ShopOutputPort;
@@ -35,8 +36,22 @@ public class ShopService {
             .orElseThrow(() -> new ShopUuidInvalidException(shopUuid));
     }
 
+    public void validateNotDeletedShopUuid(String shopUuid) {
+        if (validateShopIdAndGetShop(shopUuid).getIsDeleted()) {
+            throw new ShopDeletedException(shopUuid);
+        }
+    }
+
     public Shop validateShopUuidAndGetShop(String shopUuid) {
         return shopOutputPort.findById(shopUuid)
             .orElseThrow(() -> new ShopIdInvalidException(shopUuid));
+    }
+
+    public Shop validateShopUuidAndGetNotDeletedShop(String shopUuid) {
+        Shop shop = validateShopUuidAndGetShop(shopUuid);
+        if (shop.getIsDeleted()) {
+            throw new ShopDeletedException(shopUuid);
+        }
+        return shop;
     }
 }
