@@ -20,13 +20,13 @@ public class ProductService {
     private final ShopService shopService;
 
     public Product createProduct(ProductForCreate productForCreate) {
-        shopService.validateShopUuid(productForCreate.shopUuid());
+        shopService.validateNotDeletedShopUuid(productForCreate.shopUuid());
         return productOutputPort.saveProduct(productForCreate);
     }
 
     public Product updateProduct(ProductForUpdate productForUpdate) {
 
-        shopService.validateShopUuid(productForUpdate.shopUuid());
+        shopService.validateNotDeletedShopUuid(productForUpdate.shopUuid());
 
         Product product = validateProductUuidAndGetProduct(productForUpdate.productUuid());
         validateProductBelongToShop(product, productForUpdate.shopUuid());
@@ -37,7 +37,7 @@ public class ProductService {
 
     public Product updateProductState(ProductStateForUpdate productStateForUpdate) {
 
-        shopService.validateShopUuid(productStateForUpdate.shopUuid());
+        shopService.validateNotDeletedShopUuid(productStateForUpdate.shopUuid());
 
         Product product = validateProductUuidAndGetProduct(productStateForUpdate.productUuid());
         validateProductBelongToShop(product, productStateForUpdate.shopUuid());
@@ -48,7 +48,7 @@ public class ProductService {
 
     public Product deleteProduct(ProductForDelete productForDelete) {
 
-        shopService.validateShopUuid(productForDelete.shopUuid());
+        shopService.validateNotDeletedShopUuid(productForDelete.shopUuid());
 
         Product product = validateProductUuidAndGetProduct(productForDelete.productUuid());
         validateProductBelongToShop(product, productForDelete.shopUuid());
