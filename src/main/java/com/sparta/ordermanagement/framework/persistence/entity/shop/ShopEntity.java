@@ -60,7 +60,7 @@ public class ShopEntity extends BaseEntity {
         ShopCategory shopCategory =
             new ShopCategory(shopCategoryEntity.getId(), shopCategoryEntity.getShopCategoryName());
 
-        return new Shop(id, shopUuid, shopCategory, shopName, rating);
+        return new Shop(id, shopUuid, shopCategory, shopName, rating, super.isDeleted());
     }
 
     public static ShopEntity from(ShopForCreate shopForCreate) {

@@ -8,13 +8,15 @@ public class Shop {
     private ShopCategory category;
     private String shopName;
     private double rating;
+    private boolean isDeleted;
 
-    public Shop(Long id, String uuid, ShopCategory category, String shopName, double rating) {
+    public Shop(Long id, String uuid, ShopCategory category, String shopName, double rating, boolean isDeleted) {
         this.id = id;
         this.uuid = uuid;
         this.category = category;
         this.shopName = shopName;
         this.rating = rating;
+        this.isDeleted = isDeleted;
     }
 
     public boolean isSameCategory(String shopCategoryId) {
@@ -39,5 +41,9 @@ public class Shop {
 
     public double getRating() {
         return rating;
+    }
+
+    public boolean getIsDeleted() {
+        return isDeleted;
     }
 }
