@@ -2,7 +2,6 @@ package com.sparta.ordermanagement.framework.persistence.entity.review;
 
 import com.sparta.ordermanagement.application.domain.review.Review;
 import com.sparta.ordermanagement.application.domain.review.ReviewForCreate;
-import com.sparta.ordermanagement.application.domain.review.ReviewForDelete;
 import com.sparta.ordermanagement.application.domain.review.ReviewForUpdate;
 import com.sparta.ordermanagement.framework.persistence.entity.BaseEntity;
 import com.sparta.ordermanagement.framework.persistence.entity.shop.ShopEntity;
