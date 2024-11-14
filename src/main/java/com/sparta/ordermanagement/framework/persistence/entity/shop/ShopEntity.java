@@ -2,8 +2,9 @@ package com.sparta.ordermanagement.framework.persistence.entity.shop;
 
 import com.sparta.ordermanagement.application.domain.shop.Shop;
 import com.sparta.ordermanagement.application.domain.shop.ShopCategory;
-import com.sparta.ordermanagement.application.domain.shop.ShopForCreate;
+import com.sparta.ordermanagement.application.admin.vo.ShopForCreate;
 import com.sparta.ordermanagement.application.domain.shop.ShopForUpdate;
+import com.sparta.ordermanagement.bootstrap.admin.dto.ShopUpdateRequest;
 import com.sparta.ordermanagement.framework.persistence.entity.BaseEntity;
 import jakarta.persistence.*;
 import java.util.Objects;
@@ -84,5 +85,20 @@ public class ShopEntity extends BaseEntity {
 
     private boolean isSameShopCategory(String categoryId) {
         return Objects.equals(shopCategoryEntity.getId(), categoryId);
+    }
+
+    public void updateFrom(ShopUpdateRequest shopUpdateRequest, String updateUserId) {
+        if (!isSameShopCategory(shopUpdateRequest.getShopCategoryId())) {
+            shopCategoryEntity = ShopCategoryEntity.generateWithoutName(
+                shopUpdateRequest.getShopCategoryId());
+        }
+        shopName = shopUpdateRequest.getShopName();
+        userId = shopUpdateRequest.getOwnerUserId();
+        super.updateFrom(updateUserId);
+    }
+
+    public void deletedFrom(String deletedUserId) {
+        super.delete(true);
+        super.deleteFrom(deletedUserId);
     }
 }

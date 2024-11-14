@@ -1,6 +1,6 @@
-package com.sparta.ordermanagement.bootstrap.rest.dto.shop;
+package com.sparta.ordermanagement.bootstrap.admin.dto;
 
-import com.sparta.ordermanagement.application.domain.shop.ShopForCreate;
+import com.sparta.ordermanagement.application.admin.vo.ShopForCreate;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

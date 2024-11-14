@@ -2,6 +2,7 @@ package com.sparta.ordermanagement.framework.admin.repository;
 
 import com.sparta.ordermanagement.framework.persistence.entity.shop.ShopCategoryEntity;
 import com.sparta.ordermanagement.framework.persistence.entity.shop.ShopEntity;
+import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -13,4 +14,6 @@ public interface AdminShopRepository extends JpaRepository<ShopEntity, Long> {
     Page<ShopEntity> findAllByShopNameContaining(String keyword, Pageable pageable);
 
     Page<ShopEntity> findAllByShopCategoryEntity(ShopCategoryEntity category, Pageable pageable);
+
+    Optional<ShopEntity> findByShopUuid(String shopUuid);
 }

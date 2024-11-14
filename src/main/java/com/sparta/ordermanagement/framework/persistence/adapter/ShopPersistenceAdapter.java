@@ -1,7 +1,7 @@
 package com.sparta.ordermanagement.framework.persistence.adapter;
 
 import com.sparta.ordermanagement.application.domain.shop.Shop;
-import com.sparta.ordermanagement.application.domain.shop.ShopForCreate;
+import com.sparta.ordermanagement.application.admin.vo.ShopForCreate;
 import com.sparta.ordermanagement.application.domain.shop.ShopForUpdate;
 import com.sparta.ordermanagement.application.output.ShopOutputPort;
 import com.sparta.ordermanagement.framework.persistence.entity.shop.ShopEntity;
