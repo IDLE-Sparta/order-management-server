@@ -28,6 +28,12 @@ public class ReviewPersistenceAdapter implements ReviewOutputPort {
             .or(Optional::empty);
     }
 
+    public Optional<Review> findByReviewUuidAndShopIdAndIsDeletedFalse(String reviewUuid, String shopId) {
+        return reviewRepository.findByReviewUuidAndShopIdAndIsDeletedFalse(reviewUuid, shopId)
+            .map(ReviewEntity::toDomain)
+            .or(Optional::empty);
+    }
+
     @Override
     public Review saveReview(ReviewForCreate reviewForCreate, String shopUuid) {
 

@@ -32,6 +32,12 @@ public class OrderPersistenceAdapter implements OrderOutputPort {
             .or(Optional::empty);
     }
 
+    public Optional<Order> findByOrderUuidAndIsDeletedFalse(String orderUuid) {
+        return orderRepository.findByOrderUuidAndIsDeletedFalse(orderUuid)
+            .map(OrderEntity::toDomain)
+            .or(Optional::empty);
+    }
+
     @Transactional
     @Override
     public Order saveOrder(OrderForCreate orderForCreate) {

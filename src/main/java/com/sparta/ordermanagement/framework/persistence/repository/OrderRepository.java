@@ -10,4 +10,7 @@ public interface OrderRepository extends JpaRepository<OrderEntity, String> {
 
     @Query("SELECT o FROM p_order o WHERE o.orderUuid = :orderUuid")
     Optional<OrderEntity> findByOrderUuid(@Param("orderUuid") String orderUuid);
+
+    @Query("SELECT o FROM p_order o WHERE o.orderUuid = :orderUuid AND o.isDeleted = false")
+    Optional<OrderEntity> findByOrderUuidAndIsDeletedFalse(String orderUuid);
 }
