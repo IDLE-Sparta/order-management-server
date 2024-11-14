@@ -11,7 +11,7 @@ public class ProductCreateResponse {
     private final String productUuid;
     private final String shopUuid;
 
-    public static ProductCreateResponse from (Product product) {
+    public static ProductCreateResponse from(Product product) {
         return new ProductCreateResponse(
             product.getProductUuid(),
             product.getShop().getUuid()
