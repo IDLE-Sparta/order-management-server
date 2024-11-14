@@ -1,6 +1,7 @@
 package com.sparta.ordermanagement.application.domain.review;
 
 import com.sparta.ordermanagement.application.domain.shop.Shop;
+import java.time.LocalDateTime;
 
 public class Review {
 
@@ -13,6 +14,10 @@ public class Review {
     private Shop shop;
 //    private User user;
     private boolean isDeleted;
+    private LocalDateTime createdAt;
+    private String createdBy;
+    private LocalDateTime updatedAt;
+    private String updatedBy;
 
     public Review(
         Long id,
@@ -21,7 +26,11 @@ public class Review {
         String content,
         Shop shop,
 //        User user,
-        boolean isDeleted
+        boolean isDeleted,
+        LocalDateTime createdAt,
+        String createdBy,
+        LocalDateTime updatedAt,
+        String updatedBy
     ) {
         this.id = id;
         this.reviewUuid = reviewUuid;
@@ -30,6 +39,10 @@ public class Review {
         this.shop = shop;
 //        this.user = user;
         this.isDeleted = isDeleted;
+        this.createdAt = createdAt;
+        this.createdBy = createdBy;
+        this.updatedAt = updatedAt;
+        this.updatedBy = updatedBy;
     }
 
     public Long getId() {
@@ -40,7 +53,7 @@ public class Review {
         return reviewUuid;
     }
 
-    public double getRating() {
+    public Integer getRating() {
         return rating;
     }
 
@@ -58,5 +71,21 @@ public class Review {
 
     public boolean getIsDeleted() {
         return isDeleted;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public String getCreatedBy() {
+        return createdBy;
+    }
+
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public String getUpdatedBy() {
+        return updatedBy;
     }
 }

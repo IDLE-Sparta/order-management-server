@@ -83,7 +83,11 @@ public class ReviewEntity extends BaseEntity {
             content,
             shopEntity.toDomain(),
 //            userEntity.toDomain(),
-            super.isDeleted()
+            super.isDeleted(),
+            super.getCreatedAt(),
+            super.getCreatedBy(),
+            super.getUpdatedAt(),
+            super.getUpdatedBy()
         );
     }
 
