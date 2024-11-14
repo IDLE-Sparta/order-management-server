@@ -40,5 +40,4 @@ public class ReviewQueryController {
 
         return ReviewDetailResponse.from(review);
     }
-
 }
