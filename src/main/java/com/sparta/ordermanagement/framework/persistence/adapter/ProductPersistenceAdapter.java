@@ -3,6 +3,7 @@ package com.sparta.ordermanagement.framework.persistence.adapter;
 import com.sparta.ordermanagement.application.domain.product.Product;
 import com.sparta.ordermanagement.application.domain.product.ProductForCreate;
 import com.sparta.ordermanagement.application.domain.product.ProductForDelete;
+import com.sparta.ordermanagement.application.domain.product.ProductForUpdate;
 import com.sparta.ordermanagement.application.domain.product.ProductStateForUpdate;
 import com.sparta.ordermanagement.application.exception.product.ProductUuidInvalidException;
 import com.sparta.ordermanagement.application.exception.shop.ShopUuidInvalidException;
@@ -47,6 +48,16 @@ public class ProductPersistenceAdapter implements ProductOutputPort {
             .orElseThrow(() -> new ShopUuidInvalidException(productForCreate.shopUuid()));
 
         return productRepository.save(ProductEntity.from(productForCreate, shopEntity)).toDomain();
+    }
+
+    @Transactional
+    @Override
+    public Product updateProduct(ProductForUpdate productForUpdate) {
+
+        ProductEntity productEntity = getProductByUuid(productForUpdate.productUuid());
+        productEntity.updateProduct(productForUpdate);
+
+        return productEntity.toDomain();
     }
 
     @Transactional

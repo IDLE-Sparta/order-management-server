@@ -3,10 +3,12 @@ package com.sparta.ordermanagement.framework.persistence.entity.product;
 import com.sparta.ordermanagement.application.domain.product.Product;
 import com.sparta.ordermanagement.application.domain.product.ProductForCreate;
 import com.sparta.ordermanagement.application.domain.product.ProductForDelete;
+import com.sparta.ordermanagement.application.domain.product.ProductForUpdate;
 import com.sparta.ordermanagement.application.domain.product.ProductStateForUpdate;
 import com.sparta.ordermanagement.framework.persistence.entity.BaseEntity;
 import com.sparta.ordermanagement.framework.persistence.entity.shop.ShopEntity;
 import jakarta.persistence.*;
+import java.util.Optional;
 import java.util.UUID;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -20,7 +22,7 @@ public class ProductEntity extends BaseEntity {
 
     @Id
     @Column(name = "product_id")
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(unique = true, name = "uuid", columnDefinition = "varchar(255)")
@@ -91,6 +93,13 @@ public class ProductEntity extends BaseEntity {
         );
     }
 
+    public void updateProduct(ProductForUpdate productForUpdate) {
+        super.updateFrom(productForUpdate.userStringId());
+        Optional.ofNullable(productForUpdate.productName()).ifPresent(value -> productName = value);
+        Optional.ofNullable(productForUpdate.productPrice()).ifPresent(value -> productPrice = value);
+        Optional.ofNullable(productForUpdate.productDescription()).ifPresent(value -> productDescription = value);
+    }
+
     public void updateProductState(ProductStateForUpdate productStateForUpdate) {
         productState = productStateForUpdate.productState();
         super.updateFrom(productStateForUpdate.userId());
@@ -107,5 +116,4 @@ public class ProductEntity extends BaseEntity {
     public static ProductEntity valueOf(String productId) {
         return new ProductEntity(productId);
     }
-
 }
