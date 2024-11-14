@@ -18,7 +18,7 @@ public class ReviewService {
 
     public Review createReview(ReviewForCreate reviewForCreate) {
 
-        Order order = orderService.validateOrderUuidAndGet(reviewForCreate.orderUuid());
+        Order order = orderService.validateOrderUuidAndGetOrder(reviewForCreate.orderUuid());
         Shop shop = shopService.validateShopUuidAndGetShop(order.getShopId());
 
         // TODO: User 확인
