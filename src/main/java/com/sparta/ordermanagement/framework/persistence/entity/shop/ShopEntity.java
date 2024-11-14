@@ -98,7 +98,6 @@ public class ShopEntity extends BaseEntity {
     }
 
     public void deletedFrom(String deletedUserId) {
-        super.delete(true);
         super.deleteFrom(deletedUserId);
     }
 }
