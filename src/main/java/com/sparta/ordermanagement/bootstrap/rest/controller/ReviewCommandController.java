@@ -2,8 +2,10 @@ package com.sparta.ordermanagement.bootstrap.rest.controller;
 
 import com.sparta.ordermanagement.application.domain.review.Review;
 import com.sparta.ordermanagement.application.domain.review.ReviewForCreate;
+import com.sparta.ordermanagement.application.domain.review.ReviewForDelete;
 import com.sparta.ordermanagement.application.domain.review.ReviewForUpdate;
 import com.sparta.ordermanagement.application.service.ReviewService;
+import com.sparta.ordermanagement.bootstrap.rest.dto.review.ReviewDeleteResponse;
 import com.sparta.ordermanagement.bootstrap.rest.dto.review.ReviewUpdateRequest;
 import com.sparta.ordermanagement.bootstrap.rest.dto.review.ReviewCreateRequest;
 import com.sparta.ordermanagement.bootstrap.rest.dto.review.ReviewCreateResponse;
@@ -11,6 +13,7 @@ import com.sparta.ordermanagement.bootstrap.rest.dto.review.ReviewUpdateResponse
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -69,4 +72,23 @@ public class ReviewCommandController {
         return ReviewUpdateResponse.from(review);
     }
 
+    @ResponseStatus(HttpStatus.OK)
+    @DeleteMapping("/{reviewUuid}")
+    public ReviewDeleteResponse deleteReview(
+        @PathVariable(value = "orderUuid") String orderUuid,
+        @PathVariable(value = "reviewUuid") String reviewUuid
+    ) {
+
+        // TODO: 작성자가 주문한 사람과 동일한 지 확인
+
+        ReviewForDelete reviewForDelete = new ReviewForDelete(
+            true,
+            orderUuid,
+            reviewUuid,
+            TEST_CREATED_USER_ID
+        );
+        Review review = reviewService.deleteReview(reviewForDelete);
+
+        return ReviewDeleteResponse.from(review);
+    }
 }
