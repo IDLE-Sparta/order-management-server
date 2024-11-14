@@ -14,7 +14,7 @@ public class ReviewCreateResponse {
     private final String reviewUuid;
     private final String userId;
 
-    public static ReviewCreateResponse from (Review review) {
+    public static ReviewCreateResponse from(Review review) {
         return new ReviewCreateResponse(
             review.getShop().getUuid(),
             review.getReviewUuid(),
