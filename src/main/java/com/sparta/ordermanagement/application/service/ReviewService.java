@@ -7,6 +7,7 @@ import com.sparta.ordermanagement.application.domain.review.ReviewForDelete;
 import com.sparta.ordermanagement.application.domain.review.ReviewForUpdate;
 import com.sparta.ordermanagement.application.domain.shop.Shop;
 import com.sparta.ordermanagement.application.exception.review.ReviewDeletedException;
+import com.sparta.ordermanagement.application.exception.review.ReviewMismatchReviewerException;
 import com.sparta.ordermanagement.application.exception.review.ReviewUuidInvalidException;
 import com.sparta.ordermanagement.application.output.ReviewOutputPort;
 import lombok.RequiredArgsConstructor;
@@ -35,8 +36,8 @@ public class ReviewService {
         Order order = orderService.validateOrderUuidAndGetNotDeletedOrder(reviewForUpdate.orderUuid());
         shopService.validateNotDeletedShopUuid(order.getShopId());
 
-//        Review review = validateReviewUuidAndNotDeletedShopUuidAndGetReview(reviewForUpdate.reviewUuid());
-//        validateReviewBelongToUser(review, reviewForUpdate.userId());
+        Review review = validateReviewUuidAndNotDeletedShopUuidAndGetReview(reviewForUpdate.reviewUuid());
+        validateReviewBelongToUser(review, reviewForUpdate.userStringId());
 
         return reviewOutputPort.updateReview(reviewForUpdate);
     }
@@ -69,5 +70,11 @@ public class ReviewService {
             throw new ReviewDeletedException(reviewUuid);
         }
         return review;
+    }
+
+    private void validateReviewBelongToUser(Review review, String userStringId) {
+        if (!review.isSameReviewer(userStringId)) {
+            throw new ReviewMismatchReviewerException(userStringId);
+        }
     }
 }
