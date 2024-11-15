@@ -40,10 +40,6 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
 
     //필터링할 url 추가하시면 됩니다. (user 정보가 필요하거나 권한이 필요한 url)
     private static final Set<Pattern> FILTERING_URIS = Set.of(
-        Pattern.compile("^/api/v1/example$"),
-        Pattern.compile("^/api/v1/example2$"),
-        Pattern.compile(java.lang.String.format("^/api/v1/shops/%s/products$", UUID_PATTERN))
-    private static final Set<Pattern> FILTERING_URIS = Set.of(
             Pattern.compile("^/api/v1/example$"),
             Pattern.compile("^/api/v1/example2$"),
             Pattern.compile(String.format("^/api/v1/shops/%s/products$", UUID_PATTERN)),
