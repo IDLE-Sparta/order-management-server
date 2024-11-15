@@ -9,6 +9,7 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.util.regex.Pattern;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -23,9 +24,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 
-import java.util.Locale;
 import java.util.Set;
-import java.util.regex.Pattern;
 
 
 @RequiredArgsConstructor
@@ -33,7 +32,6 @@ import java.util.regex.Pattern;
 public class JwtAuthorizationFilter extends OncePerRequestFilter {
 
     private final JwtUtil jwtUtil;
-
     private final static String UUID_PATTERN = "[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}";
 
     private static final Set<String> FILTERING_URIS_ADMIN = Set.of(
@@ -41,6 +39,10 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
     );
 
     //필터링할 url 추가하시면 됩니다. (user 정보가 필요하거나 권한이 필요한 url)
+    private static final Set<Pattern> FILTERING_URIS = Set.of(
+        Pattern.compile("^/api/v1/example$"),
+        Pattern.compile("^/api/v1/example2$"),
+        Pattern.compile(java.lang.String.format("^/api/v1/shops/%s/products$", UUID_PATTERN))
     private static final Set<Pattern> FILTERING_URIS = Set.of(
             Pattern.compile("^/api/v1/example$"),
             Pattern.compile("^/api/v1/example2$"),
