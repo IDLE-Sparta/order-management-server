@@ -6,8 +6,6 @@ import java.time.LocalDateTime;
 
 public class Review {
 
-    // TODO: User 추가하기
-
     private Long id;
     private String reviewUuid;
     private Integer rating;
@@ -44,6 +42,10 @@ public class Review {
         this.createdBy = createdBy;
         this.updatedAt = updatedAt;
         this.updatedBy = updatedBy;
+    }
+
+    public boolean isSameReviewer(String userStringId) {
+        return user.getUserStringId().equals(userStringId);
     }
 
     public Long getId() {
