@@ -8,7 +8,8 @@ import lombok.Getter;
 public enum ReviewErrorMessage {
 
     REVIEW_UUID_INVALID("유효하지 않은 리뷰 식별자 입니다.: %s"),
-    REVIEW_DELETED("삭제된 리뷰입니다.: %s");
+    REVIEW_DELETED("삭제된 리뷰입니다.: %s"),
+    REVIEW_MISMATCH_REVIEWER("작성자와 일치하지 않습니다.: %s");
 
     private final String message;
 }
