@@ -59,7 +59,8 @@ public class ShopQueryRepository {
         return jpaQueryFactory.selectFrom(shopEntity)
             .innerJoin(shopCategoryEntity)
             .on(shopCategoryEntity.id.eq(shopEntity.shopCategoryEntity.id))
-            .where(shopNameLikeCondition(keyword).and(shopEntity.id.gt(basedShopId)))
+            .where(shopNameLikeCondition(keyword).and(shopEntity.id.gt(basedShopId))
+                .and(shopEntity.isDeleted.isFalse()))
             .orderBy(shopEntity.id.asc(), shopEntity.createdAt.asc())
             .limit(size)
             .fetch();
@@ -84,7 +85,8 @@ public class ShopQueryRepository {
 
         return jpaQueryFactory.selectFrom(shopEntity)
             .innerJoin(shopEntity.shopCategoryEntity, shopCategoryEntity)
-            .where(nameCondition.and(cursorCondition))
+            .where(nameCondition.and(cursorCondition)
+                .and(shopEntity.isDeleted.isFalse()))
             .orderBy(shopEntity.rating.desc(), shopEntity.id.asc())
             .limit(cursor.size())
             .fetch();
