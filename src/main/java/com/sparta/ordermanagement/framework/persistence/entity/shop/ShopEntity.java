@@ -4,7 +4,6 @@ import com.sparta.ordermanagement.application.domain.shop.Shop;
 import com.sparta.ordermanagement.application.domain.shop.ShopCategory;
 import com.sparta.ordermanagement.application.admin.vo.ShopForCreate;
 import com.sparta.ordermanagement.application.domain.shop.ShopForUpdate;
-import com.sparta.ordermanagement.application.domain.user.User;
 import com.sparta.ordermanagement.bootstrap.admin.dto.ShopUpdateRequest;
 import com.sparta.ordermanagement.framework.persistence.entity.BaseEntity;
 import com.sparta.ordermanagement.framework.persistence.entity.user.UserEntity;
@@ -66,7 +65,7 @@ public class ShopEntity extends BaseEntity {
         ShopCategory shopCategory =
             new ShopCategory(shopCategoryEntity.getId(), shopCategoryEntity.getShopCategoryName());
 
-        return new Shop(id, shopUuid, shopCategory, shopName, rating, super.isDeleted());
+        return new Shop(id, shopUuid, shopCategory, shopName, rating, super.isDeleted(), userEntity.getUserStringId());
     }
 
     public static ShopEntity from(ShopForCreate shopForCreate, UserEntity userEntity) {

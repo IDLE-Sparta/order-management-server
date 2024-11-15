@@ -39,8 +39,22 @@ public class Shop {
         this.ownerStringId = ownerStringId;
     }
 
+    public Shop(Long id, String uuid, ShopCategory category, String shopName, double rating, boolean isDeleted, String ownerStringId) {
+        this.id = id;
+        this.uuid = uuid;
+        this.category = category;
+        this.shopName = shopName;
+        this.rating = rating;
+        this.isDeleted = isDeleted;
+        this.ownerStringId = ownerStringId;
+    }
+
     public boolean isSameCategory(String shopCategoryId) {
         return category.getId().equals(shopCategoryId);
+    }
+
+    public boolean isSameOwner(String userStringId) {
+        return ownerStringId.equals(userStringId);
     }
 
     public Long getId() {
