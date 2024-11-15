@@ -46,9 +46,8 @@ public class ReviewService {
         Order order = orderService.validateOrderUuidAndGetNotDeletedOrder(reviewForDelete.orderUuid());
         shopService.validateNotDeletedShopUuid(order.getShopId());
 
-        validateReviewUuidAndNotDeletedShopUuid(reviewForDelete.reviewUuid());
-
-        // TODO: User 확인 && User가 Order에 속해있는지 확인
+        Review review = validateReviewUuidAndNotDeletedShopUuidAndGetReview(reviewForDelete.reviewUuid());
+        validateReviewBelongToUser(review, reviewForDelete.userStringId());
 
         return reviewOutputPort.deleteReview(reviewForDelete);
     }
