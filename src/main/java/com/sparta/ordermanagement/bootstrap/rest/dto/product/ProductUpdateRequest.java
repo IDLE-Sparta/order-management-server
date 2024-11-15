@@ -1,6 +1,7 @@
 package com.sparta.ordermanagement.bootstrap.rest.dto.product;
 
 import com.sparta.ordermanagement.application.domain.product.ProductForUpdate;
+import com.sparta.ordermanagement.framework.persistence.entity.user.Role;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Positive;
 import lombok.AllArgsConstructor;
@@ -25,7 +26,8 @@ public class ProductUpdateRequest {
     public ProductForUpdate toDomain(
         String shopUuid,
         String productUuid,
-        String userStringId
+        String userStringId,
+        Role userRole
     ) {
         return new ProductForUpdate(
             productName,
@@ -33,7 +35,8 @@ public class ProductUpdateRequest {
             productDescription,
             shopUuid,
             productUuid,
-            userStringId
+            userStringId,
+            userRole
         );
     }
 }
