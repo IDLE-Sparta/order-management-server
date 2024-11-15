@@ -47,7 +47,8 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
             Pattern.compile("^/api/v1/orders/payments$"),
             Pattern.compile(String.format("^/api/v1/orders/%s$", UUID_PATTERN)),
             Pattern.compile(String.format("^/api/v1/orders/%s/cancel$", UUID_PATTERN)),
-            Pattern.compile(String.format("^/api/v1/orders/%s/reviews$", UUID_PATTERN))
+            Pattern.compile(String.format("^/api/v1/orders/%s/reviews$", UUID_PATTERN)),
+            Pattern.compile(String.format("^/api/v1/orders/%s/reviews/%s$", UUID_PATTERN, UUID_PATTERN))
     );
 
 
