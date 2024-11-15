@@ -39,6 +39,9 @@ public class ShopEntity extends BaseEntity {
     @Column(nullable = false, columnDefinition = "DOUBLE PRECISION")
     private double rating;
 
+    @Column(nullable = false)
+    private int reviewCount;
+
     @JoinColumn(nullable = false)
     @ManyToOne(fetch = FetchType.LAZY)
     private ShopCategoryEntity shopCategoryEntity;
