@@ -72,7 +72,7 @@ public class ShopService {
         }
     }
 
-    public void validateShopOwnership(String shopUuid, String userStringId) {
+    public void validateShopOwner(String shopUuid, String userStringId) {
         Shop shop = validateShopUuidAndGetNotDeletedShop(shopUuid);
         validateShopBelongToUser(shop, userStringId);
     }

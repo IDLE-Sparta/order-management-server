@@ -27,7 +27,6 @@ public class ProductService {
     public Product createProduct(ProductForCreate productForCreate) {
 
         userService.validateOwnerRole(productForCreate.userRole());
-
         shopService.validateNotDeletedShopUuid(productForCreate.shopUuid());
 
         return productOutputPort.saveProduct(productForCreate);
@@ -36,8 +35,8 @@ public class ProductService {
     public Product updateProduct(ProductForUpdate productForUpdate) {
 
         userService.validateOwnerRole(productForUpdate.userRole());
-        shopService.validateShopOwnership(productForUpdate.shopUuid(), productForUpdate.userStringId());
-        validateProductState(productForUpdate.productUuid(), productForUpdate.shopUuid());
+        shopService.validateShopOwner(productForUpdate.shopUuid(), productForUpdate.userStringId());
+        validateNotDeletedProductAndBelongToShop(productForUpdate.productUuid(), productForUpdate.shopUuid());
 
         return productOutputPort.updateProduct(productForUpdate);
     }
@@ -45,8 +44,8 @@ public class ProductService {
     public Product updateProductState(ProductStateForUpdate productStateForUpdate) {
 
         userService.validateOwnerRole(productStateForUpdate.userRole());
-        shopService.validateShopOwnership(productStateForUpdate.shopUuid(), productStateForUpdate.userStringId());
-        validateProductState(productStateForUpdate.productUuid(), productStateForUpdate.shopUuid());
+        shopService.validateShopOwner(productStateForUpdate.shopUuid(), productStateForUpdate.userStringId());
+        validateNotDeletedProductAndBelongToShop(productStateForUpdate.productUuid(), productStateForUpdate.shopUuid());
 
         return productOutputPort.updateProductState(productStateForUpdate);
     }
@@ -54,8 +53,8 @@ public class ProductService {
     public Product deleteProduct(ProductForDelete productForDelete) {
 
         userService.validateOwnerRole(productForDelete.userRole());
-        shopService.validateShopOwnership(productForDelete.shopUuid(), productForDelete.userStringId());
-        validateProductState(productForDelete.productUuid(), productForDelete.shopUuid());
+        shopService.validateShopOwner(productForDelete.shopUuid(), productForDelete.userStringId());
+        validateNotDeletedProductAndBelongToShop(productForDelete.productUuid(), productForDelete.shopUuid());
 
         return productOutputPort.deleteProduct(productForDelete);
     }
@@ -89,7 +88,7 @@ public class ProductService {
                 .collect(Collectors.toList());
     }
 
-    private void validateProductState(String productUuid, String shopUuid) {
+    private void validateNotDeletedProductAndBelongToShop(String productUuid, String shopUuid) {
         Product product = validateProductUuidAndGetProduct(productUuid);
         validateProductBelongToShop(product, shopUuid);
         validateProductIsNotDeleted(product);
