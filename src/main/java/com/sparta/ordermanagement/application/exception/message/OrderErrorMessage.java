@@ -15,7 +15,8 @@ public enum OrderErrorMessage {
     ORDER_STATE_INVALID("유효하지 않은 주문 상태 입니다."),
     ORDER_UUID_INVALID("유효하지 않은 주문 식별자 입니다. : %s"),
     ORDER_DELETED("삭제된 주문 식별자 입니다. : %s"),
-    UNAUTHORIZED_ACCESS("유효하지 않은 권한의 유저 입니다.");
+    UNAUTHORIZED_ACCESS("유효하지 않은 권한의 유저 입니다."),
+    ORDER_MISMATCH_REVIEWER("주문자 정보가 일치하지 않습니다.: %s");
 
     private final String message;
 }
