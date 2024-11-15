@@ -2,6 +2,7 @@ package com.sparta.ordermanagement.bootstrap.rest.dto.product;
 
 import com.sparta.ordermanagement.application.domain.product.ProductStateForUpdate;
 import com.sparta.ordermanagement.framework.persistence.entity.product.ProductState;
+import com.sparta.ordermanagement.framework.persistence.entity.user.Role;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,13 +19,15 @@ public class ProductStateUpdateRequest {
     public ProductStateForUpdate toDomain(
         String shopUuid,
         String productUuid,
-        String userId
+        String userStringId,
+        Role userRole
     ) {
         return new ProductStateForUpdate(
             productState,
             shopUuid,
             productUuid,
-            userId
+            userStringId,
+            userRole
         );
     }
 }
