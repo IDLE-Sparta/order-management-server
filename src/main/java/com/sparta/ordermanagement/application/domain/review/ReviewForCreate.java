@@ -4,7 +4,7 @@ public record ReviewForCreate(
     Integer rating,
     String content,
     String orderUuid,
-    String userId
+    String userStringId
 ) {
 
 }

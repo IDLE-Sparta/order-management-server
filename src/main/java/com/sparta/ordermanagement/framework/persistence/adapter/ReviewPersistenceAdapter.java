@@ -8,9 +8,11 @@ import com.sparta.ordermanagement.application.exception.shop.ShopUuidInvalidExce
 import com.sparta.ordermanagement.application.output.ReviewOutputPort;
 import com.sparta.ordermanagement.framework.persistence.entity.review.ReviewEntity;
 import com.sparta.ordermanagement.framework.persistence.entity.shop.ShopEntity;
+import com.sparta.ordermanagement.framework.persistence.entity.user.UserEntity;
 import com.sparta.ordermanagement.framework.persistence.repository.ReviewQueryRepository;
 import com.sparta.ordermanagement.framework.persistence.repository.ReviewRepository;
 import com.sparta.ordermanagement.framework.persistence.repository.ShopRepository;
+import com.sparta.ordermanagement.framework.persistence.repository.UserRepository;
 import com.sparta.ordermanagement.framework.persistence.vo.Cursor;
 import java.util.List;
 import java.util.Optional;
@@ -25,6 +27,7 @@ public class ReviewPersistenceAdapter implements ReviewOutputPort {
     private final ReviewRepository reviewRepository;
     private final ShopRepository shopRepository;
     private final ReviewQueryRepository reviewQueryRepository;
+    private final UserRepository userRepository;
 
     public Optional<Review> findByReviewUuid(String reviewUuid) {
         return reviewRepository.findByReviewUuid(reviewUuid)
@@ -46,12 +49,13 @@ public class ReviewPersistenceAdapter implements ReviewOutputPort {
     @Override
     public Review saveReview(ReviewForCreate reviewForCreate, String shopUuid) {
 
+        // TODO : Exception 분리하기
         ShopEntity shopEntity = shopRepository.findByShopUuid(shopUuid)
             .orElseThrow(() -> new ShopUuidInvalidException(shopUuid));
 
-        // TODO: UserEntity 추가
+        UserEntity userEntity = userRepository.findByUserStringId(reviewForCreate.userStringId()).get();
 
-        return reviewRepository.save(ReviewEntity.from(reviewForCreate, shopEntity)).toDomain();
+        return reviewRepository.save(ReviewEntity.from(reviewForCreate, shopEntity, userEntity)).toDomain();
     }
 
     @Transactional

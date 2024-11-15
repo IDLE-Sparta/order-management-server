@@ -24,12 +24,12 @@ public class ReviewCreateRequest {
     @NotBlank(message = "리뷰 내용을 입력해주세요.")
     private String content;
 
-    public ReviewForCreate toDomain(String orderUuid, String userId) {
+    public ReviewForCreate toDomain(String orderUuid, String userStringId) {
         return new ReviewForCreate(
             rating,
             content,
             orderUuid,
-            userId
+            userStringId
         );
     }
 }

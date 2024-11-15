@@ -5,6 +5,7 @@ import com.sparta.ordermanagement.application.domain.review.ReviewForCreate;
 import com.sparta.ordermanagement.application.domain.review.ReviewForDelete;
 import com.sparta.ordermanagement.application.domain.review.ReviewForUpdate;
 import com.sparta.ordermanagement.application.service.ReviewService;
+import com.sparta.ordermanagement.bootstrap.auth.UserDetailsImpl;
 import com.sparta.ordermanagement.bootstrap.rest.dto.review.ReviewDeleteResponse;
 import com.sparta.ordermanagement.bootstrap.rest.dto.review.ReviewUpdateRequest;
 import com.sparta.ordermanagement.bootstrap.rest.dto.review.ReviewCreateRequest;
@@ -13,6 +14,7 @@ import com.sparta.ordermanagement.bootstrap.rest.dto.review.ReviewUpdateResponse
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -30,22 +32,19 @@ public class ReviewCommandController {
     // TODO: 추후에 지울 예정
     private static final String TEST_CREATED_USER_ID = "0000";
 
-    // TODO: Order에 shop_id 필드가 있다고 가정
-
     private final ReviewService reviewService;
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
     public ReviewCreateResponse createReview(
         @PathVariable(value = "orderUuid") String orderUuid,
-        @Valid @RequestBody ReviewCreateRequest reviewCreateRequest
+        @Valid @RequestBody ReviewCreateRequest reviewCreateRequest,
+        @AuthenticationPrincipal UserDetailsImpl userDetails
     ) {
-
-        // TODO: 작성자가 주문한 사람과 동일한 지 확인
 
         ReviewForCreate reviewForCreate = reviewCreateRequest.toDomain(
             orderUuid,
-            TEST_CREATED_USER_ID
+            userDetails.getUserStringId()
         );
         Review review = reviewService.createReview(reviewForCreate);
 
