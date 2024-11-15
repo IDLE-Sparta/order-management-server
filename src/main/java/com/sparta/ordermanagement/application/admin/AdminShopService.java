@@ -24,12 +24,12 @@ public class AdminShopService {
 
     private final AdminShopRepository adminShopRepository;
     private final AdminShopCategoryService shopCategoryService;
-    private final UserService userService;
     private final UserRepository userRepository;
 
     public Page<ShopEntity> findAll(Pageable pageable) {
 
-        return PageableSortProxy.executeWithFallback(pageable, adminShopRepository::findAll);
+        return PageableSortProxy.executeWithFallback(pageable, updatePageable ->
+            adminShopRepository.findAll(pageable));
     }
 
     public Page<ShopEntity> finAllByKeyword(String keyword, Pageable pageable) {
