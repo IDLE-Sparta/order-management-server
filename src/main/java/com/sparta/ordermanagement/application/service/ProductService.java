@@ -6,6 +6,7 @@ import com.sparta.ordermanagement.application.domain.product.ProductForCreate;
 import com.sparta.ordermanagement.application.domain.product.ProductForDelete;
 import com.sparta.ordermanagement.application.domain.product.ProductForUpdate;
 import com.sparta.ordermanagement.application.domain.product.ProductStateForUpdate;
+import com.sparta.ordermanagement.application.domain.shop.Shop;
 import com.sparta.ordermanagement.application.exception.product.ProductDeletedException;
 import com.sparta.ordermanagement.application.exception.product.ProductNotBelongToShopException;
 import com.sparta.ordermanagement.application.exception.product.ProductUuidInvalidException;
@@ -35,7 +36,10 @@ public class ProductService {
 
     public Product updateProduct(ProductForUpdate productForUpdate) {
 
-        shopService.validateNotDeletedShopUuid(productForUpdate.shopUuid());
+        userService.validateOwnerRole(productForUpdate.userRole());
+
+        Shop shop = shopService.validateShopUuidAndGetNotDeletedShop(productForUpdate.shopUuid());
+        shopService.validateShopBelongToUser(shop, productForUpdate.userStringId());
 
         Product product = validateProductUuidAndGetProduct(productForUpdate.productUuid());
         validateProductBelongToShop(product, productForUpdate.shopUuid());
