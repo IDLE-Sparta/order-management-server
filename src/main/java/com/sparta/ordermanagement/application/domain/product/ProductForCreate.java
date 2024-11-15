@@ -1,6 +1,7 @@
 package com.sparta.ordermanagement.application.domain.product;
 
 import com.sparta.ordermanagement.framework.persistence.entity.product.ProductState;
+import com.sparta.ordermanagement.framework.persistence.entity.user.Role;
 
 public record ProductForCreate(
     String productName,
@@ -8,7 +9,8 @@ public record ProductForCreate(
     String productDescription,
     ProductState productState,
     String shopUuid,
-    String userId
+    String userStringId,
+    Role userRole
 ) {
 
 }

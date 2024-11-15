@@ -2,6 +2,7 @@ package com.sparta.ordermanagement.bootstrap.rest.dto.product;
 
 import com.sparta.ordermanagement.application.domain.product.ProductForCreate;
 import com.sparta.ordermanagement.framework.persistence.entity.product.ProductState;
+import com.sparta.ordermanagement.framework.persistence.entity.user.Role;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -30,14 +31,15 @@ public class ProductCreateRequest {
 
     ProductState productState;
 
-    public ProductForCreate toDomain(String shopUuid, String userId) {
+    public ProductForCreate toDomain(String shopUuid, String userStringId, Role userRole) {
         return new ProductForCreate(
             productName,
             productPrice,
             productDescription,
             productState,
             shopUuid,
-            userId
+            userStringId,
+            userRole
         );
     }
 }
