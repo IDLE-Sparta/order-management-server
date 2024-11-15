@@ -96,7 +96,7 @@ public class ReviewEntity extends BaseEntity {
         Optional.ofNullable(reviewForUpdate.content()).ifPresent(value -> content = value);
     }
 
-    public void deleteReview(String userId) {
-        super.deleteFrom(userId);
+    public void deleteReview(String userStringId) {
+        super.deleteFrom(userStringId);
     }
 }

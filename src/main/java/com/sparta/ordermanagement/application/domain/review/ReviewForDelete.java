@@ -4,7 +4,7 @@ public record ReviewForDelete(
     boolean deleteRequest,
     String orderUuid,
     String reviewUuid,
-    String userId
+    String userStringId
 ) {
 
 }

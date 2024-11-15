@@ -8,8 +8,6 @@ import lombok.Getter;
 @AllArgsConstructor
 public class ReviewDeleteResponse {
 
-    // TODO: User 추가하기
-
     private String shopUuid;
     private String reviewUuid;
     private String userId;
@@ -18,7 +16,7 @@ public class ReviewDeleteResponse {
         return new ReviewDeleteResponse(
             review.getShop().getUuid(),
             review.getReviewUuid(),
-            "0000" // TODO: 추후에 삭제할 예정
+            review.getUser().getUserStringId()
         );
     }
 }
