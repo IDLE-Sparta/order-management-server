@@ -13,6 +13,8 @@ public enum ShopSort implements Sort {
     RATING("rating", Double.class),
     SHOP_NAME("shop_name", String.class);
 
+    private static final ShopSort DEFAULT_SORT = CREATED_AT;
+
     private String columnName;
     private Class<?> valueType;
 
@@ -22,7 +24,7 @@ public enum ShopSort implements Sort {
                 return shopSort;
             }
         }
-        return CREATED_AT;
+        return DEFAULT_SORT;
     }
 
     @Override
