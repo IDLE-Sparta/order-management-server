@@ -71,4 +71,9 @@ public class ShopService {
             throw new ShopOwnerMismatchException(userStringId);
         }
     }
+
+    public void validateShopOwnership(String shopUuid, String userStringId) {
+        Shop shop = validateShopUuidAndGetNotDeletedShop(shopUuid);
+        validateShopBelongToUser(shop, userStringId);
+    }
 }
