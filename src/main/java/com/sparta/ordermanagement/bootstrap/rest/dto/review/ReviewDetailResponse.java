@@ -12,7 +12,7 @@ public class ReviewDetailResponse {
     // TODO: User 추가하기
 
     private final String reviewUuid;
-//    private final String userUuid;
+    private final String userStringId;
     private final String shopUuid;
     private final String shopName;
     private final Integer rating;
@@ -25,6 +25,7 @@ public class ReviewDetailResponse {
     public static ReviewDetailResponse from(Review review) {
         return new ReviewDetailResponse(
             review.getReviewUuid(),
+            review.getUser().getUserStringId(),
             review.getShop().getUuid(),
             review.getShop().getShopName(),
             review.getRating(),

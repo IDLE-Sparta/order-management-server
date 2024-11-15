@@ -71,7 +71,7 @@ public class ReviewService {
         return review;
     }
 
-    private void validateReviewBelongToUser(Review review, String userStringId) {
+    public void validateReviewBelongToUser(Review review, String userStringId) {
         if (!review.isSameReviewer(userStringId)) {
             throw new ReviewMismatchReviewerException(userStringId);
         }
