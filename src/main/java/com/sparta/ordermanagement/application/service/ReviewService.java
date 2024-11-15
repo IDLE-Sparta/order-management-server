@@ -25,7 +25,7 @@ public class ReviewService {
         Order order = orderService.validateOrderUuidAndGetNotDeletedOrder(reviewForCreate.orderUuid());
         Shop shop = shopService.validateShopUuidAndGetNotDeletedShop(order.getShopId());
 
-        // TODO: User 확인
+        orderService.validateOrderBelongToUser(order, reviewForCreate.userStringId());
 
         return reviewOutputPort.saveReview(reviewForCreate, shop.getUuid());
     }
@@ -35,9 +35,8 @@ public class ReviewService {
         Order order = orderService.validateOrderUuidAndGetNotDeletedOrder(reviewForUpdate.orderUuid());
         shopService.validateNotDeletedShopUuid(order.getShopId());
 
-        validateReviewUuidAndNotDeletedShopUuid(reviewForUpdate.reviewUuid());
-
-        // TODO: User 확인 && User가 Order에 속해있는지 확인
+//        Review review = validateReviewUuidAndNotDeletedShopUuidAndGetReview(reviewForUpdate.reviewUuid());
+//        validateReviewBelongToUser(review, reviewForUpdate.userId());
 
         return reviewOutputPort.updateReview(reviewForUpdate);
     }
@@ -62,5 +61,13 @@ public class ReviewService {
         if(validateReviewUuidAndGet(reviewUuid).getIsDeleted()) {
             throw new ReviewDeletedException(reviewUuid);
         }
+    }
+
+    public Review validateReviewUuidAndNotDeletedShopUuidAndGetReview(String reviewUuid) {
+        Review review = validateReviewUuidAndGet(reviewUuid);
+        if(review.getIsDeleted()) {
+            throw new ReviewDeletedException(reviewUuid);
+        }
+        return review;
     }
 }

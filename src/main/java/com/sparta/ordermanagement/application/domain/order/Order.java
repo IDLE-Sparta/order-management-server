@@ -70,4 +70,8 @@ public class Order {
     public boolean getIsDeleted() {
         return isDeleted;
     }
+
+    public boolean isSameReviewer(String userStringId) {
+        return userId.equals(userStringId);
+    }
 }

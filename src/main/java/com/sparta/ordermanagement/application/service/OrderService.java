@@ -4,6 +4,7 @@ import com.sparta.ordermanagement.application.domain.order.*;
 import com.sparta.ordermanagement.application.domain.user.User;
 import com.sparta.ordermanagement.application.exception.order.InvalidOrderException;
 import com.sparta.ordermanagement.application.exception.order.OrderCancellationTimeExceededException;
+import com.sparta.ordermanagement.application.exception.order.OrderMismatchReviewerException;
 import com.sparta.ordermanagement.application.exception.order.OrderStateChangedException;
 import com.sparta.ordermanagement.application.exception.order.OrderDeletedException;
 import com.sparta.ordermanagement.application.exception.order.OrderUuidInvalidException;
@@ -108,5 +109,11 @@ public class OrderService {
             return;
         }
         throw new UnauthorizedAccessException();
+    }
+
+    public void validateOrderBelongToUser(Order order, String userStringId) {
+        if (!order.isSameReviewer(userStringId)) {
+            throw new OrderMismatchReviewerException(userStringId);
+        }
     }
 }
