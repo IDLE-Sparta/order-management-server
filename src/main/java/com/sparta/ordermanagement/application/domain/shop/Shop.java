@@ -69,7 +69,8 @@ public class Shop {
 
     public boolean isOwnBy(User user) {
         return user.getUserStringId().equals(ownerStringId);
-      
+    }
+
     public boolean getIsDeleted() {
         return isDeleted;
     }
