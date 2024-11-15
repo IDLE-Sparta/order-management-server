@@ -91,7 +91,7 @@ public class ReviewEntity extends BaseEntity {
     }
 
     public void updateReview(ReviewForUpdate reviewForUpdate) {
-        super.updateFrom(reviewForUpdate.userId());
+        super.updateFrom(reviewForUpdate.userStringId());
         Optional.ofNullable(reviewForUpdate.rating()).ifPresent(value -> rating = value);
         Optional.ofNullable(reviewForUpdate.content()).ifPresent(value -> content = value);
     }

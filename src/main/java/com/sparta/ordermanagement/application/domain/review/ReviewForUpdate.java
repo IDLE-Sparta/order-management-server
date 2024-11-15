@@ -5,7 +5,7 @@ public record ReviewForUpdate(
     String content,
     String orderUuid,
     String reviewUuid,
-    String userId
+    String userStringId
 ) {
 
 }

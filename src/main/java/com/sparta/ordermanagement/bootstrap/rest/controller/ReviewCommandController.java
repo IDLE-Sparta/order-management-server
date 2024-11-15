@@ -56,15 +56,14 @@ public class ReviewCommandController {
     public ReviewUpdateResponse updateReview(
         @PathVariable(value = "orderUuid") String orderUuid,
         @PathVariable(value = "reviewUuid") String reviewUuid,
-        @Valid @RequestBody ReviewUpdateRequest reviewUpdateRequest
+        @Valid @RequestBody ReviewUpdateRequest reviewUpdateRequest,
+        @AuthenticationPrincipal UserDetailsImpl userDetails
     ) {
-
-        // TODO : 작성자가 주문한 사람과 동일한 지 확인
 
         ReviewForUpdate reviewForUpdate = reviewUpdateRequest.toDomain(
             orderUuid,
             reviewUuid,
-            TEST_CREATED_USER_ID
+            userDetails.getUserStringId()
         );
         Review review = reviewService.updateReview(reviewForUpdate);
 

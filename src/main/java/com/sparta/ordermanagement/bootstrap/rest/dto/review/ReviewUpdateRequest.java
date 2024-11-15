@@ -23,14 +23,14 @@ public class ReviewUpdateRequest {
     public ReviewForUpdate toDomain(
         String orderUuid,
         String reviewUuid,
-        String userId
+        String userStringId
     ) {
         return new ReviewForUpdate(
             rating,
             content,
             orderUuid,
             reviewUuid,
-            userId
+            userStringId
         );
     }
 }
