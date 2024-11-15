@@ -74,16 +74,15 @@ public class ReviewCommandController {
     @DeleteMapping("/{reviewUuid}")
     public ReviewDeleteResponse deleteReview(
         @PathVariable(value = "orderUuid") String orderUuid,
-        @PathVariable(value = "reviewUuid") String reviewUuid
+        @PathVariable(value = "reviewUuid") String reviewUuid,
+        @AuthenticationPrincipal UserDetailsImpl userDetails
     ) {
-
-        // TODO: 작성자가 주문한 사람과 동일한 지 확인
 
         ReviewForDelete reviewForDelete = new ReviewForDelete(
             true,
             orderUuid,
             reviewUuid,
-            TEST_CREATED_USER_ID
+            userDetails.getUserStringId()
         );
         Review review = reviewService.deleteReview(reviewForDelete);
 

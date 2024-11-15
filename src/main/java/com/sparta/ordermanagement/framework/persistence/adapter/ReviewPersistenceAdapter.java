@@ -73,7 +73,7 @@ public class ReviewPersistenceAdapter implements ReviewOutputPort {
     public Review deleteReview(ReviewForDelete reviewForDelete) {
 
         ReviewEntity reviewEntity = getReviewByReviewUuid(reviewForDelete.reviewUuid());
-        reviewEntity.deleteReview(reviewForDelete.userId());
+        reviewEntity.deleteReview(reviewForDelete.userStringId());
 
         return reviewEntity.toDomain();
     }
