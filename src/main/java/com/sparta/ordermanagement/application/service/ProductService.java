@@ -21,10 +21,15 @@ import java.util.stream.Collectors;
 public class ProductService {
 
     private final ProductOutputPort productOutputPort;
+    private final UserService userService;
     private final ShopService shopService;
 
     public Product createProduct(ProductForCreate productForCreate) {
+
+        userService.validateOwnerRole(productForCreate.userRole());
+
         shopService.validateNotDeletedShopUuid(productForCreate.shopUuid());
+
         return productOutputPort.saveProduct(productForCreate);
     }
 

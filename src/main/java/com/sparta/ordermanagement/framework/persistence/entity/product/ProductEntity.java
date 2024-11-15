@@ -76,7 +76,7 @@ public class ProductEntity extends BaseEntity {
             productForCreate.productDescription(),
             productForCreate.productState(),
             shopEntity,
-            productForCreate.userId()
+            productForCreate.userStringId()
         );
     }
 

@@ -6,6 +6,7 @@ import com.sparta.ordermanagement.application.domain.product.ProductForDelete;
 import com.sparta.ordermanagement.application.domain.product.ProductStateForUpdate;
 import com.sparta.ordermanagement.application.domain.product.ProductForUpdate;
 import com.sparta.ordermanagement.application.service.ProductService;
+import com.sparta.ordermanagement.bootstrap.auth.UserDetailsImpl;
 import com.sparta.ordermanagement.bootstrap.rest.dto.product.ProductUpdateRequest;
 import com.sparta.ordermanagement.bootstrap.rest.dto.product.ProductCreateRequest;
 import com.sparta.ordermanagement.bootstrap.rest.dto.product.ProductCreateResponse;
@@ -15,7 +16,9 @@ import com.sparta.ordermanagement.bootstrap.rest.dto.product.ProductStateUpdateR
 import com.sparta.ordermanagement.bootstrap.rest.dto.product.ProductUpdateResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,7 +28,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
+@Slf4j
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/v1/shops/{shopUuid}/products")
@@ -40,14 +45,14 @@ public class ProductCommandController {
     @PostMapping
     public ProductCreateResponse createProduct(
         @PathVariable(value = "shopUuid") String shopUuid,
-        @Valid @RequestBody ProductCreateRequest productCreateRequest
+        @Valid @RequestBody ProductCreateRequest productCreateRequest,
+        @AuthenticationPrincipal UserDetailsImpl userDetails
     ) {
-
-        // TODO : OWNER 인지 확인
 
         ProductForCreate productForCreate = productCreateRequest.toDomain(
             shopUuid,
-            TEST_CREATED_USER_ID
+            userDetails.getUserStringId(),
+            userDetails.getRole()
         );
         Product product = productService.createProduct(productForCreate);
 

@@ -7,6 +7,7 @@ import com.sparta.ordermanagement.application.domain.user.UserForSignin;
 import com.sparta.ordermanagement.application.domain.user.UserForSignup;
 import com.sparta.ordermanagement.application.exception.InvalidValueException;
 import com.sparta.ordermanagement.application.exception.shop.ShopIdInvalidException;
+import com.sparta.ordermanagement.application.exception.user.UserAccessDeniedException;
 import com.sparta.ordermanagement.application.output.UserOutputPort;
 import com.sparta.ordermanagement.bootstrap.util.JwtUtil;
 import com.sparta.ordermanagement.framework.persistence.entity.user.Role;
@@ -68,5 +69,11 @@ public class UserService {
     public User findByUserStringId(String userId) {
         return userOutputPort.findByUserStringId(userId)
             .orElseThrow(() -> new InvalidValueException("Id에 해당하는 유저가 존재하지 않습니다. Id=" + userId));
+    }
+
+    public void validateOwnerRole(Role role) {
+        if (!role.equals(Role.OWNER)) {
+            throw new UserAccessDeniedException(role);
+        }
     }
 }
