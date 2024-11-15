@@ -102,7 +102,7 @@ public class ProductEntity extends BaseEntity {
 
     public void updateProductState(ProductStateForUpdate productStateForUpdate) {
         productState = productStateForUpdate.productState();
-        super.updateFrom(productStateForUpdate.userId());
+        super.updateFrom(productStateForUpdate.userStringId());
     }
 
     public void deleteProduct(ProductForDelete productForDelete) {

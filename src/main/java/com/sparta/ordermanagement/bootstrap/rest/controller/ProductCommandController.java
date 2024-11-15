@@ -84,15 +84,15 @@ public class ProductCommandController {
     public ProductStateUpdateResponse updateProductState(
         @PathVariable(value = "shopUuid") String shopUuid,
         @PathVariable(value = "productUuid") String productUuid,
-        @Valid @RequestBody ProductStateUpdateRequest productStateUpdateRequest
+        @Valid @RequestBody ProductStateUpdateRequest productStateUpdateRequest,
+        @AuthenticationPrincipal UserDetailsImpl userDetails
     ) {
-
-        // TODO : OWNER 인지 확인
 
         ProductStateForUpdate productStateForUpdate = productStateUpdateRequest.toDomain(
             shopUuid,
             productUuid,
-            TEST_CREATED_USER_ID
+            userDetails.getUserStringId(),
+            userDetails.getRole()
         );
         Product product = productService.updateProductState(productStateForUpdate);
 

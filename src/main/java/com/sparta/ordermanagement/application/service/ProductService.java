@@ -50,7 +50,10 @@ public class ProductService {
 
     public Product updateProductState(ProductStateForUpdate productStateForUpdate) {
 
-        shopService.validateNotDeletedShopUuid(productStateForUpdate.shopUuid());
+        userService.validateOwnerRole(productStateForUpdate.userRole());
+
+        Shop shop = shopService.validateShopUuidAndGetNotDeletedShop(productStateForUpdate.shopUuid());
+        shopService.validateShopBelongToUser(shop, productStateForUpdate.userStringId());
 
         Product product = validateProductUuidAndGetProduct(productStateForUpdate.productUuid());
         validateProductBelongToShop(product, productStateForUpdate.shopUuid());
