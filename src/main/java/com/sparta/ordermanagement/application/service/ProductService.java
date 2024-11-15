@@ -64,7 +64,10 @@ public class ProductService {
 
     public Product deleteProduct(ProductForDelete productForDelete) {
 
-        shopService.validateNotDeletedShopUuid(productForDelete.shopUuid());
+        userService.validateOwnerRole(productForDelete.userRole());
+
+        Shop shop = shopService.validateShopUuidAndGetNotDeletedShop(productForDelete.shopUuid());
+        shopService.validateShopBelongToUser(shop, productForDelete.userStringId());
 
         Product product = validateProductUuidAndGetProduct(productForDelete.productUuid());
         validateProductBelongToShop(product, productForDelete.shopUuid());

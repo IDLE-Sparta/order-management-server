@@ -36,9 +36,6 @@ import org.springframework.web.server.ResponseStatusException;
 @RequestMapping("/api/v1/shops/{shopUuid}/products")
 public class ProductCommandController {
 
-    // TODO: 추후에 지울 예정
-    private static final String TEST_CREATED_USER_ID = "0000";
-
     private final ProductService productService;
 
     @ResponseStatus(HttpStatus.CREATED)
@@ -103,16 +100,16 @@ public class ProductCommandController {
     @DeleteMapping("/{productUuid}")
     public ProductDeleteResponse deleteProduct(
         @PathVariable(value = "shopUuid") String shopUuid,
-        @PathVariable(value = "productUuid") String productUuid
+        @PathVariable(value = "productUuid") String productUuid,
+        @AuthenticationPrincipal UserDetailsImpl userDetails
     ) {
-
-        // TODO : OWNER 인지 확인
 
         ProductForDelete productForDelete = new ProductForDelete(
             true,
             shopUuid,
             productUuid,
-            TEST_CREATED_USER_ID
+            userDetails.getUserStringId(),
+            userDetails.getRole()
         );
         Product product = productService.deleteProduct(productForDelete);
 
