@@ -1,5 +1,6 @@
 package com.sparta.ordermanagement.framework.persistence.entity.region;
 
+import com.sparta.ordermanagement.application.domain.region.Region;
 import com.sparta.ordermanagement.framework.persistence.entity.BaseEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -20,4 +21,17 @@ public class RegionEntity extends BaseEntity {
     @Column(nullable = false, columnDefinition = "varchar(255)")
     private String regionName;
 
+    public RegionEntity(String regionName) {
+        this.regionName = regionName;
+    }
+
+    public static RegionEntity from(String regionName) {
+        return new RegionEntity(regionName);
+    }
+
+    public Region toDomain() {
+        return new Region(
+            regionName
+        );
+    }
 }
