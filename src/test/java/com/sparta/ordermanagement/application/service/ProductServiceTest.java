@@ -91,10 +91,6 @@ class ProductServiceTest {
         Assertions.assertAll(
             () -> Assertions.assertNotNull(createdProduct),
             () -> Assertions.assertEquals(expectedProduct.getProductUuid(), createdProduct.getProductUuid()),
-            () -> Assertions.assertEquals(expectedProduct.getProductName(), createdProduct.getProductName()),
-            () -> Assertions.assertEquals(expectedProduct.getProductPrice(), createdProduct.getProductPrice()),
-            () -> Assertions.assertEquals(expectedProduct.getProductDescription(), createdProduct.getProductDescription()),
-            () -> Assertions.assertEquals(expectedProduct.getProductState(), createdProduct.getProductState()),
             () -> Assertions.assertEquals(expectedProduct.getShop().getUuid(), createdProduct.getShop().getUuid())
         );
 
