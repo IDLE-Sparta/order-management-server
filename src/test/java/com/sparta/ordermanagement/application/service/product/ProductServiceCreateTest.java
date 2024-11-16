@@ -45,8 +45,7 @@ class ProductServiceCreateTest extends BaseProductServiceTest {
             productDescription, ProductState.SHOW, shop.getUuid(), owner.getUserStringId(),
             owner.getRole());
 
-        Mockito.when(productOutputPort.saveProduct(ArgumentMatchers.any(ProductForCreate.class)))
-            .thenReturn(expectedProduct);
+        Mockito.when(productOutputPort.saveProduct(productForCreate)).thenReturn(expectedProduct);
 
         // When
 
@@ -103,7 +102,7 @@ class ProductServiceCreateTest extends BaseProductServiceTest {
             owner.getRole());
 
         Mockito.doThrow(new ShopUuidInvalidException(invalidShopUuid))
-            .when(shopService).validateNotDeletedShopUuid(ArgumentMatchers.eq(invalidShopUuid));
+            .when(shopService).validateNotDeletedShopUuid(invalidShopUuid);
 
         // When & Then
         ShopUuidInvalidException exception = Assertions.assertThrows(

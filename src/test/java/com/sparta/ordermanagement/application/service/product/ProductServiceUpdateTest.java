@@ -55,9 +55,9 @@ public class ProductServiceUpdateTest extends BaseProductServiceTest {
             owner.getRole());
 
         Mockito.when(
-                productOutputPort.findByProductUuid(ArgumentMatchers.eq(existProduct.getProductUuid())))
+                productOutputPort.findByProductUuid(existProduct.getProductUuid()))
             .thenReturn(Optional.of(existProduct));
-        Mockito.when(productOutputPort.updateProduct(ArgumentMatchers.any(ProductForUpdate.class)))
+        Mockito.when(productOutputPort.updateProduct(productForUpdate))
             .thenReturn(updatedAllProduct);
 
         // When
@@ -67,7 +67,7 @@ public class ProductServiceUpdateTest extends BaseProductServiceTest {
         assertProductFields(updatedAllProduct, updatedProduct);
 
         Mockito.verify(productOutputPort, Mockito.times(1))
-            .updateProduct(ArgumentMatchers.any(ProductForUpdate.class));
+            .updateProduct(productForUpdate);
     }
 
     @Test
@@ -84,9 +84,9 @@ public class ProductServiceUpdateTest extends BaseProductServiceTest {
             owner.getRole());
 
         Mockito.when(
-                productOutputPort.findByProductUuid(ArgumentMatchers.eq(existProduct.getProductUuid())))
+                productOutputPort.findByProductUuid(existProduct.getProductUuid()))
             .thenReturn(Optional.of(existProduct));
-        Mockito.when(productOutputPort.updateProduct(ArgumentMatchers.any(ProductForUpdate.class)))
+        Mockito.when(productOutputPort.updateProduct(productForUpdate))
             .thenReturn(updatedPartialProduct);
 
         // When
@@ -96,7 +96,7 @@ public class ProductServiceUpdateTest extends BaseProductServiceTest {
         assertProductFields(updatedPartialProduct, updatedProduct);
 
         Mockito.verify(productOutputPort, Mockito.times(1))
-            .updateProduct(ArgumentMatchers.any(ProductForUpdate.class));
+            .updateProduct(productForUpdate);
     }
 
     private void assertProductFields(Product expectedProduct, Product actualProduct) {

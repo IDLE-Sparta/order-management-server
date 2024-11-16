@@ -10,7 +10,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.ArgumentMatchers;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
@@ -48,9 +47,7 @@ public class ProductServiceStateUpdateTest extends BaseProductServiceTest {
 
         Mockito.when(productOutputPort.findByProductUuid(existProduct.getProductUuid()))
             .thenReturn(Optional.of(existProduct));
-        Mockito.when(
-                productOutputPort.updateProductState(ArgumentMatchers.any(ProductStateForUpdate.class)))
-            .thenReturn(expectedProduct);
+        Mockito.when(productOutputPort.updateProductState(productStateForUpdate)).thenReturn(expectedProduct);
 
         // When
         Product actualProduct = productService.updateProductState(productStateForUpdate);
@@ -64,6 +61,6 @@ public class ProductServiceStateUpdateTest extends BaseProductServiceTest {
         );
 
         Mockito.verify(productOutputPort, Mockito.times(1))
-            .updateProductState(ArgumentMatchers.any(ProductStateForUpdate.class));
+            .updateProductState(productStateForUpdate);
     }
 }

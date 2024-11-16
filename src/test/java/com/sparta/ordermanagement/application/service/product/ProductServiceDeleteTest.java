@@ -9,7 +9,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.ArgumentMatchers;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
@@ -45,8 +44,7 @@ public class ProductServiceDeleteTest extends BaseProductServiceTest {
 
         Mockito.when(productOutputPort.findByProductUuid(existProduct.getProductUuid()))
             .thenReturn(Optional.of(existProduct));
-        Mockito.when(productOutputPort.deleteProduct(ArgumentMatchers.any(ProductForDelete.class)))
-            .thenReturn(expectedProduct);
+        Mockito.when(productOutputPort.deleteProduct(productForDelete)).thenReturn(expectedProduct);
 
         // When
         Product actualProduct = productService.deleteProduct(productForDelete);
@@ -60,6 +58,6 @@ public class ProductServiceDeleteTest extends BaseProductServiceTest {
         );
 
         Mockito.verify(productOutputPort, Mockito.times(1))
-            .deleteProduct(ArgumentMatchers.any(ProductForDelete.class));
+            .deleteProduct(productForDelete);
     }
 }

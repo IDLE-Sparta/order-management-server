@@ -3,7 +3,6 @@ package com.sparta.ordermanagement.application.service.review;
 import com.sparta.ordermanagement.application.domain.order.Order;
 import com.sparta.ordermanagement.application.domain.review.Review;
 import com.sparta.ordermanagement.application.domain.review.ReviewForCreate;
-import com.sparta.ordermanagement.application.domain.shop.Shop;
 import com.sparta.ordermanagement.application.domain.user.User;
 import com.sparta.ordermanagement.application.exception.order.OrderDeletedException;
 import com.sparta.ordermanagement.application.exception.order.OrderMismatchReviewerException;
@@ -15,7 +14,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.ArgumentMatchers;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
@@ -45,12 +43,9 @@ public class ReviewServiceCreateTest extends BaseReviewServiceTest {
         ReviewForCreate reviewForCreate = new ReviewForCreate(rating, reviewContent, order.getOrderUuid(),
             customer.getUserStringId());
 
-        Mockito.when(orderService.validateOrderUuidAndGetNotDeletedOrder(ArgumentMatchers.eq(order.getOrderUuid())))
-            .thenReturn(order);
-        Mockito.when(shopService.validateShopUuidAndGetNotDeletedShop(ArgumentMatchers.eq(order.getShopId())))
-            .thenReturn(shop);
-        Mockito.when(reviewOutputPort.saveReview(ArgumentMatchers.eq(reviewForCreate),
-            ArgumentMatchers.eq(shop.getUuid()))).thenReturn(expectedReview);
+        Mockito.when(orderService.validateOrderUuidAndGetNotDeletedOrder(order.getOrderUuid())).thenReturn(order);
+        Mockito.when(shopService.validateShopUuidAndGetNotDeletedShop(order.getShopId())).thenReturn(shop);
+        Mockito.when(reviewOutputPort.saveReview(reviewForCreate, shop.getUuid())).thenReturn(expectedReview);
 
         // When
         Review actualReview = reviewService.createReview(reviewForCreate);
@@ -76,7 +71,7 @@ public class ReviewServiceCreateTest extends BaseReviewServiceTest {
         String invalidOrderUuid = "invalid-order-uuid";
         ReviewForCreate reviewForCreate = new ReviewForCreate(rating, reviewContent, invalidOrderUuid, customer.getUserStringId());
 
-        Mockito.when(orderService.validateOrderUuidAndGetNotDeletedOrder(ArgumentMatchers.eq(invalidOrderUuid)))
+        Mockito.when(orderService.validateOrderUuidAndGetNotDeletedOrder(invalidOrderUuid))
             .thenThrow(new OrderUuidInvalidException(invalidOrderUuid));
 
         // When & Then
@@ -127,7 +122,7 @@ public class ReviewServiceCreateTest extends BaseReviewServiceTest {
         ReviewForCreate reviewForCreate = new ReviewForCreate(rating, reviewContent, otherOrder.getOrderUuid(),
             customer.getUserStringId());
 
-        Mockito.when(orderService.validateOrderUuidAndGetNotDeletedOrder(ArgumentMatchers.eq(otherOrder.getOrderUuid())))
+        Mockito.when(orderService.validateOrderUuidAndGetNotDeletedOrder(otherOrder.getOrderUuid()))
             .thenReturn(otherOrder);
         Mockito.doThrow(new OrderMismatchReviewerException(customer.getUserStringId()))
             .when(orderService)
