@@ -1,4 +1,4 @@
-package com.sparta.ordermanagement.application.service.product;
+package com.sparta.ordermanagement.application.service.product.unitTest;
 
 import com.sparta.ordermanagement.application.domain.product.Product;
 import com.sparta.ordermanagement.application.domain.product.ProductForCreate;

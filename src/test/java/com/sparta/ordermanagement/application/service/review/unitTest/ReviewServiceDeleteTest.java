@@ -1,4 +1,4 @@
-package com.sparta.ordermanagement.application.service.review;
+package com.sparta.ordermanagement.application.service.review.unitTest;
 
 import com.sparta.ordermanagement.application.domain.review.Review;
 import com.sparta.ordermanagement.application.domain.review.ReviewForDelete;
