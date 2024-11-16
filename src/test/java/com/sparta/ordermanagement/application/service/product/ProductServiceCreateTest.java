@@ -6,6 +6,7 @@ import com.sparta.ordermanagement.application.exception.user.UserAccessDeniedExc
 import com.sparta.ordermanagement.framework.persistence.entity.product.ProductState;
 import com.sparta.ordermanagement.framework.persistence.entity.user.Role;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -16,13 +17,21 @@ import org.mockito.junit.jupiter.MockitoExtension;
 @ExtendWith(MockitoExtension.class)
 class ProductServiceCreateTest extends BaseProductServiceTest{
 
+    private String productName;
+    private int productPrice;
+    private String productDescription;
+
+    @BeforeEach
+    void setUp() {
+        productName = "후라이드";
+        productPrice = 20_000;
+        productDescription = "맛있는 후라이드";
+    }
+
     @Test
     @DisplayName("[상품 생성 성공 테스트] OWNER의 권한을 가지고 있는 사용자가 삭제되지 않는 가게의 상품을 생성할 경우 상품 식별자와 가게 식별자를 반환한다.")
     public void createProduct_successTest() {
         // Given
-        String productName = "후라이드";
-        int productPrice = 20_000;
-        String productDescription = "맛있는 후라이드";
         ProductForCreate productForCreate = new ProductForCreate(productName, productPrice,
             productDescription, ProductState.SHOW, testShopUuid, testOwnerUser.getUserStringId(),
             testOwnerUser.getRole());
@@ -51,9 +60,6 @@ class ProductServiceCreateTest extends BaseProductServiceTest{
     @DisplayName("[상품 생성 실패 테스트] OWNER 권한이 없는 사용자가 상품을 생성하려고 할 경우 예외를 발생시킨다.")
     public void createProduct_failureTest_notOwnerRole() {
         // Given
-        String productName = "후라이드";
-        int productPrice = 20_000;
-        String productDescription = "맛있는 후라이드";
         ProductForCreate productForCreate = new ProductForCreate(productName, productPrice,
             productDescription, ProductState.SHOW, testShopUuid, testCustomerUser.getUserStringId(),
             testCustomerUser.getRole());
