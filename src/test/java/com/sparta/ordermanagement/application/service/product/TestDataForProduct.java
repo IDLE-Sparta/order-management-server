@@ -27,6 +27,11 @@ public class TestDataForProduct {
             ProductState.SHOW, shop, false);
     }
 
+    public static Product createHiddenProduct(String productUuid, String productName, Integer price, Shop shop) {
+        return new Product(null, productUuid, productName, price, "맛있는 " + productName,
+            ProductState.HIDE, shop, false);
+    }
+
     public static Product createDeleteProduct(String productUuid, String productName, int price, Shop shop) {
         return new Product(null, productUuid, productName, price, "맛있는 " + productName,
             ProductState.SHOW, shop, true);
