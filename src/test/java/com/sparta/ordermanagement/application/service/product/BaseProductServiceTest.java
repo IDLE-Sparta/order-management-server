@@ -37,6 +37,8 @@ public abstract class BaseProductServiceTest {
     protected User testCustomerUser;
     protected Product expectedProduct;
 
+    protected Product existProduct;
+
     @BeforeEach
     void setUp() {
         testShopCategoryUuid = "4c4f79f2-7335-4acd-9eaa-f2f8f3db506e";
@@ -56,7 +58,10 @@ public abstract class BaseProductServiceTest {
         testCustomerUser = new User(2L, testCustomerUserStringId, "qwer1234#", Role.CUSTOMER,
             regionEntity);
 
-        expectedProduct = new Product(1L, testProductUuid, "후라이드", 20_000, "맛있는 후라이드",
+        existProduct = new Product(1L, testProductUuid, "양념치킨", 10_000, "맛있는 양념치킨",
+            ProductState.SHOW, testShop, false);
+
+        expectedProduct = new Product(2L, testProductUuid, "후라이드", 20_000, "맛있는 후라이드",
             ProductState.SHOW, testShop, false);
     }
 
