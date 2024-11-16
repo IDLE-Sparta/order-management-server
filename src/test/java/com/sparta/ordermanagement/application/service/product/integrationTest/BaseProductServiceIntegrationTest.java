@@ -2,6 +2,7 @@ package com.sparta.ordermanagement.application.service.product.integrationTest;
 
 import com.sparta.ordermanagement.application.service.ProductService;
 import com.sparta.ordermanagement.application.service.TestDataForIntegrationTest;
+import com.sparta.ordermanagement.framework.persistence.entity.product.ProductEntity;
 import com.sparta.ordermanagement.framework.persistence.entity.region.RegionEntity;
 import com.sparta.ordermanagement.framework.persistence.entity.shop.ShopCategoryEntity;
 import com.sparta.ordermanagement.framework.persistence.entity.shop.ShopEntity;
@@ -49,6 +50,8 @@ public abstract class BaseProductServiceIntegrationTest {
 
     protected ShopEntity shopEntity;
 
+    protected ProductEntity productEntity;
+
     @BeforeEach
     void setUp() {
         regionEntity = regionRepository.save(TestDataForIntegrationTest.createRegionEntity());
@@ -65,5 +68,10 @@ public abstract class BaseProductServiceIntegrationTest {
         shopEntity = shopRepository.save(
             TestDataForIntegrationTest.createShopEntity("shop-uuid", ownerEntity,
                 "소현이네 치킨집", shopCategoryEntity));
+
+        productEntity = productRepository.save(
+            TestDataForIntegrationTest.createProductEntity("product-uuid", "후라이드",
+                10_000, "맛있는 후라이드", shopEntity)
+        );
     }
 }

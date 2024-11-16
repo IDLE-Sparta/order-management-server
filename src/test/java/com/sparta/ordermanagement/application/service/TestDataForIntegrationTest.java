@@ -1,5 +1,8 @@
 package com.sparta.ordermanagement.application.service;
 
+import com.sparta.ordermanagement.application.domain.product.Product;
+import com.sparta.ordermanagement.framework.persistence.entity.product.ProductEntity;
+import com.sparta.ordermanagement.framework.persistence.entity.product.ProductState;
 import com.sparta.ordermanagement.framework.persistence.entity.region.RegionEntity;
 import com.sparta.ordermanagement.framework.persistence.entity.shop.ShopCategoryEntity;
 import com.sparta.ordermanagement.framework.persistence.entity.shop.ShopEntity;
@@ -26,4 +29,9 @@ public class TestDataForIntegrationTest {
         return new ShopEntity(null, shopUuid, userEntity, shopName, 4.5, 300, shopCategoryEntity);
     }
 
+    public static ProductEntity createProductEntity(String productUuid, String productName,
+        Integer productPrice, String productDescription, ShopEntity shopEntity) {
+        return new ProductEntity(null, productUuid, productName, productPrice, productDescription,
+            ProductState.SHOW, shopEntity);
+    }
 }
