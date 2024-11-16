@@ -26,6 +26,8 @@ public abstract class BaseProductServiceTest {
     protected String testShopUuid;
     protected String testProductUuid;
 
+    protected String testInvalidShopUuid;
+
     protected String testOwnerUserStringId;
     protected String testCustomerUserStringId;
 
@@ -40,6 +42,8 @@ public abstract class BaseProductServiceTest {
         testShopCategoryUuid = "4c4f79f2-7335-4acd-9eaa-f2f8f3db506e";
         testShopUuid = "0e9518ff-13ec-447d-bd08-e3915841cd49";
         testProductUuid = "7feaff71-613f-4c67-b25c-9210c2c9f429";
+
+        testInvalidShopUuid = "invalid-shop-uuid";
 
         testOwnerUserStringId = "owner1";
         testCustomerUserStringId = "customer1";
