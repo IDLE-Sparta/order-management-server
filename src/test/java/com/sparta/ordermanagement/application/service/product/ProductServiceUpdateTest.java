@@ -7,6 +7,7 @@ import com.sparta.ordermanagement.application.domain.user.User;
 import com.sparta.ordermanagement.application.exception.product.ProductDeletedException;
 import com.sparta.ordermanagement.application.exception.shop.ShopOwnerMismatchException;
 import com.sparta.ordermanagement.application.exception.user.UserAccessDeniedException;
+import com.sparta.ordermanagement.application.service.TestData;
 import com.sparta.ordermanagement.framework.persistence.entity.user.Role;
 import java.util.Optional;
 import org.junit.jupiter.api.Assertions;
@@ -36,7 +37,7 @@ public class ProductServiceUpdateTest extends BaseProductServiceTest {
         price = 10_000;
         productDescription = "맛있는 후라이드";
 
-        existProduct = TestDataForProduct.createProduct(productUuid, productName, price, shop);
+        existProduct = TestData.createProduct(productUuid, productName, price, shop);
     }
 
     @Test
@@ -45,7 +46,7 @@ public class ProductServiceUpdateTest extends BaseProductServiceTest {
         // Given
         String updateProductName = "간장치킨";
         Integer updatePrice = 19_000;
-        Product updatedAllProduct = TestDataForProduct.createProduct(existProduct.getProductUuid(),
+        Product updatedAllProduct = TestData.createProduct(existProduct.getProductUuid(),
             updateProductName, updatePrice, shop);
 
         ProductForUpdate productForUpdate = new ProductForUpdate(updateProductName, updatePrice,
@@ -74,7 +75,7 @@ public class ProductServiceUpdateTest extends BaseProductServiceTest {
     public void updatePartialFieldsProduct_successTest() {
         // Given
         Integer updatePrice = 19_000;
-        Product updatedPartialProduct = TestDataForProduct.createProduct(
+        Product updatedPartialProduct = TestData.createProduct(
             existProduct.getProductUuid(), productName, updatePrice, shop);
 
         ProductForUpdate productForUpdate = new ProductForUpdate(productName, updatePrice,
@@ -119,7 +120,7 @@ public class ProductServiceUpdateTest extends BaseProductServiceTest {
     @DisplayName("[상품 수정 실패 테스트] OWNER 권한이 없는 사용자가 상품 필드를 수정하면 예외를 발생시킨다.")
     public void updateProduct_failureTest_notOwnerRole() {
         // Given
-        User customer = TestDataForProduct.createUser("customer", Role.CUSTOMER, regionEntity);
+        User customer = TestData.createUser("customer", Role.CUSTOMER, regionEntity);
 
         ProductForUpdate productForUpdate = new ProductForUpdate(productName, price,
             productDescription, shop.getUuid(), existProduct.getProductUuid(),
@@ -148,10 +149,10 @@ public class ProductServiceUpdateTest extends BaseProductServiceTest {
     @DisplayName("[상품 수정 실패 테스트] OWNER 권한을 가진 사용자가 자신이 소유한 가게가 아닌 상품 수정할 경우 예외를 발생시킨다.")
     public void updateProduct_failureTest_notShopOwner() {
         // Given
-        User otherOwner = TestDataForProduct.createUser("owner2", Role.OWNER, regionEntity);
-        Shop otherShop = TestDataForProduct.createShop("other-shop-uuid", shopCategory, "소현이네 bbq",
+        User otherOwner = TestData.createUser("owner2", Role.OWNER, regionEntity);
+        Shop otherShop = TestData.createShop("other-shop-uuid", shopCategory, "소현이네 bbq",
             otherOwner.getUserStringId());
-        Product product = TestDataForProduct.createProduct("other-product-uuid", "황금올리브", 23_000,
+        Product product = TestData.createProduct("other-product-uuid", "황금올리브", 23_000,
             otherShop);
 
         ProductForUpdate productForUpdate = new ProductForUpdate(productName, price,
@@ -181,7 +182,7 @@ public class ProductServiceUpdateTest extends BaseProductServiceTest {
     @DisplayName("[상품 수정 실패 테스트] OWNER 권한을 가진 사용자가 자신의 가게에 속한 삭제된 상품을 수정하려고 할 때 예외를 발생시킨다.")
     public void updateProduct_failureTest_deletedProduct() {
         // Given
-        Product product = TestDataForProduct.createDeleteProduct(existProduct.getProductUuid(),
+        Product product = TestData.createDeleteProduct(existProduct.getProductUuid(),
             existProduct.getProductName(), existProduct.getProductPrice(), shop);
 
         ProductForUpdate productForUpdate = new ProductForUpdate(productName, price,

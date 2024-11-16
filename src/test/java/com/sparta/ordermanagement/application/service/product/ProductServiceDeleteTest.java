@@ -2,6 +2,7 @@ package com.sparta.ordermanagement.application.service.product;
 
 import com.sparta.ordermanagement.application.domain.product.Product;
 import com.sparta.ordermanagement.application.domain.product.ProductForDelete;
+import com.sparta.ordermanagement.application.service.TestData;
 import java.util.Optional;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -28,7 +29,7 @@ public class ProductServiceDeleteTest extends BaseProductServiceTest {
         productName = "후라이드";
         productPrice = 10_000;
 
-        existProduct = TestDataForProduct.createProduct(productUuid, productName, productPrice,
+        existProduct = TestData.createProduct(productUuid, productName, productPrice,
             shop);
     }
 
@@ -36,7 +37,7 @@ public class ProductServiceDeleteTest extends BaseProductServiceTest {
     @DisplayName("[상품 삭제 성공 테스트] OWNER 권한을 가진 사용자가 상품을 삭제하려고 할 때 삭제된 상품인지를 확인한다.")
     public void deleteProduct_successTest() {
         // Given
-        Product expectedProduct = TestDataForProduct.createDeleteProduct(productUuid, productName,
+        Product expectedProduct = TestData.createDeleteProduct(productUuid, productName,
             productPrice, shop);
 
         ProductForDelete productForDelete = new ProductForDelete(true, shop.getUuid(),

@@ -1,4 +1,4 @@
-package com.sparta.ordermanagement.application.service.product;
+package com.sparta.ordermanagement.application.service;
 
 import com.sparta.ordermanagement.application.domain.product.Product;
 import com.sparta.ordermanagement.application.domain.shop.Shop;
@@ -8,7 +8,7 @@ import com.sparta.ordermanagement.framework.persistence.entity.product.ProductSt
 import com.sparta.ordermanagement.framework.persistence.entity.region.RegionEntity;
 import com.sparta.ordermanagement.framework.persistence.entity.user.Role;
 
-public class TestDataForProduct {
+public class TestData {
 
     public static User createUser(String userId, Role role, RegionEntity regionEntity) {
         return new User(null, userId, "qwer1234#", role, regionEntity);
