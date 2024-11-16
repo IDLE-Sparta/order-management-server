@@ -73,6 +73,20 @@ public class OrderEntity extends BaseEntity {
         this.userEntity = userEntity;
     }
 
+    public OrderEntity(String orderUuid, OrderState orderState,
+                        OrderType orderType, String deliveryAddress,
+                        String requestOrder, ShopEntity shopEntity, UserEntity userEntity) {
+
+        id = null;
+        this.orderUuid = orderUuid;
+        this.orderState = orderState;
+        this.orderType = orderType;
+        this.deliveryAddress = deliveryAddress;
+        this.requestOrder = requestOrder;
+        this.shopEntity = shopEntity;
+        this.userEntity = userEntity;
+    }
+
     @PrePersist
     private void prePersistence() {
         orderUuid = UUID.randomUUID().toString();
