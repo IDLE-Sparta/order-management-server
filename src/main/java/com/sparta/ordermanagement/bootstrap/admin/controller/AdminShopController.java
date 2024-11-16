@@ -3,6 +3,7 @@ package com.sparta.ordermanagement.bootstrap.admin.controller;
 import com.sparta.ordermanagement.application.admin.AdminShopService;
 import com.sparta.ordermanagement.bootstrap.admin.dto.ShopCreateRequest;
 import com.sparta.ordermanagement.bootstrap.admin.dto.ShopListResponse;
+import com.sparta.ordermanagement.bootstrap.admin.dto.ShopSearchCondition;
 import com.sparta.ordermanagement.bootstrap.admin.dto.ShopUpdateRequest;
 import com.sparta.ordermanagement.bootstrap.auth.UserDetailsImpl;
 import com.sparta.ordermanagement.bootstrap.rest.pagination.offset.PaginationConstraint;
@@ -34,9 +35,15 @@ public class AdminShopController {
 
     @PaginationConstraint
     @GetMapping
-    public Page<ShopListResponse> findAll(Pageable pageable) {
+    public Page<ShopListResponse> findAll(
+        @RequestParam(name = "keyword", required = false) String keyword,
+        @RequestParam(name = "categoryId", required = false) String categoryId,
+        @RequestParam(name = "containingDeleted", required = false) boolean containingDeleted,
+        Pageable pageable) {
 
-        return adminShopService.findAll(pageable)
+        ShopSearchCondition condition = new ShopSearchCondition(keyword, categoryId, containingDeleted);
+
+        return adminShopService.findAll(condition, pageable)
             .map(ShopListResponse::from);
     }
 
