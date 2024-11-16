@@ -2,8 +2,8 @@ package com.sparta.ordermanagement.application.service.review;
 
 import com.sparta.ordermanagement.application.domain.review.Review;
 import com.sparta.ordermanagement.application.domain.review.ReviewForCreate;
+import com.sparta.ordermanagement.application.exception.order.OrderUuidInvalidException;
 import com.sparta.ordermanagement.application.service.TestData;
-import java.util.Optional;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -59,5 +59,30 @@ public class ReviewServiceCreateTest extends BaseReviewServiceTest {
         );
 
         Mockito.verify(reviewOutputPort, Mockito.times(1)).saveReview(reviewForCreate, shop.getUuid());
+    }
+
+    @Test
+    @DisplayName("[리뷰 작성 실패 테스트] 유효하지 않는 주문 식별자로 리뷰 생성 시 예외처리를 한다.")
+    public void createReview_failureTest_invalidOrderUuid() {
+        // Given
+        String invalidOrderUuid = "invalid-order-uuid";
+
+        ReviewForCreate reviewForCreate = new ReviewForCreate(rating, reviewContent, invalidOrderUuid, customer.getUserStringId());
+
+        Mockito.when(orderService.validateOrderUuidAndGetNotDeletedOrder(ArgumentMatchers.eq(invalidOrderUuid)))
+            .thenThrow(new OrderUuidInvalidException(invalidOrderUuid));
+
+        // When & Then
+        OrderUuidInvalidException exception = Assertions.assertThrows(
+            OrderUuidInvalidException.class,
+            () -> reviewService.createReview(reviewForCreate)
+        );
+
+        Assertions.assertEquals(
+            String.format("유효하지 않은 주문 식별자 입니다. : %s", invalidOrderUuid),
+            exception.getMessage()
+        );
+
+        Mockito.verifyNoInteractions(shopService, reviewOutputPort);
     }
 }
