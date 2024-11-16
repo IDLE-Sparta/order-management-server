@@ -45,13 +45,16 @@ public class ProductServiceUpdateTest extends BaseProductServiceTest {
         // Given
         String updateProductName = "간장치킨";
         Integer updatePrice = 19_000;
-        Product updatedAllProduct = TestDataForProduct.createProduct(existProduct.getProductUuid(), updateProductName, updatePrice, shop);
+        Product updatedAllProduct = TestDataForProduct.createProduct(existProduct.getProductUuid(),
+            updateProductName, updatePrice, shop);
 
         ProductForUpdate productForUpdate = new ProductForUpdate(updateProductName, updatePrice,
-            "맛있는 " + updateProductName, shop.getUuid(), existProduct.getProductUuid(), owner.getUserStringId(),
+            "맛있는 " + updateProductName, shop.getUuid(), existProduct.getProductUuid(),
+            owner.getUserStringId(),
             owner.getRole());
 
-        Mockito.when(productOutputPort.findByProductUuid(ArgumentMatchers.eq(existProduct.getProductUuid())))
+        Mockito.when(
+                productOutputPort.findByProductUuid(ArgumentMatchers.eq(existProduct.getProductUuid())))
             .thenReturn(Optional.of(existProduct));
         Mockito.when(productOutputPort.updateProduct(ArgumentMatchers.any(ProductForUpdate.class)))
             .thenReturn(updatedAllProduct);
@@ -71,13 +74,16 @@ public class ProductServiceUpdateTest extends BaseProductServiceTest {
     public void updatePartialFieldsProduct_successTest() {
         // Given
         Integer updatePrice = 19_000;
-        Product updatedPartialProduct = TestDataForProduct.createProduct(existProduct.getProductUuid(), productName, updatePrice, shop);
+        Product updatedPartialProduct = TestDataForProduct.createProduct(
+            existProduct.getProductUuid(), productName, updatePrice, shop);
 
         ProductForUpdate productForUpdate = new ProductForUpdate(productName, updatePrice,
-            existProduct.getProductDescription(), shop.getUuid(), existProduct.getProductUuid(), owner.getUserStringId(),
+            existProduct.getProductDescription(), shop.getUuid(), existProduct.getProductUuid(),
+            owner.getUserStringId(),
             owner.getRole());
 
-        Mockito.when(productOutputPort.findByProductUuid(ArgumentMatchers.eq(existProduct.getProductUuid())))
+        Mockito.when(
+                productOutputPort.findByProductUuid(ArgumentMatchers.eq(existProduct.getProductUuid())))
             .thenReturn(Optional.of(existProduct));
         Mockito.when(productOutputPort.updateProduct(ArgumentMatchers.any(ProductForUpdate.class)))
             .thenReturn(updatedPartialProduct);
@@ -143,8 +149,10 @@ public class ProductServiceUpdateTest extends BaseProductServiceTest {
     public void updateProduct_failureTest_notShopOwner() {
         // Given
         User otherOwner = TestDataForProduct.createUser("owner2", Role.OWNER, regionEntity);
-        Shop otherShop = TestDataForProduct.createShop("other-shop-uuid", shopCategory, "소현이네 bbq", otherOwner.getUserStringId());
-        Product product = TestDataForProduct.createProduct("other-product-uuid", "황금올리브", 23_000, otherShop);
+        Shop otherShop = TestDataForProduct.createShop("other-shop-uuid", shopCategory, "소현이네 bbq",
+            otherOwner.getUserStringId());
+        Product product = TestDataForProduct.createProduct("other-product-uuid", "황금올리브", 23_000,
+            otherShop);
 
         ProductForUpdate productForUpdate = new ProductForUpdate(productName, price,
             productDescription, shop.getUuid(), product.getProductUuid(),
@@ -173,7 +181,8 @@ public class ProductServiceUpdateTest extends BaseProductServiceTest {
     @DisplayName("[상품 수정 실패 테스트] OWNER 권한을 가진 사용자가 자신의 가게에 속한 삭제된 상품을 수정하려고 할 때 예외를 발생시킨다.")
     public void updateProduct_failureTest_deletedProduct() {
         // Given
-        Product product = TestDataForProduct.createDeleteProduct(existProduct.getProductUuid(), existProduct.getProductName(), existProduct.getProductPrice(), shop);
+        Product product = TestDataForProduct.createDeleteProduct(existProduct.getProductUuid(),
+            existProduct.getProductName(), existProduct.getProductPrice(), shop);
 
         ProductForUpdate productForUpdate = new ProductForUpdate(productName, price,
             productDescription, shop.getUuid(), product.getProductUuid(),

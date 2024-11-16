@@ -22,7 +22,7 @@ public class TestDataForProduct {
         return new Shop(null, shopUuid, shopCategory, shopName, 4.5, false, ownerStringId);
     }
 
-    public static Product createProduct(String productUuid, String productName, int price, Shop shop) {
+    public static Product createProduct(String productUuid, String productName, Integer price, Shop shop) {
         return new Product(null, productUuid, productName, price, "맛있는 " + productName,
             ProductState.SHOW, shop, false);
     }
