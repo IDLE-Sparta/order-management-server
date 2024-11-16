@@ -49,9 +49,9 @@ public class ProductServiceUpdateTest extends BaseProductServiceTest {
             testOwnerUser.getRole());
 
         Mockito.when(productOutputPort.findByProductUuid(ArgumentMatchers.eq(testExistProductUuid)))
-               .thenReturn(Optional.of(existProduct));
+            .thenReturn(Optional.of(existProduct));
         Mockito.when(productOutputPort.updateProduct(ArgumentMatchers.any(ProductForUpdate.class)))
-                .thenReturn(updatedAllProduct);
+            .thenReturn(updatedAllProduct);
 
         // When
         Product updatedProduct = productService.updateProduct(productForUpdate);
@@ -59,7 +59,8 @@ public class ProductServiceUpdateTest extends BaseProductServiceTest {
         // Then
         assertProductFields(updatedAllProduct, updatedProduct);
 
-        Mockito.verify(productOutputPort, Mockito.times(1)).updateProduct(ArgumentMatchers.any(ProductForUpdate.class));
+        Mockito.verify(productOutputPort, Mockito.times(1))
+            .updateProduct(ArgumentMatchers.any(ProductForUpdate.class));
     }
 
     @Test
@@ -81,18 +82,24 @@ public class ProductServiceUpdateTest extends BaseProductServiceTest {
         // Then
         assertProductFields(updatedPartialProduct, updatedProduct);
 
-        Mockito.verify(productOutputPort, Mockito.times(1)).updateProduct(ArgumentMatchers.any(ProductForUpdate.class));
+        Mockito.verify(productOutputPort, Mockito.times(1))
+            .updateProduct(ArgumentMatchers.any(ProductForUpdate.class));
     }
 
     private void assertProductFields(Product expectedProduct, Product actualProduct) {
         Assertions.assertAll(
             "Product 필드 검증",
             () -> Assertions.assertNotNull(actualProduct, "실제 Product가 null이 아니어야 합니다."),
-            () -> Assertions.assertEquals(expectedProduct.getProductUuid(), actualProduct.getProductUuid(), "Product 식별자가 일치하지 않습니다."),
-            () -> Assertions.assertEquals(expectedProduct.getShop().getUuid(), actualProduct.getShop().getUuid(), "Shop 식별자가 일치하지 않습니다."),
-            () -> Assertions.assertEquals(expectedProduct.getProductName(), actualProduct.getProductName(), "Product 이름이 일치하지 않습니다."),
-            () -> Assertions.assertEquals(expectedProduct.getProductPrice(), actualProduct.getProductPrice(), "Product 가격이 일치하지 않습니다."),
-            () -> Assertions.assertEquals(expectedProduct.getProductDescription(), actualProduct.getProductDescription(), "Product 설명이 일치하지 않습니다.")
+            () -> Assertions.assertEquals(expectedProduct.getProductUuid(),
+                actualProduct.getProductUuid(), "Product 식별자가 일치하지 않습니다."),
+            () -> Assertions.assertEquals(expectedProduct.getShop().getUuid(),
+                actualProduct.getShop().getUuid(), "Shop 식별자가 일치하지 않습니다."),
+            () -> Assertions.assertEquals(expectedProduct.getProductName(),
+                actualProduct.getProductName(), "Product 이름이 일치하지 않습니다."),
+            () -> Assertions.assertEquals(expectedProduct.getProductPrice(),
+                actualProduct.getProductPrice(), "Product 가격이 일치하지 않습니다."),
+            () -> Assertions.assertEquals(expectedProduct.getProductDescription(),
+                actualProduct.getProductDescription(), "Product 설명이 일치하지 않습니다.")
         );
     }
 
@@ -101,11 +108,13 @@ public class ProductServiceUpdateTest extends BaseProductServiceTest {
     public void updateProduct_failureTest_notOwnerRole() {
         // Given
         ProductForUpdate productForUpdate = new ProductForUpdate(productName, price,
-            productDescription, testShopUuid, testExistProductUuid, testCustomerUser.getUserStringId(),
+            productDescription, testShopUuid, testExistProductUuid,
+            testCustomerUser.getUserStringId(),
             testCustomerUser.getRole());
 
         Mockito.doThrow(new UserAccessDeniedException(testCustomerUser.getRole()))
-            .when(userService).validateOwnerRole(ArgumentMatchers.argThat(role -> role != Role.OWNER));
+            .when(userService)
+            .validateOwnerRole(ArgumentMatchers.argThat(role -> role != Role.OWNER));
 
         // When & Then
         UserAccessDeniedException exception = Assertions.assertThrows(
@@ -126,12 +135,14 @@ public class ProductServiceUpdateTest extends BaseProductServiceTest {
     public void updateProduct_failureTest_notShopOwner() {
         // Given
         User otherOwner = createUser(3L, "owner2", Role.OWNER);
-        Shop otherShop = new Shop(1L, "other-shop-uuid", testShopCategory, "소현이네 bbq", 4.0, otherOwner.getUserStringId());
+        Shop otherShop = new Shop(1L, "other-shop-uuid", testShopCategory, "소현이네 bbq", 4.0,
+            otherOwner.getUserStringId());
         Product product = new Product(3L, "other-shop-product-uuuid", "황금올리브", 23_000, "맛있는 황금올리브",
             ProductState.SHOW, otherShop, false);
 
         ProductForUpdate productForUpdate = new ProductForUpdate(productName, price,
-            productDescription, testShopUuid, product.getProductUuid(), testOwnerUser.getUserStringId(),
+            productDescription, testShopUuid, product.getProductUuid(),
+            testOwnerUser.getUserStringId(),
             testOwnerUser.getRole());
 
         Mockito.doThrow(new ShopOwnerMismatchException(testOwnerUser.getUserStringId()))
@@ -180,7 +191,8 @@ public class ProductServiceUpdateTest extends BaseProductServiceTest {
             exception.getMessage()
         );
 
-        Mockito.verify(productOutputPort, Mockito.times(1)).findByProductUuid(product.getProductUuid());
+        Mockito.verify(productOutputPort, Mockito.times(1))
+            .findByProductUuid(product.getProductUuid());
         Mockito.verify(productOutputPort, Mockito.never()).updateProduct(ArgumentMatchers.any());
     }
 }
