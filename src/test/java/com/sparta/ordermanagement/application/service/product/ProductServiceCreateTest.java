@@ -38,10 +38,6 @@ class ProductServiceCreateTest extends BaseProductServiceTest {
             productDescription, ProductState.SHOW, testShopUuid, testOwnerUser.getUserStringId(),
             testOwnerUser.getRole());
 
-        Mockito.doNothing().when(userService).validateOwnerRole(ArgumentMatchers.eq(Role.OWNER));
-        Mockito.doNothing().when(shopService)
-            .validateNotDeletedShopUuid(productForCreate.shopUuid());
-
         Mockito.when(productOutputPort.saveProduct(ArgumentMatchers.any(ProductForCreate.class)))
             .thenReturn(expectedProduct);
 

@@ -42,11 +42,6 @@ public class ProductServiceUpdateTest extends BaseProductServiceTest {
             productDescription, testShopUuid, testExistProductUuid, testOwnerUser.getUserStringId(),
             testOwnerUser.getRole());
 
-        Mockito.doNothing().when(userService).validateOwnerRole(ArgumentMatchers.eq(Role.OWNER));
-        Mockito.doNothing().when(shopService).validateShopOwner(
-            ArgumentMatchers.eq(testShopUuid),
-            ArgumentMatchers.eq(testOwnerUser.getUserStringId())
-        );
         Mockito.when(productOutputPort.findByProductUuid(ArgumentMatchers.eq(testExistProductUuid)))
                .thenReturn(Optional.of(existProduct));
         Mockito.when(productOutputPort.updateProduct(ArgumentMatchers.any(ProductForUpdate.class)))
@@ -76,11 +71,6 @@ public class ProductServiceUpdateTest extends BaseProductServiceTest {
             productDescription, testShopUuid, testExistProductUuid, testOwnerUser.getUserStringId(),
             testOwnerUser.getRole());
 
-        Mockito.doNothing().when(userService).validateOwnerRole(ArgumentMatchers.eq(Role.OWNER));
-        Mockito.doNothing().when(shopService).validateShopOwner(
-            ArgumentMatchers.eq(testShopUuid),
-            ArgumentMatchers.eq(testOwnerUser.getUserStringId())
-        );
         Mockito.when(productOutputPort.findByProductUuid(ArgumentMatchers.eq(testExistProductUuid)))
             .thenReturn(Optional.of(existProduct));
         Mockito.when(productOutputPort.updateProduct(ArgumentMatchers.any(ProductForUpdate.class)))
