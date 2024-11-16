@@ -2,6 +2,13 @@ package com.sparta.ordermanagement.application.service.product;
 
 import com.sparta.ordermanagement.application.domain.product.Product;
 import com.sparta.ordermanagement.application.domain.product.ProductForUpdate;
+import com.sparta.ordermanagement.application.domain.shop.Shop;
+import com.sparta.ordermanagement.application.domain.user.User;
+import com.sparta.ordermanagement.application.exception.product.ProductDeletedException;
+import com.sparta.ordermanagement.application.exception.shop.ShopOwnerMismatchException;
+import com.sparta.ordermanagement.application.exception.user.UserAccessDeniedException;
+import com.sparta.ordermanagement.framework.persistence.entity.product.ProductState;
+import com.sparta.ordermanagement.framework.persistence.entity.user.Role;
 import java.util.Optional;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -87,5 +94,93 @@ public class ProductServiceUpdateTest extends BaseProductServiceTest {
             () -> Assertions.assertEquals(expectedProduct.getProductPrice(), actualProduct.getProductPrice(), "Product 가격이 일치하지 않습니다."),
             () -> Assertions.assertEquals(expectedProduct.getProductDescription(), actualProduct.getProductDescription(), "Product 설명이 일치하지 않습니다.")
         );
+    }
+
+    @Test
+    @DisplayName("[상품 수정 실패 테스트] OWNER 권한이 없는 사용자가 상품 필드를 수정하면 예외를 발생시킨다.")
+    public void updateProduct_failureTest_notOwnerRole() {
+        // Given
+        ProductForUpdate productForUpdate = new ProductForUpdate(productName, price,
+            productDescription, testShopUuid, testExistProductUuid, testCustomerUser.getUserStringId(),
+            testCustomerUser.getRole());
+
+        Mockito.doThrow(new UserAccessDeniedException(testCustomerUser.getRole()))
+            .when(userService).validateOwnerRole(ArgumentMatchers.argThat(role -> role != Role.OWNER));
+
+        // When & Then
+        UserAccessDeniedException exception = Assertions.assertThrows(
+            UserAccessDeniedException.class,
+            () -> productService.updateProduct(productForUpdate)
+        );
+
+        Assertions.assertEquals(
+            String.format("접근 권한이 없습니다.: %s", testCustomerUser.getRole()),
+            exception.getMessage()
+        );
+
+        Mockito.verifyNoInteractions(shopService, productOutputPort);
+    }
+
+    @Test
+    @DisplayName("[상품 수정 실패 테스트] OWNER 권한을 가진 사용자가 자신이 소유한 가게가 아닌 상품 수정할 경우 예외를 발생시킨다.")
+    public void updateProduct_failureTest_notShopOwner() {
+        // Given
+        User otherOwner = createUser(3L, "owner2", Role.OWNER);
+        Shop otherShop = new Shop(1L, "other-shop-uuid", testShopCategory, "소현이네 bbq", 4.0, otherOwner.getUserStringId());
+        Product product = new Product(3L, "other-shop-product-uuuid", "황금올리브", 23_000, "맛있는 황금올리브",
+            ProductState.SHOW, otherShop, false);
+
+        ProductForUpdate productForUpdate = new ProductForUpdate(productName, price,
+            productDescription, testShopUuid, product.getProductUuid(), testOwnerUser.getUserStringId(),
+            testOwnerUser.getRole());
+
+        Mockito.doThrow(new ShopOwnerMismatchException(testOwnerUser.getUserStringId()))
+            .when(shopService)
+            .validateShopOwner(testShopUuid, testOwnerUser.getUserStringId());
+
+        // When & Then
+        ShopOwnerMismatchException exception = Assertions.assertThrows(
+            ShopOwnerMismatchException.class,
+            () -> productService.updateProduct(productForUpdate)
+        );
+
+        Assertions.assertEquals(
+            String.format("가게 소유자 정보가 일치하지 않습니다. : %s", testOwnerUser.getUserStringId()),
+            exception.getMessage()
+        );
+
+        Mockito.verifyNoInteractions(productOutputPort);
+    }
+
+    @Test
+    @DisplayName("[상품 수정 실패 테스트] OWNER 권한을 가진 사용자가 자신의 가게에 속한 삭제된 상품을 수정하려고 할 때 예외를 발생시킨다.")
+    public void updateProduct_failureTest_deletedProduct() {
+        // Given
+        Product product = new Product(1L, existProduct.getProductUuid(),
+            existProduct.getProductName(), existProduct.getProductPrice(),
+            existProduct.getProductDescription(),
+            ProductState.SHOW, testShop, true);
+
+        ProductForUpdate productForUpdate = new ProductForUpdate(productName, price,
+            productDescription, testShopUuid, product.getProductUuid(),
+            testOwnerUser.getUserStringId(),
+            testOwnerUser.getRole());
+
+        Mockito.when(productOutputPort.findByProductUuid(product.getProductUuid()))
+            .thenReturn(Optional.of(product));
+
+        // When & Then
+        ProductDeletedException exception = Assertions.assertThrows(
+            ProductDeletedException.class,
+            () -> productService.updateProduct(productForUpdate)
+        );
+
+        Assertions.assertEquals(
+            String.format("삭제된 상품 입니다.: %s", product.getProductUuid()),
+            exception.getMessage()
+        );
+
+        Mockito.verify(productOutputPort, Mockito.times(1)).findByProductUuid(product.getProductUuid());
+        Mockito.verify(productOutputPort, Mockito.never()).updateProduct(ArgumentMatchers.any());
     }
 }

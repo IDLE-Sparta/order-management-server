@@ -74,7 +74,7 @@ public abstract class BaseProductServiceTest {
     @Mock
     protected ProductOutputPort productOutputPort;
 
-    private User createUser(Long id, String userStringId, Role role) {
+    protected User createUser(Long id, String userStringId, Role role) {
         return new User(id, userStringId, "qwer1234#", role, regionEntity);
     }
 
