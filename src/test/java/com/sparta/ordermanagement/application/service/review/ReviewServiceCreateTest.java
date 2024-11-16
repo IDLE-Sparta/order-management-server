@@ -33,9 +33,11 @@ public class ReviewServiceCreateTest extends BaseReviewServiceTest {
     @DisplayName("[리뷰 생성 성공 테스트] 주문한 고객이 리뷰 작성에 성공하면 가게 식별자와 리뷰 식별자 및 작성자 아이디를 반환한다.")
     public void createReview_successTest() {
         // Given
-        Review expectedReview = TestData.createReviewWithoutTime(reviewUuid, rating, reviewContent, shop, customer);
+        Review expectedReview = TestData.createReviewWithoutTime(reviewUuid, rating, reviewContent,
+            shop, customer);
 
-        ReviewForCreate reviewForCreate = new ReviewForCreate(rating, reviewContent, order.getOrderUuid(), customer.getUserStringId());
+        ReviewForCreate reviewForCreate = new ReviewForCreate(rating, reviewContent, order.getOrderUuid(),
+            customer.getUserStringId());
 
         Mockito.when(orderService.validateOrderUuidAndGetNotDeletedOrder(ArgumentMatchers.eq(order.getOrderUuid())))
             .thenReturn(order);
