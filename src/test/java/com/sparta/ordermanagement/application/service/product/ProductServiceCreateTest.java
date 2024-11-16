@@ -26,7 +26,7 @@ class ProductServiceCreateTest extends BaseProductServiceTest {
     void setUp() {
         super.setUp();
         productName = "후라이드";
-        productPrice = 20_000;
+        productPrice = 10_000;
         productDescription = "맛있는 후라이드";
     }
 
@@ -52,10 +52,8 @@ class ProductServiceCreateTest extends BaseProductServiceTest {
         // Then
         Assertions.assertAll(
             () -> Assertions.assertNotNull(createdProduct),
-            () -> Assertions.assertEquals(expectedProduct.getProductUuid(),
-                createdProduct.getProductUuid()),
-            () -> Assertions.assertEquals(expectedProduct.getShop().getUuid(),
-                createdProduct.getShop().getUuid())
+            () -> Assertions.assertEquals(expectedProduct.getProductUuid(), createdProduct.getProductUuid()),
+            () -> Assertions.assertEquals(expectedProduct.getShop().getUuid(), createdProduct.getShop().getUuid())
         );
 
         Mockito.verify(productOutputPort, Mockito.times(1)).saveProduct(productForCreate);
@@ -79,8 +77,7 @@ class ProductServiceCreateTest extends BaseProductServiceTest {
             () -> productService.createProduct(productForCreate)
         );
 
-        Assertions.assertEquals(String.format("접근 권한이 없습니다.: %s", testCustomerUser.getRole()),
-            exception.getMessage());
+        Assertions.assertEquals(String.format("접근 권한이 없습니다.: %s", testCustomerUser.getRole()), exception.getMessage());
 
         Mockito.verify(userService, Mockito.times(1)).validateOwnerRole(testCustomerUser.getRole());
         Mockito.verifyNoInteractions(shopService, productOutputPort);
@@ -104,11 +101,9 @@ class ProductServiceCreateTest extends BaseProductServiceTest {
             () -> productService.createProduct(productForCreate)
         );
 
-        Assertions.assertEquals(String.format("유효하지 않은 가게 식별자 입니다. : %s", testInvalidShopUuid),
-            exception.getMessage());
+        Assertions.assertEquals(String.format("유효하지 않은 가게 식별자 입니다. : %s", testInvalidShopUuid), exception.getMessage());
 
-        Mockito.verify(shopService, Mockito.times(1))
-            .validateNotDeletedShopUuid(testInvalidShopUuid);
+        Mockito.verify(shopService, Mockito.times(1)).validateNotDeletedShopUuid(testInvalidShopUuid);
         Mockito.verifyNoInteractions(productOutputPort);
     }
 }
