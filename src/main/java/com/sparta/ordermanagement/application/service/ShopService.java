@@ -38,7 +38,7 @@ public class ShopService {
     private void validateShopOwnedBy(Shop shop, String userStringId) {
         User user = userService.findByUserStringId(userStringId);
         if (!shop.isOwnBy(user)) {
-            throw new ShopOwnerMismatchException(user.getUserStringId());
+            throw new ShopOwnerMismatchException(shop.getOwnerStringId());
         }
     }
 
