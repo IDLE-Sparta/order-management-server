@@ -5,7 +5,7 @@ import com.sparta.ordermanagement.application.domain.product.ProductForCreate;
 import com.sparta.ordermanagement.application.domain.user.User;
 import com.sparta.ordermanagement.application.exception.shop.ShopUuidInvalidException;
 import com.sparta.ordermanagement.application.exception.user.UserAccessDeniedException;
-import com.sparta.ordermanagement.application.service.TestData;
+import com.sparta.ordermanagement.application.service.TestDataForUnitTest;
 import com.sparta.ordermanagement.framework.persistence.entity.product.ProductState;
 import com.sparta.ordermanagement.framework.persistence.entity.user.Role;
 import org.junit.jupiter.api.Assertions;
@@ -38,7 +38,7 @@ class ProductServiceCreateUnitTest extends BaseProductServiceUnitTest {
     @DisplayName("[상품 생성 성공 단위 테스트] OWNER의 권한을 가지고 있는 사용자가 삭제되지 않는 가게의 상품을 생성할 경우 상품 식별자와 가게 식별자를 반환한다.")
     public void createProduct_successTest() {
         // Given
-        Product expectedProduct = TestData.createProduct(productUuid, productName,
+        Product expectedProduct = TestDataForUnitTest.createProduct(productUuid, productName,
             productPrice, shop);
 
         ProductForCreate productForCreate = new ProductForCreate(productName, productPrice,
@@ -67,7 +67,7 @@ class ProductServiceCreateUnitTest extends BaseProductServiceUnitTest {
     @DisplayName("[상품 생성 실패 단위 테스트] OWNER 권한이 없는 사용자가 상품을 생성하면 예외를 발생시킨다.")
     public void createProduct_failureTest_notOwnerRole() {
         // Given
-        User customer = TestData.createUser("customer", Role.CUSTOMER, regionEntity);
+        User customer = TestDataForUnitTest.createUser("customer", Role.CUSTOMER, regionEntity);
 
         ProductForCreate productForCreate = new ProductForCreate(productName, productPrice,
             productDescription, ProductState.SHOW, shop.getUuid(), customer.getUserStringId(),

@@ -6,7 +6,7 @@ import com.sparta.ordermanagement.application.domain.user.User;
 import com.sparta.ordermanagement.application.output.ProductOutputPort;
 import com.sparta.ordermanagement.application.service.ProductService;
 import com.sparta.ordermanagement.application.service.ShopService;
-import com.sparta.ordermanagement.application.service.TestData;
+import com.sparta.ordermanagement.application.service.TestDataForUnitTest;
 import com.sparta.ordermanagement.application.service.UserService;
 import com.sparta.ordermanagement.framework.persistence.entity.region.RegionEntity;
 import com.sparta.ordermanagement.framework.persistence.entity.user.Role;
@@ -27,9 +27,9 @@ public abstract class BaseProductServiceUnitTest {
     @BeforeEach
     void setUp() {
         regionEntity = new RegionEntity();
-        owner = TestData.createUser("owner1", Role.OWNER, regionEntity);
-        shopCategory = TestData.createShopCategory("category-uuid", "치킨");
-        shop = TestData.createShop("shop-uuid", shopCategory, "소현이네 치킨집", owner.getUserStringId());
+        owner = TestDataForUnitTest.createUser("owner1", Role.OWNER, regionEntity);
+        shopCategory = TestDataForUnitTest.createShopCategory("category-uuid", "치킨");
+        shop = TestDataForUnitTest.createShop("shop-uuid", shopCategory, "소현이네 치킨집", owner.getUserStringId());
     }
 
     @InjectMocks

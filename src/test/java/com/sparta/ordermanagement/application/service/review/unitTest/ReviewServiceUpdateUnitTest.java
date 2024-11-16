@@ -6,7 +6,7 @@ import com.sparta.ordermanagement.application.domain.user.User;
 import com.sparta.ordermanagement.application.exception.review.ReviewDeletedException;
 import com.sparta.ordermanagement.application.exception.review.ReviewMismatchReviewerException;
 import com.sparta.ordermanagement.application.exception.review.ReviewUuidInvalidException;
-import com.sparta.ordermanagement.application.service.TestData;
+import com.sparta.ordermanagement.application.service.TestDataForUnitTest;
 import com.sparta.ordermanagement.framework.persistence.entity.user.Role;
 import java.util.Optional;
 import org.junit.jupiter.api.Assertions;
@@ -33,14 +33,14 @@ public class ReviewServiceUpdateUnitTest extends BaseReviewServiceUnitTest {
         rating = 5;
         reviewContent = "정말 맛있네요!";
 
-        existReview = TestData.createReview(reviewUuid, rating, reviewContent, shop, customer);
+        existReview = TestDataForUnitTest.createReview(reviewUuid, rating, reviewContent, shop, customer);
     }
 
     @Test
     @DisplayName("[리뷰 모든 필드 수정 성공 단위 테스트] 리뷰 작성자가 자신이 작성한 리뷰를 수정하면 수정된 리뷰를 반환한다.")
     public void updateAllFieldsReview_successTest() {
         // Given
-        Review expectedReview = TestData.createReviewWithoutTime(existReview.getReviewUuid(), 4,
+        Review expectedReview = TestDataForUnitTest.createReviewWithoutTime(existReview.getReviewUuid(), 4,
             "맛있네요!", shop, customer);
 
         ReviewForUpdate reviewForUpdate = new ReviewForUpdate(expectedReview.getRating(),
@@ -72,7 +72,7 @@ public class ReviewServiceUpdateUnitTest extends BaseReviewServiceUnitTest {
     @DisplayName("[리뷰 일부 필드 수정 성공 단위 테스트] 리뷰 작성자가 자신이 작성한 리뷰의 별점을 수정하면 수정된 리뷰를 반환한다.")
     public void updatePartialReview_successTest() {
         // Given
-        Review expectedReview = TestData.createReviewWithoutTime(existReview.getReviewUuid(), 4,
+        Review expectedReview = TestDataForUnitTest.createReviewWithoutTime(existReview.getReviewUuid(), 4,
             existReview.getContent(), shop, customer);
 
         ReviewForUpdate reviewForUpdate = new ReviewForUpdate(expectedReview.getRating(),
@@ -131,7 +131,7 @@ public class ReviewServiceUpdateUnitTest extends BaseReviewServiceUnitTest {
     @DisplayName("[리뷰 수정 실패 단위 테스트] 삭제된 리뷰 식별자에 대한 리뷰 수정 시 예외처리를 한다.")
     public void updateReview_failureTest_deletedReview() {
         // Given
-        Review deletedReview = TestData.createDeletedReviewWithoutTime(existReview.getReviewUuid(),
+        Review deletedReview = TestDataForUnitTest.createDeletedReviewWithoutTime(existReview.getReviewUuid(),
             existReview.getRating(), existReview.getContent(), shop, customer);
         ReviewForUpdate reviewForUpdate = new ReviewForUpdate(rating, reviewContent, order.getOrderUuid(),
             deletedReview.getReviewUuid(), customer.getUserStringId());
@@ -159,8 +159,8 @@ public class ReviewServiceUpdateUnitTest extends BaseReviewServiceUnitTest {
     @DisplayName("[리뷰 실패 단위 테스트] 리뷰 작성자에게 속하지 않은 리뷰를 수정하려고 하면 예외처리를 한다.")
     public void updateReview_failureTest_notBelongToCustomer() {
         // Given
-        User otherCustomer = TestData.createUser("customer2", Role.CUSTOMER, regionEntity);
-        Review otherReview = TestData.createReviewWithoutTime("other-review-uuid", 5,
+        User otherCustomer = TestDataForUnitTest.createUser("customer2", Role.CUSTOMER, regionEntity);
+        Review otherReview = TestDataForUnitTest.createReviewWithoutTime("other-review-uuid", 5,
             "매우 맛있어요!", shop, otherCustomer);
         ReviewForUpdate reviewForUpdate = new ReviewForUpdate(rating, reviewContent, order.getOrderUuid(),
             otherReview.getReviewUuid(), customer.getUserStringId());

@@ -7,7 +7,7 @@ import com.sparta.ordermanagement.application.domain.user.User;
 import com.sparta.ordermanagement.application.exception.order.OrderDeletedException;
 import com.sparta.ordermanagement.application.exception.order.OrderMismatchReviewerException;
 import com.sparta.ordermanagement.application.exception.order.OrderUuidInvalidException;
-import com.sparta.ordermanagement.application.service.TestData;
+import com.sparta.ordermanagement.application.service.TestDataForUnitTest;
 import com.sparta.ordermanagement.framework.persistence.entity.user.Role;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -37,7 +37,7 @@ public class ReviewServiceCreateUnitTest extends BaseReviewServiceUnitTest {
     @DisplayName("[리뷰 생성 성공 단위 테스트] 주문한 고객이 리뷰 작성에 성공하면 가게 식별자와 리뷰 식별자 및 작성자 아이디를 반환한다.")
     public void createReview_successTest() {
         // Given
-        Review expectedReview = TestData.createReviewWithoutTime(reviewUuid, rating, reviewContent,
+        Review expectedReview = TestDataForUnitTest.createReviewWithoutTime(reviewUuid, rating, reviewContent,
             shop, customer);
 
         ReviewForCreate reviewForCreate = new ReviewForCreate(rating, reviewContent, order.getOrderUuid(),
@@ -92,7 +92,7 @@ public class ReviewServiceCreateUnitTest extends BaseReviewServiceUnitTest {
     @DisplayName("[리뷰 작성 실패 단위 테스트] 삭제된 주문의 식별자로 리뷰 생성 시 예외처리를 한다.")
     public void createReview_failureTest_deletedOrder() {
         // Given
-        Order deletedOrder = TestData.createDeletedOrder("deleted-order-uuid", shop, customer);
+        Order deletedOrder = TestDataForUnitTest.createDeletedOrder("deleted-order-uuid", shop, customer);
         ReviewForCreate reviewForCreate = new ReviewForCreate(rating, reviewContent, deletedOrder.getOrderUuid(),
             customer.getUserStringId());
 
@@ -117,8 +117,8 @@ public class ReviewServiceCreateUnitTest extends BaseReviewServiceUnitTest {
     @DisplayName("[리뷰 실패 단위 테스트] 리뷰 작성자에게 속하지 않은 주문에 대한 리뷰를 작성하려고 할 때 예외처리를 한다.")
     public void createReview_failureTest_orderNotBelongToCustomer() {
         // Given
-        User otherUser = TestData.createUser("otherUser", Role.CUSTOMER, regionEntity);
-        Order otherOrder = TestData.createOrder("other-order-uuid", shop, otherUser);
+        User otherUser = TestDataForUnitTest.createUser("otherUser", Role.CUSTOMER, regionEntity);
+        Order otherOrder = TestDataForUnitTest.createOrder("other-order-uuid", shop, otherUser);
         ReviewForCreate reviewForCreate = new ReviewForCreate(rating, reviewContent, otherOrder.getOrderUuid(),
             customer.getUserStringId());
 

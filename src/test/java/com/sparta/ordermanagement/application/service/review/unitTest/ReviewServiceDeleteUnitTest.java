@@ -2,7 +2,7 @@ package com.sparta.ordermanagement.application.service.review.unitTest;
 
 import com.sparta.ordermanagement.application.domain.review.Review;
 import com.sparta.ordermanagement.application.domain.review.ReviewForDelete;
-import com.sparta.ordermanagement.application.service.TestData;
+import com.sparta.ordermanagement.application.service.TestDataForUnitTest;
 import java.util.Optional;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -28,14 +28,14 @@ public class ReviewServiceDeleteUnitTest extends BaseReviewServiceUnitTest {
         rating = 5;
         reviewContent = "정말 맛있네요!";
 
-        existReview = TestData.createReview(reviewUuid, rating, reviewContent, shop, customer);
+        existReview = TestDataForUnitTest.createReview(reviewUuid, rating, reviewContent, shop, customer);
     }
 
     @Test
     @DisplayName("[리뷰 삭제 성공 단위 테스트] 리뷰 작성자가 자신이 작성한 리뷰를 삭제하면 리뷰가 삭제되었는지 확인한다.")
     public void deleteReview_successTest() {
         // Given
-        Review expectedReview = TestData.createReviewWithoutTime(existReview.getReviewUuid(),
+        Review expectedReview = TestDataForUnitTest.createReviewWithoutTime(existReview.getReviewUuid(),
             existReview.getRating(), existReview.getContent(), shop, customer);
         ReviewForDelete reviewForDelete = new ReviewForDelete(true, order.getOrderUuid(),
             existReview.getReviewUuid(), customer.getUserStringId());

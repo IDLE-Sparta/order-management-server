@@ -13,7 +13,7 @@ import com.sparta.ordermanagement.framework.persistence.entity.region.RegionEnti
 import com.sparta.ordermanagement.framework.persistence.entity.user.Role;
 import java.time.LocalDateTime;
 
-public class TestData {
+public class TestDataForUnitTest {
 
     public static User createUser(String userId, Role role, RegionEntity regionEntity) {
         return new User(null, userId, "qwer1234#", role, regionEntity);

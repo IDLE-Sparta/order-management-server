@@ -2,7 +2,7 @@ package com.sparta.ordermanagement.application.service.product.unitTest;
 
 import com.sparta.ordermanagement.application.domain.product.Product;
 import com.sparta.ordermanagement.application.domain.product.ProductStateForUpdate;
-import com.sparta.ordermanagement.application.service.TestData;
+import com.sparta.ordermanagement.application.service.TestDataForUnitTest;
 import com.sparta.ordermanagement.framework.persistence.entity.product.ProductState;
 import java.util.Optional;
 import org.junit.jupiter.api.Assertions;
@@ -29,7 +29,7 @@ public class ProductServiceStateUpdateUnitTest extends BaseProductServiceUnitTes
         productName = "후라이드";
         productPrice = 10_000;
 
-        existProduct = TestData.createProduct(productUuid, productName, productPrice,
+        existProduct = TestDataForUnitTest.createProduct(productUuid, productName, productPrice,
             shop);
     }
 
@@ -37,7 +37,7 @@ public class ProductServiceStateUpdateUnitTest extends BaseProductServiceUnitTes
     @DisplayName("[상품 상태 수정 성공 단위 테스트] OWNER 권한을 가진 사용자가 상품 상태를 수정하려고 할 때 변경된 상품 상태를 확인한다.")
     public void stateUpdateProduct_successTest() {
         // Given
-        Product expectedProduct = TestData.createHiddenProduct(
+        Product expectedProduct = TestDataForUnitTest.createHiddenProduct(
             existProduct.getProductUuid(), existProduct.getProductName(),
             existProduct.getProductPrice(), shop);
 
