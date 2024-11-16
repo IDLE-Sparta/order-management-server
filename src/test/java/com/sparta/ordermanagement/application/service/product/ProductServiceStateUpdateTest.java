@@ -45,7 +45,7 @@ public class ProductServiceStateUpdateTest extends BaseProductServiceTest {
             shop.getUuid(), existProduct.getProductUuid(), owner.getUserStringId(),
             owner.getRole());
 
-        Mockito.when(productOutputPort.findByProductUuid(existProduct.getProductUuid()))
+        Mockito.when(productOutputPort.findByProductUuid(productStateForUpdate.productUuid()))
             .thenReturn(Optional.of(existProduct));
         Mockito.when(productOutputPort.updateProductState(productStateForUpdate)).thenReturn(expectedProduct);
 

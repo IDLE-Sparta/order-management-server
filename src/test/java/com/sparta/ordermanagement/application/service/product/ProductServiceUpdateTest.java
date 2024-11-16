@@ -55,7 +55,7 @@ public class ProductServiceUpdateTest extends BaseProductServiceTest {
             owner.getRole());
 
         Mockito.when(
-                productOutputPort.findByProductUuid(existProduct.getProductUuid()))
+                productOutputPort.findByProductUuid(productForUpdate.productUuid()))
             .thenReturn(Optional.of(existProduct));
         Mockito.when(productOutputPort.updateProduct(productForUpdate))
             .thenReturn(updatedAllProduct);
@@ -84,7 +84,7 @@ public class ProductServiceUpdateTest extends BaseProductServiceTest {
             owner.getRole());
 
         Mockito.when(
-                productOutputPort.findByProductUuid(existProduct.getProductUuid()))
+                productOutputPort.findByProductUuid(productForUpdate.productUuid()))
             .thenReturn(Optional.of(existProduct));
         Mockito.when(productOutputPort.updateProduct(productForUpdate))
             .thenReturn(updatedPartialProduct);

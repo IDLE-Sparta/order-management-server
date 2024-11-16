@@ -42,7 +42,7 @@ public class ProductServiceDeleteTest extends BaseProductServiceTest {
         ProductForDelete productForDelete = new ProductForDelete(true, shop.getUuid(),
             existProduct.getProductUuid(), owner.getUserStringId(), owner.getRole());
 
-        Mockito.when(productOutputPort.findByProductUuid(existProduct.getProductUuid()))
+        Mockito.when(productOutputPort.findByProductUuid(productForDelete.productUuid()))
             .thenReturn(Optional.of(existProduct));
         Mockito.when(productOutputPort.deleteProduct(productForDelete)).thenReturn(expectedProduct);
 
