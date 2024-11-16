@@ -26,9 +26,9 @@ public abstract class BaseProductServiceTest {
     @BeforeEach
     void setUp() {
         regionEntity = new RegionEntity();
-        shopCategory = TestDataForProduct.createShopCategory("category-uuid", "치킨");
-        shop = TestDataForProduct.createShop("shop-uuid", shopCategory, "소현이네 치킨집");
         owner = TestDataForProduct.createUser("owner1", Role.OWNER, regionEntity);
+        shopCategory = TestDataForProduct.createShopCategory("category-uuid", "치킨");
+        shop = TestDataForProduct.createShop("shop-uuid", shopCategory, "소현이네 치킨집", owner.getUserStringId());
     }
 
     @InjectMocks

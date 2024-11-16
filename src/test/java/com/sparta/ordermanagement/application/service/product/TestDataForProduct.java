@@ -18,8 +18,8 @@ public class TestDataForProduct {
         return new ShopCategory(categoryUuid, categoryName);
     }
 
-    public static Shop createShop(String shopUuid, ShopCategory shopCategory, String shopName) {
-        return new Shop(null, shopUuid, shopCategory, shopName, 4.5);
+    public static Shop createShop(String shopUuid, ShopCategory shopCategory, String shopName, String ownerStringId) {
+        return new Shop(null, shopUuid, shopCategory, shopName, 4.5, false, ownerStringId);
     }
 
     public static Product createProduct(String productUuid, String productName, int price, Shop shop) {

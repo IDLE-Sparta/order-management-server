@@ -143,7 +143,7 @@ public class ProductServiceUpdateTest extends BaseProductServiceTest {
     public void updateProduct_failureTest_notShopOwner() {
         // Given
         User otherOwner = TestDataForProduct.createUser("owner2", Role.OWNER, regionEntity);
-        Shop otherShop = TestDataForProduct.createShop("other-shop-uuid", shopCategory, "소현이네 bbq");
+        Shop otherShop = TestDataForProduct.createShop("other-shop-uuid", shopCategory, "소현이네 bbq", otherOwner.getUserStringId());
         Product product = TestDataForProduct.createProduct("other-product-uuid", "황금올리브", 23_000, otherShop);
 
         ProductForUpdate productForUpdate = new ProductForUpdate(productName, price,
