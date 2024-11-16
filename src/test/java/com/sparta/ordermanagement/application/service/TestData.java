@@ -60,4 +60,8 @@ public class TestData {
     public static Review createReviewWithoutTime(String reviewUuid, Integer rating, String content, Shop shop, User user) {
         return new Review(null, reviewUuid, rating, content, shop, user, false);
     }
+
+    public static Review createDeletedReviewWithoutTime(String reviewUuid, Integer rating, String content, Shop shop, User user) {
+        return new Review(null, reviewUuid, rating, content, shop, user, false);
+    }
 }
