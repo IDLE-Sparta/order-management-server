@@ -2,7 +2,6 @@ package com.sparta.ordermanagement.application.service.product;
 
 import com.sparta.ordermanagement.application.domain.product.Product;
 import com.sparta.ordermanagement.application.domain.product.ProductForUpdate;
-import com.sparta.ordermanagement.framework.persistence.entity.user.Role;
 import java.util.Optional;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -35,7 +34,7 @@ public class ProductServiceUpdateTest extends BaseProductServiceTest {
     }
 
     @Test
-    @DisplayName("[상품 수정 성공 테스트] OWNER 권한을 가지고 있는 사용자가 삭제되지 않는 가게의 삭제되지 않은 상품의 내용을 수정할 경우 상품 식별자와 가게 식별자를 반환한다.")
+    @DisplayName("[상품 수정 성공 테스트] OWNER 권한으로 상품 모든 필드를 수정하면 수정된 상품 반환한다.")
     public void updateAllFieldsProduct_successTest() {
         // Given
         ProductForUpdate productForUpdate = new ProductForUpdate(productName, price,
@@ -51,20 +50,13 @@ public class ProductServiceUpdateTest extends BaseProductServiceTest {
         Product updatedProduct = productService.updateProduct(productForUpdate);
 
         // Then
-        Assertions.assertAll(
-            () -> Assertions.assertNotNull(updatedProduct),
-            () -> Assertions.assertEquals(updatedProduct.getProductUuid(), updatedAllProduct.getProductUuid()),
-            () -> Assertions.assertEquals(updatedProduct.getShop().getUuid(), updatedAllProduct.getShop().getUuid()),
-            () -> Assertions.assertEquals(updatedProduct.getProductName(), updatedAllProduct.getProductName()),
-            () -> Assertions.assertEquals(updatedProduct.getProductPrice(), updatedAllProduct.getProductPrice()),
-            () -> Assertions.assertEquals(updatedProduct.getProductDescription(), updatedAllProduct.getProductDescription())
-        );
+        assertProductFields(updatedAllProduct, updatedProduct);
 
         Mockito.verify(productOutputPort, Mockito.times(1)).updateProduct(ArgumentMatchers.any(ProductForUpdate.class));
     }
 
     @Test
-    @DisplayName("[상품 일부 수정 성공 테스트] OWNER 권한을 가지고 있는 사용자가 삭제되지 않는 가게의 삭제되지 않은 상품 내용의 일부를 수정할 경우 상품 식별자와 가게 식별자를 반환한다.")
+    @DisplayName("[상품 일부 수정 성공 테스트] OWNER 권한으로 상품 일부 필드를 수정하면 수정된 상품 반환한다.")
     public void updatePartialFieldsProduct_successTest() {
         // Given
         ProductForUpdate productForUpdate = new ProductForUpdate(productName, 10_000,
@@ -76,19 +68,25 @@ public class ProductServiceUpdateTest extends BaseProductServiceTest {
         Mockito.when(productOutputPort.updateProduct(ArgumentMatchers.any(ProductForUpdate.class)))
             .thenReturn(updatedPartialProduct);
 
-        Product updatedProduct = productService.updateProduct(productForUpdate);
 
         // When
-        Assertions.assertAll(
-            () -> Assertions.assertNotNull(updatedPartialProduct),
-            () -> Assertions.assertEquals(updatedProduct.getProductUuid(), updatedPartialProduct.getProductUuid()),
-            () -> Assertions.assertEquals(updatedProduct.getShop().getUuid(), updatedPartialProduct.getShop().getUuid()),
-            () -> Assertions.assertEquals(updatedProduct.getProductName(), updatedPartialProduct.getProductName()),
-            () -> Assertions.assertEquals(updatedProduct.getProductPrice(), updatedPartialProduct.getProductPrice()),
-            () -> Assertions.assertEquals(updatedProduct.getProductDescription(), updatedPartialProduct.getProductDescription())
-        );
+        Product updatedProduct = productService.updateProduct(productForUpdate);
 
         // Then
+        assertProductFields(updatedPartialProduct, updatedProduct);
+
         Mockito.verify(productOutputPort, Mockito.times(1)).updateProduct(ArgumentMatchers.any(ProductForUpdate.class));
+    }
+
+    private void assertProductFields(Product expectedProduct, Product actualProduct) {
+        Assertions.assertAll(
+            "Product 필드 검증",
+            () -> Assertions.assertNotNull(actualProduct, "실제 Product가 null이 아니어야 합니다."),
+            () -> Assertions.assertEquals(expectedProduct.getProductUuid(), actualProduct.getProductUuid(), "Product 식별자가 일치하지 않습니다."),
+            () -> Assertions.assertEquals(expectedProduct.getShop().getUuid(), actualProduct.getShop().getUuid(), "Shop 식별자가 일치하지 않습니다."),
+            () -> Assertions.assertEquals(expectedProduct.getProductName(), actualProduct.getProductName(), "Product 이름이 일치하지 않습니다."),
+            () -> Assertions.assertEquals(expectedProduct.getProductPrice(), actualProduct.getProductPrice(), "Product 가격이 일치하지 않습니다."),
+            () -> Assertions.assertEquals(expectedProduct.getProductDescription(), actualProduct.getProductDescription(), "Product 설명이 일치하지 않습니다.")
+        );
     }
 }
