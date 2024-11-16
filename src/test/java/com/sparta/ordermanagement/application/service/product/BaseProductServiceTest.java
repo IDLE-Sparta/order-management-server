@@ -24,7 +24,8 @@ public abstract class BaseProductServiceTest {
 
     protected String testShopCategoryUuid;
     protected String testShopUuid;
-    protected String testProductUuid;
+    protected String testExistProductUuid;
+    protected String testExpectedProductUuid;
 
     protected String testInvalidShopUuid;
 
@@ -43,7 +44,8 @@ public abstract class BaseProductServiceTest {
     void setUp() {
         testShopCategoryUuid = "4c4f79f2-7335-4acd-9eaa-f2f8f3db506e";
         testShopUuid = "0e9518ff-13ec-447d-bd08-e3915841cd49";
-        testProductUuid = "7feaff71-613f-4c67-b25c-9210c2c9f429";
+        testExistProductUuid = "0e9518ff-13ec-447d-bd08-e3915841cd49";
+        testExpectedProductUuid = "7feaff71-613f-4c67-b25c-9210c2c9f429";
 
         testInvalidShopUuid = "invalid-shop-uuid";
 
@@ -54,15 +56,11 @@ public abstract class BaseProductServiceTest {
 
         testShopCategory = new ShopCategory(testShopCategoryUuid, "치킨");
         testShop = new Shop(1L, testShopUuid, testShopCategory, "소현이네 치킨집", 4.0);
-        testOwnerUser = new User(1L, testOwnerUserStringId, "qwer1234#", Role.OWNER, regionEntity);
-        testCustomerUser = new User(2L, testCustomerUserStringId, "qwer1234#", Role.CUSTOMER,
-            regionEntity);
+        testOwnerUser = createUser(1L, testOwnerUserStringId, Role.OWNER);
+        testCustomerUser = createUser(2L, testCustomerUserStringId, Role.CUSTOMER);
 
-        existProduct = new Product(1L, testProductUuid, "양념치킨", 10_000, "맛있는 양념치킨",
-            ProductState.SHOW, testShop, false);
-
-        expectedProduct = new Product(2L, testProductUuid, "후라이드", 20_000, "맛있는 후라이드",
-            ProductState.SHOW, testShop, false);
+        existProduct = createProduct(1L, testExistProductUuid, "양념치킨", 10_000);
+        expectedProduct = createProduct(2L, testExistProductUuid, "후라이드", 10_000);
     }
 
     @InjectMocks
@@ -76,4 +74,13 @@ public abstract class BaseProductServiceTest {
 
     @Mock
     protected ProductOutputPort productOutputPort;
+
+    private User createUser(Long id, String userStringId, Role role) {
+        return new User(id, userStringId, "qwer1234#", role, regionEntity);
+    }
+
+    private Product createProduct(Long id, String productUuid, String productName, int price) {
+        return new Product(id, productUuid, productName, price, "맛있는 " + productName,
+            ProductState.SHOW, testShop, false);
+    }
 }
