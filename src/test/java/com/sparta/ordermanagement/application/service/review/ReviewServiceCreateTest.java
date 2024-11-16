@@ -1,9 +1,15 @@
 package com.sparta.ordermanagement.application.service.review;
 
+import com.sparta.ordermanagement.application.domain.order.Order;
 import com.sparta.ordermanagement.application.domain.review.Review;
 import com.sparta.ordermanagement.application.domain.review.ReviewForCreate;
+import com.sparta.ordermanagement.application.domain.shop.Shop;
+import com.sparta.ordermanagement.application.domain.user.User;
+import com.sparta.ordermanagement.application.exception.order.OrderDeletedException;
+import com.sparta.ordermanagement.application.exception.order.OrderMismatchReviewerException;
 import com.sparta.ordermanagement.application.exception.order.OrderUuidInvalidException;
 import com.sparta.ordermanagement.application.service.TestData;
+import com.sparta.ordermanagement.framework.persistence.entity.user.Role;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -68,7 +74,6 @@ public class ReviewServiceCreateTest extends BaseReviewServiceTest {
     public void createReview_failureTest_invalidOrderUuid() {
         // Given
         String invalidOrderUuid = "invalid-order-uuid";
-
         ReviewForCreate reviewForCreate = new ReviewForCreate(rating, reviewContent, invalidOrderUuid, customer.getUserStringId());
 
         Mockito.when(orderService.validateOrderUuidAndGetNotDeletedOrder(ArgumentMatchers.eq(invalidOrderUuid)))
@@ -86,5 +91,59 @@ public class ReviewServiceCreateTest extends BaseReviewServiceTest {
         );
 
         Mockito.verifyNoInteractions(shopService, reviewOutputPort);
+    }
+
+    @Test
+    @DisplayName("[리뷰 작성 실패 테스트] 삭제된 주문의 식별자로 리뷰 생성 시 예외처리를 한다.")
+    public void createReview_failureTest_deletedOrder() {
+        // Given
+        Order deletedOrder = TestData.createDeletedOrder("deleted-order-uuid", shop, customer);
+        ReviewForCreate reviewForCreate = new ReviewForCreate(rating, reviewContent, deletedOrder.getOrderUuid(),
+            customer.getUserStringId());
+
+        Mockito.when(orderService.validateOrderUuidAndGetNotDeletedOrder(deletedOrder.getOrderUuid()))
+            .thenThrow(new OrderDeletedException(deletedOrder.getOrderUuid()));
+
+        // When & Then
+        OrderDeletedException exception = Assertions.assertThrows(
+            OrderDeletedException.class,
+            () -> reviewService.createReview(reviewForCreate)
+        );
+
+        Assertions.assertEquals(
+            String.format("삭제된 주문 식별자 입니다. : %s", deletedOrder.getOrderUuid()),
+            exception.getMessage()
+        );
+
+        Mockito.verifyNoInteractions(shopService, reviewOutputPort);
+    }
+
+    @Test
+    @DisplayName("[리뷰 실패 테스트] 리뷰 작성자에게 속하지 않은 주문에 대한 리뷰를 작성하려고 할 때 예외처리를 한다.")
+    public void createReview_failureTest_orderNotBelongToCustomer() {
+        // Given
+        User otherUser = TestData.createUser("otherUser", Role.CUSTOMER, regionEntity);
+        Order otherOrder = TestData.createOrder("other-order-uuid", shop, otherUser);
+        ReviewForCreate reviewForCreate = new ReviewForCreate(rating, reviewContent, otherOrder.getOrderUuid(),
+            customer.getUserStringId());
+
+        Mockito.when(orderService.validateOrderUuidAndGetNotDeletedOrder(ArgumentMatchers.eq(otherOrder.getOrderUuid())))
+            .thenReturn(otherOrder);
+        Mockito.doThrow(new OrderMismatchReviewerException(customer.getUserStringId()))
+            .when(orderService)
+            .validateOrderBelongToUser(otherOrder, customer.getUserStringId());
+
+        // When & Then
+        OrderMismatchReviewerException exception = Assertions.assertThrows(
+            OrderMismatchReviewerException.class,
+            () -> reviewService.createReview(reviewForCreate)
+        );
+
+        Assertions.assertEquals(
+            String.format("주문자 정보가 일치하지 않습니다.: %s", customer.getUserStringId()),
+            exception.getMessage()
+        );
+
+        Mockito.verifyNoInteractions(reviewOutputPort);
     }
 }

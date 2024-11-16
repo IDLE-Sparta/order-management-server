@@ -47,6 +47,11 @@ public class TestData {
             "수저 포크 필요 없어요." ,shop.getUuid(), shop.getShopName(), customer.getUserStringId(), LocalDateTime.now(), false);
     }
 
+    public static Order createDeletedOrder(String orderUuid, Shop shop, User customer) {
+        return new Order(orderUuid, OrderState.PENDING, OrderType.ONLINE, "서울시 강남구 스파르타동",
+            "수저 포크 필요 없어요." ,shop.getUuid(), shop.getShopName(), customer.getUserStringId(), LocalDateTime.now(), true);
+    }
+
     public static Review createReview(String reviewUuid, Integer rating, String content, Shop shop, User user) {
         return new Review(null, reviewUuid, rating, content, shop, user, false, LocalDateTime.now(),
             user.getUserStringId(), LocalDateTime.now(), user.getUserStringId());
