@@ -24,6 +24,7 @@ class ProductServiceCreateTest extends BaseProductServiceTest{
 
     @BeforeEach
     void setUp() {
+        super.setUp();
         productName = "후라이드";
         productPrice = 20_000;
         productDescription = "맛있는 후라이드";
