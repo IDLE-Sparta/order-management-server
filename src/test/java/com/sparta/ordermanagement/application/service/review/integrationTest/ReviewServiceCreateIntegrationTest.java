@@ -23,8 +23,8 @@ public class ReviewServiceCreateIntegrationTest extends BaseReviewServiceIntegra
 
         Assertions.assertAll(
             () -> Assertions.assertNotNull(review),
-            () -> Assertions.assertEquals(5, review.getRating()),
-            () -> Assertions.assertEquals("정말 맛있어요!", review.getContent())
+            () -> Assertions.assertEquals(reviewForCreate.rating(), review.getRating()),
+            () -> Assertions.assertEquals(reviewForCreate.content(), review.getContent())
         );
     }
 

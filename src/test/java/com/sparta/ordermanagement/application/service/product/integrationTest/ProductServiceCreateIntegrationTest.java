@@ -27,11 +27,11 @@ public class ProductServiceCreateIntegrationTest extends BaseProductServiceInteg
 
         Assertions.assertAll(
             () -> Assertions.assertNotNull(product),
-            () -> Assertions.assertEquals("후라이드", product.getProductName()),
-            () -> Assertions.assertEquals(10_000, product.getProductPrice()),
-            () -> Assertions.assertEquals("맛있는 후라이드", product.getProductDescription()),
-            () -> Assertions.assertEquals(ProductState.SHOW, product.getProductState()),
-            () -> Assertions.assertEquals(shopEntity.getShopUuid(), product.getShop().getUuid())
+            () -> Assertions.assertEquals(productForCreate.productName(), product.getProductName()),
+            () -> Assertions.assertEquals(productForCreate.productPrice(), product.getProductPrice()),
+            () -> Assertions.assertEquals(productForCreate.productDescription(), product.getProductDescription()),
+            () -> Assertions.assertEquals(productForCreate.productState(), product.getProductState()),
+            () -> Assertions.assertEquals(productForCreate.shopUuid(), product.getShop().getUuid())
         );
     }
 

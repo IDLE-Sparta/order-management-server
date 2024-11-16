@@ -26,9 +26,9 @@ public class ProductServiceUpdateIntegrationTest extends BaseProductServiceInteg
 
         Assertions.assertAll(
             () -> Assertions.assertNotNull(updatedProduct),
-            () -> Assertions.assertEquals("양념치킨", updatedProduct.getProductName()),
-            () -> Assertions.assertEquals(15_000, updatedProduct.getProductPrice()),
-            () -> Assertions.assertEquals("맛있는 양념치킨", updatedProduct.getProductDescription())
+            () -> Assertions.assertEquals(productForUpdate.productName(), updatedProduct.getProductName()),
+            () -> Assertions.assertEquals(productForUpdate.productPrice(), updatedProduct.getProductPrice()),
+            () -> Assertions.assertEquals(productForUpdate.productDescription(), updatedProduct.getProductDescription())
         );
     }
 
