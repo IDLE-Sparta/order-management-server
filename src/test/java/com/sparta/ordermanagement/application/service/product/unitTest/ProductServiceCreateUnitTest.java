@@ -18,7 +18,7 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
-class ProductServiceCreateTest extends BaseProductServiceTest {
+class ProductServiceCreateUnitTest extends BaseProductServiceUnitTest {
 
     private String productUuid;
     private String productName;
@@ -35,7 +35,7 @@ class ProductServiceCreateTest extends BaseProductServiceTest {
     }
 
     @Test
-    @DisplayName("[상품 생성 성공 테스트] OWNER의 권한을 가지고 있는 사용자가 삭제되지 않는 가게의 상품을 생성할 경우 상품 식별자와 가게 식별자를 반환한다.")
+    @DisplayName("[상품 생성 성공 단위 테스트] OWNER의 권한을 가지고 있는 사용자가 삭제되지 않는 가게의 상품을 생성할 경우 상품 식별자와 가게 식별자를 반환한다.")
     public void createProduct_successTest() {
         // Given
         Product expectedProduct = TestData.createProduct(productUuid, productName,
@@ -64,7 +64,7 @@ class ProductServiceCreateTest extends BaseProductServiceTest {
     }
 
     @Test
-    @DisplayName("[상품 생성 실패 테스트] OWNER 권한이 없는 사용자가 상품을 생성하면 예외를 발생시킨다.")
+    @DisplayName("[상품 생성 실패 단위 테스트] OWNER 권한이 없는 사용자가 상품을 생성하면 예외를 발생시킨다.")
     public void createProduct_failureTest_notOwnerRole() {
         // Given
         User customer = TestData.createUser("customer", Role.CUSTOMER, regionEntity);
@@ -91,7 +91,7 @@ class ProductServiceCreateTest extends BaseProductServiceTest {
     }
 
     @Test
-    @DisplayName("[상품 생성 실패 테스트] OWNER 권한의 사용자가 유효하지 않는 가게의 식별자로 상품을 생성하려고 하는 경우 예외를 발생시킨다.")
+    @DisplayName("[상품 생성 실패 단위 테스트] OWNER 권한의 사용자가 유효하지 않는 가게의 식별자로 상품을 생성하려고 하는 경우 예외를 발생시킨다.")
     public void createProduct_failureTest_ownerRole_invalidShopUuid() {
         // Given
         String invalidShopUuid = "invalid-shop-uuid";

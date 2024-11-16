@@ -18,7 +18,7 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
-public class ReviewServiceUpdateTest extends BaseReviewServiceTest {
+public class ReviewServiceUpdateUnitTest extends BaseReviewServiceUnitTest {
 
     private String reviewUuid;
     private Integer rating;
@@ -37,7 +37,7 @@ public class ReviewServiceUpdateTest extends BaseReviewServiceTest {
     }
 
     @Test
-    @DisplayName("[리뷰 모든 필드 수정 성공 테스트] 리뷰 작성자가 자신이 작성한 리뷰를 수정하면 수정된 리뷰를 반환한다.")
+    @DisplayName("[리뷰 모든 필드 수정 성공 단위 테스트] 리뷰 작성자가 자신이 작성한 리뷰를 수정하면 수정된 리뷰를 반환한다.")
     public void updateAllFieldsReview_successTest() {
         // Given
         Review expectedReview = TestData.createReviewWithoutTime(existReview.getReviewUuid(), 4,
@@ -69,7 +69,7 @@ public class ReviewServiceUpdateTest extends BaseReviewServiceTest {
     }
 
     @Test
-    @DisplayName("[리뷰 일부 필드 수정 성공 테스트] 리뷰 작성자가 자신이 작성한 리뷰의 별점을 수정하면 수정된 리뷰를 반환한다.")
+    @DisplayName("[리뷰 일부 필드 수정 성공 단위 테스트] 리뷰 작성자가 자신이 작성한 리뷰의 별점을 수정하면 수정된 리뷰를 반환한다.")
     public void updatePartialReview_successTest() {
         // Given
         Review expectedReview = TestData.createReviewWithoutTime(existReview.getReviewUuid(), 4,
@@ -100,7 +100,7 @@ public class ReviewServiceUpdateTest extends BaseReviewServiceTest {
 
 
     @Test
-    @DisplayName("[리뷰 수정 실패 테스트] 유효하지 않는 리뷰 식별자에 대한 리뷰 수정 시 예외처리를 한다.")
+    @DisplayName("[리뷰 수정 실패 단위 테스트] 유효하지 않는 리뷰 식별자에 대한 리뷰 수정 시 예외처리를 한다.")
     public void updateReview_failureTest_invalidReviewUuid() {
         // Given
         String invalidReviewUuid = "invalid-review-uuid";
@@ -128,7 +128,7 @@ public class ReviewServiceUpdateTest extends BaseReviewServiceTest {
     }
 
     @Test
-    @DisplayName("[리뷰 수정 실패 테스트] 삭제된 리뷰 식별자에 대한 리뷰 수정 시 예외처리를 한다.")
+    @DisplayName("[리뷰 수정 실패 단위 테스트] 삭제된 리뷰 식별자에 대한 리뷰 수정 시 예외처리를 한다.")
     public void updateReview_failureTest_deletedReview() {
         // Given
         Review deletedReview = TestData.createDeletedReviewWithoutTime(existReview.getReviewUuid(),
@@ -156,7 +156,7 @@ public class ReviewServiceUpdateTest extends BaseReviewServiceTest {
     }
 
     @Test
-    @DisplayName("[리뷰 실패 테스트] 리뷰 작성자에게 속하지 않은 리뷰를 수정하려고 하면 예외처리를 한다.")
+    @DisplayName("[리뷰 실패 단위 테스트] 리뷰 작성자에게 속하지 않은 리뷰를 수정하려고 하면 예외처리를 한다.")
     public void updateReview_failureTest_notBelongToCustomer() {
         // Given
         User otherCustomer = TestData.createUser("customer2", Role.CUSTOMER, regionEntity);

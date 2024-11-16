@@ -13,7 +13,7 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
-public class ProductServiceDeleteTest extends BaseProductServiceTest {
+public class ProductServiceDeleteUnitTest extends BaseProductServiceUnitTest {
 
     private String productUuid;
     private String productName;
@@ -33,7 +33,7 @@ public class ProductServiceDeleteTest extends BaseProductServiceTest {
     }
 
     @Test
-    @DisplayName("[상품 삭제 성공 테스트] OWNER 권한을 가진 사용자가 상품을 삭제하려고 할 때 삭제된 상품인지를 확인한다.")
+    @DisplayName("[상품 삭제 성공 단위 테스트] OWNER 권한을 가진 사용자가 상품을 삭제하려고 할 때 삭제된 상품인지를 확인한다.")
     public void deleteProduct_successTest() {
         // Given
         Product expectedProduct = TestData.createDeleteProduct(productUuid, productName,

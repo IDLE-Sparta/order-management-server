@@ -20,7 +20,7 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
-public class ProductServiceUpdateTest extends BaseProductServiceTest {
+public class ProductServiceUpdateUnitTest extends BaseProductServiceUnitTest {
 
     private String productUuid;
     private String productName;
@@ -41,7 +41,7 @@ public class ProductServiceUpdateTest extends BaseProductServiceTest {
     }
 
     @Test
-    @DisplayName("[상품 수정 성공 테스트] OWNER 권한으로 상품 모든 필드를 수정하면 수정된 상품 반환한다.")
+    @DisplayName("[상품 수정 성공 단위 테스트] OWNER 권한으로 상품 모든 필드를 수정하면 수정된 상품 반환한다.")
     public void updateAllFieldsProduct_successTest() {
         // Given
         String updateProductName = "간장치킨";
@@ -71,7 +71,7 @@ public class ProductServiceUpdateTest extends BaseProductServiceTest {
     }
 
     @Test
-    @DisplayName("[상품 일부 수정 성공 테스트] OWNER 권한으로 상품 일부 필드를 수정하면 수정된 상품 반환한다.")
+    @DisplayName("[상품 일부 수정 성공 단위 테스트] OWNER 권한으로 상품 일부 필드를 수정하면 수정된 상품 반환한다.")
     public void updatePartialFieldsProduct_successTest() {
         // Given
         Integer updatePrice = 19_000;
@@ -117,7 +117,7 @@ public class ProductServiceUpdateTest extends BaseProductServiceTest {
     }
 
     @Test
-    @DisplayName("[상품 수정 실패 테스트] OWNER 권한이 없는 사용자가 상품 필드를 수정하면 예외를 발생시킨다.")
+    @DisplayName("[상품 수정 실패 단위 테스트] OWNER 권한이 없는 사용자가 상품 필드를 수정하면 예외를 발생시킨다.")
     public void updateProduct_failureTest_notOwnerRole() {
         // Given
         User customer = TestData.createUser("customer", Role.CUSTOMER, regionEntity);
@@ -146,7 +146,7 @@ public class ProductServiceUpdateTest extends BaseProductServiceTest {
     }
 
     @Test
-    @DisplayName("[상품 수정 실패 테스트] OWNER 권한을 가진 사용자가 자신이 소유한 가게가 아닌 상품 수정할 경우 예외를 발생시킨다.")
+    @DisplayName("[상품 수정 실패 단위 테스트] OWNER 권한을 가진 사용자가 자신이 소유한 가게가 아닌 상품 수정할 경우 예외를 발생시킨다.")
     public void updateProduct_failureTest_notShopOwner() {
         // Given
         User otherOwner = TestData.createUser("owner2", Role.OWNER, regionEntity);
@@ -179,7 +179,7 @@ public class ProductServiceUpdateTest extends BaseProductServiceTest {
     }
 
     @Test
-    @DisplayName("[상품 수정 실패 테스트] OWNER 권한을 가진 사용자가 자신의 가게에 속한 삭제된 상품을 수정하려고 할 때 예외를 발생시킨다.")
+    @DisplayName("[상품 수정 실패 단위 테스트] OWNER 권한을 가진 사용자가 자신의 가게에 속한 삭제된 상품을 수정하려고 할 때 예외를 발생시킨다.")
     public void updateProduct_failureTest_deletedProduct() {
         // Given
         Product product = TestData.createDeleteProduct(existProduct.getProductUuid(),

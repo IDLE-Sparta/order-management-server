@@ -14,7 +14,7 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
-public class ProductServiceStateUpdateTest extends BaseProductServiceTest {
+public class ProductServiceStateUpdateUnitTest extends BaseProductServiceUnitTest {
 
     private String productUuid;
     private String productName;
@@ -34,7 +34,7 @@ public class ProductServiceStateUpdateTest extends BaseProductServiceTest {
     }
 
     @Test
-    @DisplayName("[상품 상태 수정 성공 테스트] OWNER 권한을 가진 사용자가 상품 상태를 수정하려고 할 때 변경된 상품 상태를 확인한다.")
+    @DisplayName("[상품 상태 수정 성공 단위 테스트] OWNER 권한을 가진 사용자가 상품 상태를 수정하려고 할 때 변경된 상품 상태를 확인한다.")
     public void stateUpdateProduct_successTest() {
         // Given
         Product expectedProduct = TestData.createHiddenProduct(

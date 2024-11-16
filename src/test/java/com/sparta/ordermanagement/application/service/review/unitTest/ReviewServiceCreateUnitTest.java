@@ -18,7 +18,7 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
-public class ReviewServiceCreateTest extends BaseReviewServiceTest {
+public class ReviewServiceCreateUnitTest extends BaseReviewServiceUnitTest {
 
     private String reviewUuid;
     private Integer rating;
@@ -34,7 +34,7 @@ public class ReviewServiceCreateTest extends BaseReviewServiceTest {
 
 
     @Test
-    @DisplayName("[리뷰 생성 성공 테스트] 주문한 고객이 리뷰 작성에 성공하면 가게 식별자와 리뷰 식별자 및 작성자 아이디를 반환한다.")
+    @DisplayName("[리뷰 생성 성공 단위 테스트] 주문한 고객이 리뷰 작성에 성공하면 가게 식별자와 리뷰 식별자 및 작성자 아이디를 반환한다.")
     public void createReview_successTest() {
         // Given
         Review expectedReview = TestData.createReviewWithoutTime(reviewUuid, rating, reviewContent,
@@ -65,7 +65,7 @@ public class ReviewServiceCreateTest extends BaseReviewServiceTest {
     }
 
     @Test
-    @DisplayName("[리뷰 작성 실패 테스트] 유효하지 않는 주문 식별자로 리뷰 생성 시 예외처리를 한다.")
+    @DisplayName("[리뷰 작성 실패 단위 테스트] 유효하지 않는 주문 식별자로 리뷰 생성 시 예외처리를 한다.")
     public void createReview_failureTest_invalidOrderUuid() {
         // Given
         String invalidOrderUuid = "invalid-order-uuid";
@@ -89,7 +89,7 @@ public class ReviewServiceCreateTest extends BaseReviewServiceTest {
     }
 
     @Test
-    @DisplayName("[리뷰 작성 실패 테스트] 삭제된 주문의 식별자로 리뷰 생성 시 예외처리를 한다.")
+    @DisplayName("[리뷰 작성 실패 단위 테스트] 삭제된 주문의 식별자로 리뷰 생성 시 예외처리를 한다.")
     public void createReview_failureTest_deletedOrder() {
         // Given
         Order deletedOrder = TestData.createDeletedOrder("deleted-order-uuid", shop, customer);
@@ -114,7 +114,7 @@ public class ReviewServiceCreateTest extends BaseReviewServiceTest {
     }
 
     @Test
-    @DisplayName("[리뷰 실패 테스트] 리뷰 작성자에게 속하지 않은 주문에 대한 리뷰를 작성하려고 할 때 예외처리를 한다.")
+    @DisplayName("[리뷰 실패 단위 테스트] 리뷰 작성자에게 속하지 않은 주문에 대한 리뷰를 작성하려고 할 때 예외처리를 한다.")
     public void createReview_failureTest_orderNotBelongToCustomer() {
         // Given
         User otherUser = TestData.createUser("otherUser", Role.CUSTOMER, regionEntity);

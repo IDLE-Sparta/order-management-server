@@ -13,7 +13,7 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
-public class ReviewServiceDeleteTest extends BaseReviewServiceTest {
+public class ReviewServiceDeleteUnitTest extends BaseReviewServiceUnitTest {
 
     private String reviewUuid;
     private Integer rating;
@@ -32,7 +32,7 @@ public class ReviewServiceDeleteTest extends BaseReviewServiceTest {
     }
 
     @Test
-    @DisplayName("[리뷰 삭제 성공 테스트] 리뷰 작성자가 자신이 작성한 리뷰를 삭제하면 리뷰가 삭제되었는지 확인한다.")
+    @DisplayName("[리뷰 삭제 성공 단위 테스트] 리뷰 작성자가 자신이 작성한 리뷰를 삭제하면 리뷰가 삭제되었는지 확인한다.")
     public void deleteReview_successTest() {
         // Given
         Review expectedReview = TestData.createReviewWithoutTime(existReview.getReviewUuid(),
