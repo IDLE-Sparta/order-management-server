@@ -54,7 +54,7 @@ public class ProductServiceCreateIntegrationTest extends BaseProductServiceInteg
         );
 
         Assertions.assertEquals(
-            String.format("접근 권한이 없습니다.: %s", customerEntity.getRole()),
+            String.format("접근 권한이 없습니다.: %s", productForCreate.userRole()),
             exception.getMessage()
         );
     }

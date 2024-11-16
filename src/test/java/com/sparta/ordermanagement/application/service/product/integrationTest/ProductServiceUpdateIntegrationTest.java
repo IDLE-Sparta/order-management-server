@@ -52,7 +52,7 @@ public class ProductServiceUpdateIntegrationTest extends BaseProductServiceInteg
         );
 
         Assertions.assertEquals(
-            String.format("유효하지 않은 상품 식별자 입니다: %s", invalidProductUuid),
+            String.format("유효하지 않은 상품 식별자 입니다: %s", productForUpdate.productUuid()),
             exception.getMessage()
         );
     }
