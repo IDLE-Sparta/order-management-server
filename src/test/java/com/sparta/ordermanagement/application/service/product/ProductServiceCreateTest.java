@@ -56,7 +56,7 @@ class ProductServiceCreateTest extends BaseProductServiceTest {
     }
 
     @Test
-    @DisplayName("[상품 생성 실패 테스트] OWNER 권한이 없는 사용자가 상품을 생성하려고 할 경우 예외를 발생시킨다.")
+    @DisplayName("[상품 생성 실패 테스트] OWNER 권한이 없는 사용자가 상품을 생성하면 예외를 발생시킨다.")
     public void createProduct_failureTest_notOwnerRole() {
         // Given
         ProductForCreate productForCreate = new ProductForCreate(productName, productPrice,

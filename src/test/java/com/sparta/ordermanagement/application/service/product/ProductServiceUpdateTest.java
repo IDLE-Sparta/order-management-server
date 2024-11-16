@@ -68,7 +68,6 @@ public class ProductServiceUpdateTest extends BaseProductServiceTest {
         Mockito.when(productOutputPort.updateProduct(ArgumentMatchers.any(ProductForUpdate.class)))
             .thenReturn(updatedPartialProduct);
 
-
         // When
         Product updatedProduct = productService.updateProduct(productForUpdate);
 
