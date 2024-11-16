@@ -16,7 +16,7 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
-class ProductServiceCreateTest extends BaseProductServiceTest{
+class ProductServiceCreateTest extends BaseProductServiceTest {
 
     private String productName;
     private int productPrice;
@@ -39,7 +39,8 @@ class ProductServiceCreateTest extends BaseProductServiceTest{
             testOwnerUser.getRole());
 
         Mockito.doNothing().when(userService).validateOwnerRole(ArgumentMatchers.eq(Role.OWNER));
-        Mockito.doNothing().when(shopService).validateNotDeletedShopUuid(productForCreate.shopUuid());
+        Mockito.doNothing().when(shopService)
+            .validateNotDeletedShopUuid(productForCreate.shopUuid());
 
         Mockito.when(productOutputPort.saveProduct(ArgumentMatchers.any(ProductForCreate.class)))
             .thenReturn(expectedProduct);
@@ -51,8 +52,10 @@ class ProductServiceCreateTest extends BaseProductServiceTest{
         // Then
         Assertions.assertAll(
             () -> Assertions.assertNotNull(createdProduct),
-            () -> Assertions.assertEquals(expectedProduct.getProductUuid(), createdProduct.getProductUuid()),
-            () -> Assertions.assertEquals(expectedProduct.getShop().getUuid(), createdProduct.getShop().getUuid())
+            () -> Assertions.assertEquals(expectedProduct.getProductUuid(),
+                createdProduct.getProductUuid()),
+            () -> Assertions.assertEquals(expectedProduct.getShop().getUuid(),
+                createdProduct.getShop().getUuid())
         );
 
         Mockito.verify(productOutputPort, Mockito.times(1)).saveProduct(productForCreate);
@@ -67,7 +70,8 @@ class ProductServiceCreateTest extends BaseProductServiceTest{
             testCustomerUser.getRole());
 
         Mockito.doThrow(new UserAccessDeniedException(testCustomerUser.getRole()))
-            .when(userService).validateOwnerRole(ArgumentMatchers.argThat(role -> role != Role.OWNER));
+            .when(userService)
+            .validateOwnerRole(ArgumentMatchers.argThat(role -> role != Role.OWNER));
 
         // When & Then
         UserAccessDeniedException exception = Assertions.assertThrows(
@@ -75,7 +79,8 @@ class ProductServiceCreateTest extends BaseProductServiceTest{
             () -> productService.createProduct(productForCreate)
         );
 
-        Assertions.assertEquals(String.format("접근 권한이 없습니다.: %s", testCustomerUser.getRole()), exception.getMessage());
+        Assertions.assertEquals(String.format("접근 권한이 없습니다.: %s", testCustomerUser.getRole()),
+            exception.getMessage());
 
         Mockito.verify(userService, Mockito.times(1)).validateOwnerRole(testCustomerUser.getRole());
         Mockito.verifyNoInteractions(shopService, productOutputPort);
@@ -86,7 +91,8 @@ class ProductServiceCreateTest extends BaseProductServiceTest{
     public void createProduct_failureTest_ownerRole_invalidShopUuid() {
         // Given
         ProductForCreate productForCreate = new ProductForCreate(productName, productPrice,
-            productDescription, ProductState.SHOW, testInvalidShopUuid, testOwnerUser.getUserStringId(),
+            productDescription, ProductState.SHOW, testInvalidShopUuid,
+            testOwnerUser.getUserStringId(),
             testOwnerUser.getRole());
 
         Mockito.doThrow(new ShopUuidInvalidException(testInvalidShopUuid))
@@ -98,9 +104,11 @@ class ProductServiceCreateTest extends BaseProductServiceTest{
             () -> productService.createProduct(productForCreate)
         );
 
-        Assertions.assertEquals(String.format("유효하지 않은 가게 식별자 입니다. : %s", testInvalidShopUuid), exception.getMessage());
+        Assertions.assertEquals(String.format("유효하지 않은 가게 식별자 입니다. : %s", testInvalidShopUuid),
+            exception.getMessage());
 
-        Mockito.verify(shopService, Mockito.times(1)).validateNotDeletedShopUuid(testInvalidShopUuid);
+        Mockito.verify(shopService, Mockito.times(1))
+            .validateNotDeletedShopUuid(testInvalidShopUuid);
         Mockito.verifyNoInteractions(productOutputPort);
     }
 }
