@@ -36,15 +36,14 @@ public abstract class BaseProductServiceTest {
     protected Shop testShop;
     protected User testOwnerUser;
     protected User testCustomerUser;
-    protected Product expectedProduct;
-
     protected Product existProduct;
+    protected Product expectedProduct;
 
     @BeforeEach
     void setUp() {
         testShopCategoryUuid = "4c4f79f2-7335-4acd-9eaa-f2f8f3db506e";
         testShopUuid = "0e9518ff-13ec-447d-bd08-e3915841cd49";
-        testExistProductUuid = "0e9518ff-13ec-447d-bd08-e3915841cd49";
+        testExistProductUuid = "99cf5c38-fd8d-42cd-881b-beb5c4d7a171";
         testExpectedProductUuid = "7feaff71-613f-4c67-b25c-9210c2c9f429";
 
         testInvalidShopUuid = "invalid-shop-uuid";
@@ -60,7 +59,7 @@ public abstract class BaseProductServiceTest {
         testCustomerUser = createUser(2L, testCustomerUserStringId, Role.CUSTOMER);
 
         existProduct = createProduct(1L, testExistProductUuid, "양념치킨", 10_000);
-        expectedProduct = createProduct(2L, testExistProductUuid, "후라이드", 10_000);
+        expectedProduct = createProduct(2L, testExpectedProductUuid, "후라이드", 10_000);
     }
 
     @InjectMocks
@@ -79,7 +78,7 @@ public abstract class BaseProductServiceTest {
         return new User(id, userStringId, "qwer1234#", role, regionEntity);
     }
 
-    private Product createProduct(Long id, String productUuid, String productName, int price) {
+    protected Product createProduct(Long id, String productUuid, String productName, int price) {
         return new Product(id, productUuid, productName, price, "맛있는 " + productName,
             ProductState.SHOW, testShop, false);
     }
