@@ -1,12 +1,17 @@
 package com.sparta.ordermanagement.application.service;
 
+import com.sparta.ordermanagement.application.domain.order.Order;
+import com.sparta.ordermanagement.application.domain.order.OrderState;
 import com.sparta.ordermanagement.application.domain.product.Product;
+import com.sparta.ordermanagement.application.domain.review.Review;
 import com.sparta.ordermanagement.application.domain.shop.Shop;
 import com.sparta.ordermanagement.application.domain.shop.ShopCategory;
 import com.sparta.ordermanagement.application.domain.user.User;
+import com.sparta.ordermanagement.framework.persistence.entity.order.OrderType;
 import com.sparta.ordermanagement.framework.persistence.entity.product.ProductState;
 import com.sparta.ordermanagement.framework.persistence.entity.region.RegionEntity;
 import com.sparta.ordermanagement.framework.persistence.entity.user.Role;
+import java.time.LocalDateTime;
 
 public class TestData {
 
@@ -35,5 +40,19 @@ public class TestData {
     public static Product createDeleteProduct(String productUuid, String productName, int price, Shop shop) {
         return new Product(null, productUuid, productName, price, "맛있는 " + productName,
             ProductState.SHOW, shop, true);
+    }
+
+    public static Order createOrder(String orderUuid, Shop shop, User customer) {
+        return new Order(orderUuid, OrderState.PENDING, OrderType.ONLINE, "서울시 강남구 스파르타동",
+            "수저 포크 필요 없어요." ,shop.getUuid(), shop.getShopName(), customer.getUserStringId(), LocalDateTime.now(), false);
+    }
+
+    public static Review createReview(String reviewUuid, Integer rating, String content, Shop shop, User user) {
+        return new Review(null, reviewUuid, rating, content, shop, user, false, LocalDateTime.now(),
+            user.getUserStringId(), LocalDateTime.now(), user.getUserStringId());
+    }
+
+    public static Review createReviewWithoutTime(String reviewUuid, Integer rating, String content, Shop shop, User user) {
+        return new Review(null, reviewUuid, rating, content, shop, user, false);
     }
 }

@@ -44,6 +44,24 @@ public class Review {
         this.updatedBy = updatedBy;
     }
 
+    public Review(
+        Long id,
+        String reviewUuid,
+        Integer rating,
+        String content,
+        Shop shop,
+        User user,
+        boolean isDeleted
+    ) {
+        this.id = id;
+        this.reviewUuid = reviewUuid;
+        this.rating = rating;
+        this.content = content;
+        this.shop = shop;
+        this.user = user;
+        this.isDeleted = isDeleted;
+    }
+
     public boolean isSameReviewer(String userStringId) {
         return user.getUserStringId().equals(userStringId);
     }
