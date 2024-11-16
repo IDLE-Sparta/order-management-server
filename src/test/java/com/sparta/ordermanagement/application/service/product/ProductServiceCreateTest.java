@@ -2,6 +2,7 @@ package com.sparta.ordermanagement.application.service.product;
 
 import com.sparta.ordermanagement.application.domain.product.Product;
 import com.sparta.ordermanagement.application.domain.product.ProductForCreate;
+import com.sparta.ordermanagement.application.exception.shop.ShopUuidInvalidException;
 import com.sparta.ordermanagement.application.exception.user.UserAccessDeniedException;
 import com.sparta.ordermanagement.framework.persistence.entity.product.ProductState;
 import com.sparta.ordermanagement.framework.persistence.entity.user.Role;
@@ -77,5 +78,28 @@ class ProductServiceCreateTest extends BaseProductServiceTest{
 
         Mockito.verify(userService, Mockito.times(1)).validateOwnerRole(testCustomerUser.getRole());
         Mockito.verifyNoInteractions(shopService, productOutputPort);
+    }
+
+    @Test
+    @DisplayName("[상품 생성 실패 테스트] OWNER 권한의 사용자가 유효하지 않는 가게의 식별자로 상품을 생성하려고 하는 경우 예외를 발생시킨다.")
+    public void createProduct_failureTest_ownerRole_invalidShopUuid() {
+        // Given
+        ProductForCreate productForCreate = new ProductForCreate(productName, productPrice,
+            productDescription, ProductState.SHOW, testInvalidShopUuid, testOwnerUser.getUserStringId(),
+            testOwnerUser.getRole());
+
+        Mockito.doThrow(new ShopUuidInvalidException(testInvalidShopUuid))
+            .when(shopService).validateNotDeletedShopUuid(ArgumentMatchers.eq(testInvalidShopUuid));
+
+        // When & Then
+        ShopUuidInvalidException exception = Assertions.assertThrows(
+            ShopUuidInvalidException.class,
+            () -> productService.createProduct(productForCreate)
+        );
+
+        Assertions.assertEquals(String.format("유효하지 않은 가게 식별자 입니다. : %s", testInvalidShopUuid), exception.getMessage());
+
+        Mockito.verify(shopService, Mockito.times(1)).validateNotDeletedShopUuid(testInvalidShopUuid);
+        Mockito.verifyNoInteractions(productOutputPort);
     }
 }
