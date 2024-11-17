@@ -1,8 +1,9 @@
 package com.sparta.ordermanagement.bootstrap.rest.controller;
 
 import com.sparta.ordermanagement.application.domain.review.Review;
+import com.sparta.ordermanagement.application.domain.review.ReviewListForRead;
 import com.sparta.ordermanagement.application.domain.shop.Shop;
-import com.sparta.ordermanagement.application.service.ShopService;
+import com.sparta.ordermanagement.application.service.ReviewService;
 import com.sparta.ordermanagement.bootstrap.rest.dto.review.ReviewListResponse;
 import com.sparta.ordermanagement.bootstrap.rest.pagination.cursor.CursorPagination;
 import com.sparta.ordermanagement.bootstrap.rest.pagination.cursor.CursorRequest;
@@ -10,7 +11,6 @@ import com.sparta.ordermanagement.bootstrap.rest.pagination.offset.PaginationCon
 import com.sparta.ordermanagement.bootstrap.rest.dto.shop.ShopDetailResponse;
 import com.sparta.ordermanagement.bootstrap.rest.dto.shop.ShopListResponse;
 import com.sparta.ordermanagement.bootstrap.rest.exception.exceptions.ShopNotFoundException;
-import com.sparta.ordermanagement.framework.persistence.adapter.ReviewPersistenceAdapter;
 import com.sparta.ordermanagement.framework.persistence.adapter.ShopPersistenceAdapter;
 import com.sparta.ordermanagement.framework.persistence.vo.Cursor;
 import com.sparta.ordermanagement.framework.persistence.vo.ReviewSort;
@@ -35,8 +35,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class ShopQueryController {
 
     private final ShopPersistenceAdapter shopPersistenceAdapter;
-    private final ReviewPersistenceAdapter reviewPersistenceAdapter;
-    private final ShopService shopService;
+    private final ReviewService reviewService;
 
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/{shopId}")
@@ -89,8 +88,11 @@ public class ShopQueryController {
         ReviewSort reviewSort = ReviewSort.of(cursorPagination.getSortedColumn());
         Cursor cursor = cursorPagination.toCursor(reviewSort);
 
-        shopService.validateNotDeletedShopUuid(shopUuid);
-        List<Review> reviews  = reviewPersistenceAdapter.findAllByShopUuidAndIsDeletedFalse(shopUuid, cursor);
+        ReviewListForRead reviewListForRead = new ReviewListForRead(
+            shopUuid,
+            cursor
+        );
+        List<Review> reviews = reviewService.getReviews(reviewListForRead);
 
         return ReviewListResponse.GetReviewsResponse.of(reviews);
     }

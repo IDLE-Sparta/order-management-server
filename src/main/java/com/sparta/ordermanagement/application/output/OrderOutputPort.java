@@ -22,4 +22,6 @@ public interface OrderOutputPort {
     Optional<Order> findByOrderUuid(String orderUuid);
 
     Page<TotalOrder> findByUserId(Pageable pageable, String userId);
+
+    Optional<Order> findByOrderUuidAndIsDeletedFalse(String orderUuid);
 }

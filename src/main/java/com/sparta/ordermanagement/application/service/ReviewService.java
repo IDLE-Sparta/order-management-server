@@ -4,12 +4,18 @@ import com.sparta.ordermanagement.application.domain.order.Order;
 import com.sparta.ordermanagement.application.domain.review.Review;
 import com.sparta.ordermanagement.application.domain.review.ReviewForCreate;
 import com.sparta.ordermanagement.application.domain.review.ReviewForDelete;
+import com.sparta.ordermanagement.application.domain.review.ReviewForRead;
 import com.sparta.ordermanagement.application.domain.review.ReviewForUpdate;
+import com.sparta.ordermanagement.application.domain.review.ReviewListForRead;
 import com.sparta.ordermanagement.application.domain.shop.Shop;
 import com.sparta.ordermanagement.application.exception.review.ReviewDeletedException;
 import com.sparta.ordermanagement.application.exception.review.ReviewMismatchReviewerException;
 import com.sparta.ordermanagement.application.exception.review.ReviewUuidInvalidException;
+import com.sparta.ordermanagement.application.output.OrderOutputPort;
 import com.sparta.ordermanagement.application.output.ReviewOutputPort;
+import com.sparta.ordermanagement.bootstrap.rest.exception.exceptions.OrderNotFoundException;
+import com.sparta.ordermanagement.bootstrap.rest.exception.exceptions.ReviewNotFoundException;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -18,8 +24,29 @@ import org.springframework.stereotype.Service;
 public class ReviewService {
 
     private final ReviewOutputPort reviewOutputPort;
+    private final OrderOutputPort orderOutputPort;
     private final OrderService orderService;
     private final ShopService shopService;
+
+    public Review getReview(ReviewForRead reviewForRead) {
+
+        Order order = orderOutputPort.findByOrderUuidAndIsDeletedFalse(reviewForRead.orderUuid())
+            .orElseThrow(() -> new OrderNotFoundException(reviewForRead.orderUuid()));
+
+        Review review = reviewOutputPort.findByReviewUuidAndShopIdAndIsDeletedFalse(reviewForRead.reviewUuid(), order.getShopId())
+            .orElseThrow(() -> new ReviewNotFoundException(order.getShopId(), reviewForRead.reviewUuid()));
+
+        validateReviewBelongToUser(review, reviewForRead.userStringId());
+
+        return review;
+    }
+
+    public List<Review> getReviews(ReviewListForRead reviewListForRead) {
+
+        shopService.validateNotDeletedShopUuid(reviewListForRead.shopUuid());
+
+        return reviewOutputPort.findAllByShopUuidAndIsDeletedFalse(reviewListForRead.shopUuid(), reviewListForRead.cursor());
+    }
 
     public Review createReview(ReviewForCreate reviewForCreate) {
 
