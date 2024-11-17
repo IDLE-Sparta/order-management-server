@@ -11,7 +11,7 @@ public interface ProductRepository extends JpaRepository<ProductEntity, Long> {
 
     @Query("select p from p_product p "
         + "where p.productUuid = :productUuid "
-        + "and p.productState = 'SHOw'"
+        + "and p.productState = 'SHOW'"
         + "and p.isDeleted = false")
     Optional<ProductEntity> findByProductUuidAndIsDeletedFalseAndProductStateShow(String productUuid);
 }

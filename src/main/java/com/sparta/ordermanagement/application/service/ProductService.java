@@ -4,12 +4,15 @@ import com.sparta.ordermanagement.application.domain.orderproduct.OrderProductFo
 import com.sparta.ordermanagement.application.domain.product.Product;
 import com.sparta.ordermanagement.application.domain.product.ProductForCreate;
 import com.sparta.ordermanagement.application.domain.product.ProductForDelete;
+import com.sparta.ordermanagement.application.domain.product.ProductForRead;
 import com.sparta.ordermanagement.application.domain.product.ProductForUpdate;
+import com.sparta.ordermanagement.application.domain.product.ProductListForRead;
 import com.sparta.ordermanagement.application.domain.product.ProductStateForUpdate;
 import com.sparta.ordermanagement.application.exception.product.ProductDeletedException;
 import com.sparta.ordermanagement.application.exception.product.ProductNotBelongToShopException;
 import com.sparta.ordermanagement.application.exception.product.ProductUuidInvalidException;
 import com.sparta.ordermanagement.application.output.ProductOutputPort;
+import com.sparta.ordermanagement.bootstrap.rest.exception.exceptions.ProductNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -23,6 +26,23 @@ public class ProductService {
     private final ProductOutputPort productOutputPort;
     private final UserService userService;
     private final ShopService shopService;
+
+    public Product getProduct(ProductForRead productForRead) {
+
+        shopService.validateNotDeletedShopUuid(productForRead.shopUuid());
+
+        return productOutputPort.findByProductUuidAndIsDeletedFalseAndProductStateShow(productForRead.productUuid())
+            .orElseThrow(() -> new ProductNotFoundException(productForRead.productUuid()));
+    }
+
+    public List<Product> getProducts(ProductListForRead productListForRead) {
+
+        shopService.validateNotDeletedShopUuid(productListForRead.shopUuid());
+
+        return productOutputPort.findAllByShopUuidAndIsDeletedFalseAndProductStateShow(
+            productListForRead.shopUuid(), productListForRead.cursor()
+        );
+    }
 
     public Product createProduct(ProductForCreate productForCreate) {
 

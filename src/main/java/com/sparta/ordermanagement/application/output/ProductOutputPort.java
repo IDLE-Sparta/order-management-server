@@ -5,6 +5,8 @@ import com.sparta.ordermanagement.application.domain.product.ProductForCreate;
 import com.sparta.ordermanagement.application.domain.product.ProductForDelete;
 import com.sparta.ordermanagement.application.domain.product.ProductForUpdate;
 import com.sparta.ordermanagement.application.domain.product.ProductStateForUpdate;
+import com.sparta.ordermanagement.framework.persistence.vo.Cursor;
+import java.util.List;
 import java.util.Optional;
 
 public interface ProductOutputPort {
@@ -18,4 +20,8 @@ public interface ProductOutputPort {
     Product deleteProduct(ProductForDelete productForDelete);
 
     Product updateProduct(ProductForUpdate productForUpdate);
+
+    Optional<Product> findByProductUuidAndIsDeletedFalseAndProductStateShow(String productUuid);
+
+    List<Product> findAllByShopUuidAndIsDeletedFalseAndProductStateShow(String shopUuid, Cursor cursor);
 }
