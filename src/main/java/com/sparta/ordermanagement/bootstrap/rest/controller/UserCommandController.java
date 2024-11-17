@@ -5,6 +5,7 @@ import com.sparta.ordermanagement.bootstrap.rest.dto.user.UserSigninRequest;
 import com.sparta.ordermanagement.bootstrap.rest.dto.user.UserSignupRequest;
 import com.sparta.ordermanagement.bootstrap.rest.exception.exceptions.RequestValidationException;
 import com.sparta.ordermanagement.framework.persistence.entity.user.Role;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
+@Tag(name = "사용자 - 유저 관리", description = "권한 불필요")
 @Slf4j
 @RequiredArgsConstructor
 @RestController

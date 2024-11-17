@@ -11,6 +11,7 @@ import com.sparta.ordermanagement.bootstrap.rest.dto.review.ReviewUpdateRequest;
 import com.sparta.ordermanagement.bootstrap.rest.dto.review.ReviewCreateRequest;
 import com.sparta.ordermanagement.bootstrap.rest.dto.review.ReviewCreateResponse;
 import com.sparta.ordermanagement.bootstrap.rest.dto.review.ReviewUpdateResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -24,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+@Tag(name = "사용자 - 리뷰 관리", description = "CUSTOMER 이상의 권한 필요")
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/v1/orders/{orderUuid}/reviews")

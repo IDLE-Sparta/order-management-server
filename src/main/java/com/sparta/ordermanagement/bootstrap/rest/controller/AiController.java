@@ -6,6 +6,7 @@ import com.sparta.ordermanagement.bootstrap.rest.dto.ai.AiRecommendProductNameRe
 import com.sparta.ordermanagement.bootstrap.rest.exception.exceptions.InvalidAuthorizationException;
 import com.sparta.ordermanagement.bootstrap.rest.exception.exceptions.RequestValidationException;
 import com.sparta.ordermanagement.framework.persistence.entity.user.Role;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -17,6 +18,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Map;
 
+@Tag(name = "사용자 - AI 질문 요청", description = "OWNER 이상의 권한 필요")
 @RestController
 @RequestMapping("/api/v1")
 @RequiredArgsConstructor

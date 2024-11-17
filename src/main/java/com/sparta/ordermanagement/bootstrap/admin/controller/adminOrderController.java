@@ -6,6 +6,7 @@ import com.sparta.ordermanagement.bootstrap.admin.dto.OrderUpdateRequest;
 import com.sparta.ordermanagement.bootstrap.admin.dto.OrderUpdateResponse;
 import com.sparta.ordermanagement.bootstrap.auth.UserDetailsImpl;
 import com.sparta.ordermanagement.bootstrap.rest.pagination.offset.PaginationConstraint;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -15,6 +16,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+@Tag(name = "관리자 - 주문 관리", description = "MANAGER 이상의 권한 필요")
 @Slf4j
 @RequiredArgsConstructor
 @RestController

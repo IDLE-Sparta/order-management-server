@@ -7,6 +7,7 @@ import com.sparta.ordermanagement.bootstrap.rest.exception.exceptions.OrderNotFo
 import com.sparta.ordermanagement.bootstrap.rest.pagination.offset.PaginationConstraint;
 import com.sparta.ordermanagement.framework.persistence.adapter.OrderPersistenceAdapter;
 import com.sparta.ordermanagement.framework.persistence.adapter.ShopPersistenceAdapter;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -16,6 +17,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+@Tag(name = "사용자 - 주문 조회", description = "CUSTOMER 이상의 권한 필요")
 @Slf4j
 @RequiredArgsConstructor
 @RestController

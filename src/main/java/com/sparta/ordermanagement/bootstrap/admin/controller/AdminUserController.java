@@ -8,6 +8,7 @@ import com.sparta.ordermanagement.bootstrap.auth.UserDetailsImpl;
 import com.sparta.ordermanagement.bootstrap.rest.exception.exceptions.ForbiddenActionException;
 import com.sparta.ordermanagement.bootstrap.rest.exception.exceptions.RequestValidationException;
 import com.sparta.ordermanagement.framework.persistence.entity.user.Role;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Map;
 
+@Tag(name = "관리자 - 유저 관리", description = "MANAGER 이상의 권한 필요")
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/admin/v1/users")

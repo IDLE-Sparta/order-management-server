@@ -1,6 +1,7 @@
 package com.sparta.ordermanagement.bootstrap.admin.dto;
 
 import com.sparta.ordermanagement.framework.persistence.entity.shop.ShopEntity;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 

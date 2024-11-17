@@ -14,6 +14,7 @@ import com.sparta.ordermanagement.bootstrap.rest.dto.product.ProductDeleteRespon
 import com.sparta.ordermanagement.bootstrap.rest.dto.product.ProductStateUpdateRequest;
 import com.sparta.ordermanagement.bootstrap.rest.dto.product.ProductStateUpdateResponse;
 import com.sparta.ordermanagement.bootstrap.rest.dto.product.ProductUpdateResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -29,6 +30,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+@Tag(name = "사용자 - 상품 관리", description = "OWNER 이상의 권한 필요")
 @Slf4j
 @RequiredArgsConstructor
 @RestController
