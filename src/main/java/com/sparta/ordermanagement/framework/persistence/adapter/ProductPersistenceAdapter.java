@@ -34,6 +34,12 @@ public class ProductPersistenceAdapter implements ProductOutputPort {
             .or(Optional::empty);
     }
 
+    public Optional<Product> findByProductUuidAndIsDeletedFalseAndProductStateShow(String productUuid) {
+        return productRepository.findByProductUuidAndIsDeletedFalseAndProductStateShow(productUuid)
+            .map(ProductEntity::toDomain)
+            .or(Optional::empty);
+    }
+
     public List<Product> findAllByShopUuidAndIsDeletedFalseAndProductStateShow(String shopUuid, Cursor cursor) {
         return productQueryRepository.findAllByShopUuidAndIsDeletedFalseAndProductStateShow(shopUuid, cursor)
             .stream()

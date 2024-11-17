@@ -3,7 +3,6 @@ package com.sparta.ordermanagement.bootstrap.rest.controller;
 import com.sparta.ordermanagement.application.domain.product.Product;
 import com.sparta.ordermanagement.application.service.ProductService;
 import com.sparta.ordermanagement.application.service.ShopService;
-import com.sparta.ordermanagement.bootstrap.auth.UserDetailsImpl;
 import com.sparta.ordermanagement.bootstrap.rest.dto.product.ProductDetailResponse;
 import com.sparta.ordermanagement.bootstrap.rest.dto.product.ProductListResponse;
 import com.sparta.ordermanagement.bootstrap.rest.exception.exceptions.ProductNotFoundException;
@@ -16,7 +15,6 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -37,15 +35,12 @@ public class ProductQueryController {
     @GetMapping("/{productUuid}")
     public ProductDetailResponse findByProductUuid(
         @PathVariable(value = "shopUuid") String shopUuid,
-        @PathVariable(value = "productUuid") String productUuid,
-        @AuthenticationPrincipal UserDetailsImpl userDetails
+        @PathVariable(value = "productUuid") String productUuid
     ) {
 
-        // TODO : 로그인 안해도 볼 수 있게 로그인 토큰 제거하기
+        shopService.validateNotDeletedShopUuid(shopUuid);
 
-        shopService.validateShopOwner(shopUuid, userDetails.getUserStringId());
-
-        Product product = productPersistenceAdapter.findByProductUuid(productUuid)
+        Product product = productPersistenceAdapter.findByProductUuidAndIsDeletedFalseAndProductStateShow(productUuid)
             .orElseThrow(() -> new ProductNotFoundException(productUuid));
 
         return ProductDetailResponse.from(
