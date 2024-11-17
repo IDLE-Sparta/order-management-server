@@ -3,8 +3,10 @@ package com.sparta.ordermanagement.framework.persistence.repository;
 import static com.sparta.ordermanagement.framework.persistence.entity.product.QProductEntity.productEntity;
 import static com.sparta.ordermanagement.framework.persistence.entity.shop.QShopEntity.shopEntity;
 
+import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.sparta.ordermanagement.framework.persistence.entity.product.ProductEntity;
+import com.sparta.ordermanagement.framework.persistence.entity.product.ProductState;
 import com.sparta.ordermanagement.framework.persistence.vo.Cursor;
 import java.util.List;
 import java.util.Optional;
@@ -19,14 +21,14 @@ public class ProductQueryRepository {
 
     private final JPAQueryFactory jpaQueryFactory;
 
-    public List<ProductEntity> findAllByShopUuid(String shopUuid, Cursor cursor) {
+    public List<ProductEntity> findAllByShopUuidAndIsDeletedFalseAndProductStateShow(String shopUuid, Cursor cursor) {
 
         Long basedProductId = getBasedProductId(cursor);
 
         if (cursor.isDefaultSort()) {
-            return findAllByShopUuidByCreatedAt(shopUuid, basedProductId, cursor.size());
+            return findAllByShopUuidAndIsDeletedFalseAndProductStateShowByCreatedAt(shopUuid, basedProductId, cursor.size());
         }
-        return findAllByShopUuidByProductName(shopUuid, basedProductId, cursor.size());
+        return findAllByShopUuidAndIsDeletedFalseAndProductStateShowByProductName(shopUuid, basedProductId, cursor.size());
     }
 
     private Long getBasedProductId(Cursor cursor) {
@@ -47,18 +49,23 @@ public class ProductQueryRepository {
     from p_product p
     inner join p_shop s on p.shop_entity_shop_id = s.shop_id
     where s.uuid = :shopUuid
+      and p.is_deleted = false
+      and p.product_state = 'SHOW'
       and p.product_id > :basedProductId
     order by p.product_id asc, p.created_at asc
     limit :size;
     */
-    private List<ProductEntity> findAllByShopUuidByCreatedAt(String shopUuid, Long basedProductId, int size) {
+    private List<ProductEntity> findAllByShopUuidAndIsDeletedFalseAndProductStateShowByCreatedAt(String shopUuid, Long basedProductId, int size) {
+
+        BooleanExpression shopCondition = shopEntity.shopUuid.eq(shopUuid);
+        BooleanExpression isNotDeleted = productEntity.isDeleted.eq(false);
+        BooleanExpression isCondition = productEntity.id.gt(basedProductId);
+        BooleanExpression productStateCondition = productEntity.productState.eq(ProductState.SHOW);
+
         return jpaQueryFactory.selectFrom(productEntity)
             .innerJoin(shopEntity)
             .on(shopEntity.id.eq(productEntity.shopEntity.id))
-            .where(
-                shopEntity.shopUuid.eq(shopUuid)
-                    .and(productEntity.id.gt(basedProductId))
-            )
+            .where(shopCondition.and(isNotDeleted).and(isCondition).and(productStateCondition))
             .orderBy(productEntity.id.asc(), productEntity.createdAt.asc())
             .limit(size)
             .fetch();
@@ -69,18 +76,23 @@ public class ProductQueryRepository {
     from p_product p
     inner join p_shop s on p.shop_entity_shop_id = s.shop_id
     where s.uuid = :shopUuid
+      and p.is_deleted = false
+      and p.product_state = 'SHOW'
       and p.product_id > :basedProductId
     order by p.product_id asc, p.product_name asc
     limit :size;
     */
-    private List<ProductEntity> findAllByShopUuidByProductName(String shopUuid, Long basedProductId, int size) {
+    private List<ProductEntity> findAllByShopUuidAndIsDeletedFalseAndProductStateShowByProductName(String shopUuid, Long basedProductId, int size) {
+
+        BooleanExpression shopCondition = shopEntity.shopUuid.eq(shopUuid);
+        BooleanExpression isNotDeleted = productEntity.isDeleted.eq(false);
+        BooleanExpression isCondition = productEntity.id.gt(basedProductId);
+        BooleanExpression productStateCondition = productEntity.productState.eq(ProductState.SHOW);
+
         return jpaQueryFactory.selectFrom(productEntity)
             .innerJoin(shopEntity)
             .on(shopEntity.id.eq(productEntity.shopEntity.id))
-            .where(
-                shopEntity.shopUuid.eq(shopUuid)
-                    .and(productEntity.id.gt(basedProductId))
-            )
+            .where(shopCondition.and(isNotDeleted).and(isCondition).and(productStateCondition))
             .orderBy(productEntity.id.asc(), productEntity.productName.asc())
             .limit(size)
             .fetch();

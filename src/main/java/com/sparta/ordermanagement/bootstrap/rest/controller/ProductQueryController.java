@@ -60,12 +60,10 @@ public class ProductQueryController {
         @CursorRequest CursorPagination cursorPagination
     ) {
 
-        // TODO : 상품 조회 시 삭제된 상품이나 HIDE 처리된 상품은 안보여주게 처리
-
         ProductSort productSort = ProductSort.of(cursorPagination.getSortedColumn());
         Cursor cursor = cursorPagination.toCursor(productSort);
 
-        List<Product> products = productPersistenceAdapter.findAllByShopUuid(shopUuid, cursor);
+        List<Product> products = productPersistenceAdapter.findAllByShopUuidAndIsDeletedFalseAndProductStateShow(shopUuid, cursor);
 
         return ProductListResponse.GetProductsResponse.of(products);
     }
