@@ -9,6 +9,7 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.util.Map;
 import java.util.regex.Pattern;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -17,7 +18,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.parameters.P;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
@@ -40,28 +40,28 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
     );
 
     //필터링할 url 추가하시면 됩니다. (user 정보가 필요하거나 권한이 필요한 url)
-
-    private static final Set<Pattern> FILTERING_URIS = Set.of(
-            Pattern.compile("^/api/v1/example$"),
-            Pattern.compile("^/api/v1/example2$"),
-            Pattern.compile(String.format("^/api/v1/shops/%s/products/%s$", UUID_PATTERN, UUID_PATTERN)),
-            Pattern.compile("^/api/v1/orders$"),
-            Pattern.compile("^/api/v1/orders/payments$"),
-            Pattern.compile("^/api/v1/orders/owner$"),
-            Pattern.compile(String.format("^/api/v1/orders/%s$", UUID_PATTERN)),
-            Pattern.compile(String.format("^/api/v1/orders/%s/cancel$", UUID_PATTERN)),
-            Pattern.compile(String.format("^/api/v1/orders/%s/reviews$", UUID_PATTERN)),
-            Pattern.compile(String.format("^/api/v1/orders/%s/reviews/%s$", UUID_PATTERN, UUID_PATTERN)),
-            Pattern.compile("^/api/v1/ai$")
+    // Set.of() 내부에 로그인이 필요한 메서드를 추가하시면 됩니다.
+    private static final Map<Pattern, Set<String>> FILTERING_URIS = Map.ofEntries(
+        Map.entry(Pattern.compile("^/api/v1/example$"), Set.of("GET")),
+        Map.entry(Pattern.compile(String.format("^/api/v1/shops/%s/products$", UUID_PATTERN)), Set.of("POST", "PUT", "DELETE")),
+        Map.entry(Pattern.compile(String.format("^/api/v1/shops/%s/products/%s$", UUID_PATTERN, UUID_PATTERN)), Set.of("POST", "PUT", "DELETE")),
+        Map.entry(Pattern.compile("^/api/v1/orders$"), Set.of("GET", "POST", "PUT", "DELETE")),
+        Map.entry(Pattern.compile("^/api/v1/orders/payments$"), Set.of("GET", "POST", "PUT", "DELETE")),
+        Map.entry(Pattern.compile("^/api/v1/orders/owner$"), Set.of("GET", "POST", "PUT", "DELETE")),
+        Map.entry(Pattern.compile(String.format("^/api/v1/orders/%s$", UUID_PATTERN)), Set.of("GET", "POST", "PUT", "DELETE")),
+        Map.entry(Pattern.compile(String.format("^/api/v1/orders/%s/cancel$", UUID_PATTERN)), Set.of("GET", "POST", "PUT", "DELETE")),
+        Map.entry(Pattern.compile(String.format("^/api/v1/orders/%s/reviews$", UUID_PATTERN)), Set.of("GET", "POST", "PUT", "DELETE")),
+        Map.entry(Pattern.compile(String.format("^/api/v1/orders/%s/reviews/%s$", UUID_PATTERN, UUID_PATTERN)), Set.of("GET", "POST", "PUT", "DELETE")),
+        Map.entry(Pattern.compile("^/api/v1/ai$"), Set.of("GET", "POST", "PUT", "DELETE"))
     );
 
-
-    public static boolean isFilteringUri(String uri) {
+    public static boolean isFilteringUri(String uri, String method) {
         // true -> 필터링 함(user 정보 필요한 url)
         // false-> 필터링 안함
 
         // 필터가 필요한 URI 검증
-        if (FILTERING_URIS.stream().anyMatch(pattern -> pattern.matcher(uri).matches())) {
+        if (FILTERING_URIS.entrySet().stream()
+                .anyMatch(entry -> entry.getKey().matcher(uri).matches() && entry.getValue().contains(method.toUpperCase()))) {
             return true;
         }
 
@@ -76,9 +76,11 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+        String uri = request.getRequestURI();
+        String method = request.getMethod();
 
         // 필터 로직을 수행하지 않고 다음 필터로 이동
-        if (!isFilteringUri(request.getRequestURI())) {
+        if (!isFilteringUri(uri, method)) {
             filterChain.doFilter(request, response);
             return;
         }

@@ -42,6 +42,8 @@ public class ProductQueryController {
         @AuthenticationPrincipal UserDetailsImpl userDetails
     ) {
 
+        // TODO : 로그인 안해도 볼 수 있게 로그인 토큰 제거하기
+
         shopService.validateShopOwner(shopUuid, userDetails.getUserStringId());
 
         Product product = productPersistenceAdapter.findByProductUuid(productUuid)
