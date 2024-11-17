@@ -4,6 +4,7 @@ import com.sparta.ordermanagement.application.exception.ConstraintException;
 import com.sparta.ordermanagement.application.exception.DeletedException;
 import com.sparta.ordermanagement.application.exception.ForbiddenException;
 import com.sparta.ordermanagement.application.exception.InvalidValueException;
+import com.sparta.ordermanagement.bootstrap.rest.exception.exceptions.DataNotFoundException;
 import com.sparta.ordermanagement.bootstrap.rest.exception.exceptions.RequestValidationException;
 import com.sparta.ordermanagement.bootstrap.rest.exception.response.ApiResponse;
 import com.sparta.ordermanagement.bootstrap.rest.exception.response.ApiResponse.Error;
@@ -72,6 +73,13 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(DeletedException.class)
     public ResponseEntity<Error> exceptionHandle(DeletedException e) {
         log.error("deletedExceptionHandle", e);
+
+        return ApiResponse.error(HttpStatus.NOT_FOUND, e.getMessage());
+    }
+
+    @ExceptionHandler(DataNotFoundException.class)
+    public ResponseEntity<Error> exceptionHandle(DataNotFoundException e) {
+        log.error("dataNotFoundExceptionHandle", e);
 
         return ApiResponse.error(HttpStatus.NOT_FOUND, e.getMessage());
     }
