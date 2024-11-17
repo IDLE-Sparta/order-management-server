@@ -42,6 +42,9 @@ dependencies {
     annotationProcessor "jakarta.annotation:jakarta.annotation-api"
     annotationProcessor "jakarta.persistence:jakarta.persistence-api"
 
+    // Swagger
+    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.2.0'
+
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
 
@@ -55,5 +58,3 @@ clean {	delete file('src/main/generated')}
 tasks.named('test') {
     useJUnitPlatform()
 }
-
-jar.enabled = false
