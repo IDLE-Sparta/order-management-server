@@ -44,7 +44,6 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
     private static final Set<Pattern> FILTERING_URIS = Set.of(
             Pattern.compile("^/api/v1/example$"),
             Pattern.compile("^/api/v1/example2$"),
-            Pattern.compile(String.format("^/api/v1/shops/%s/products$", UUID_PATTERN)),
             Pattern.compile(String.format("^/api/v1/shops/%s/products/%s$", UUID_PATTERN, UUID_PATTERN)),
             Pattern.compile("^/api/v1/orders$"),
             Pattern.compile("^/api/v1/orders/payments$"),
