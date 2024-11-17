@@ -13,7 +13,6 @@ import com.sparta.ordermanagement.framework.persistence.adapter.ProductPersisten
 import com.sparta.ordermanagement.framework.persistence.vo.Cursor;
 import com.sparta.ordermanagement.framework.persistence.vo.ProductSort;
 import java.util.List;
-import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -56,7 +55,7 @@ public class ProductQueryController {
 
     @ResponseStatus(HttpStatus.OK)
     @GetMapping
-    public List<ProductListResponse> findAllByShopUuid(
+    public ProductListResponse.GetProductsResponse findAllByShopUuid(
         @PathVariable(value = "shopUuid") String shopUuid,
         @CursorRequest CursorPagination cursorPagination
     ) {
@@ -66,9 +65,8 @@ public class ProductQueryController {
         ProductSort productSort = ProductSort.of(cursorPagination.getSortedColumn());
         Cursor cursor = cursorPagination.toCursor(productSort);
 
-        return productPersistenceAdapter.findAllByShopUuid(shopUuid, cursor)
-            .stream()
-            .map(ProductListResponse::from)
-            .collect(Collectors.toList());
+        List<Product> products = productPersistenceAdapter.findAllByShopUuid(shopUuid, cursor);
+
+        return ProductListResponse.GetProductsResponse.of(products);
     }
 }
