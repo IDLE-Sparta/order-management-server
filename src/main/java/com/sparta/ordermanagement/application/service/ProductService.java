@@ -10,6 +10,7 @@ import com.sparta.ordermanagement.application.exception.product.ProductDeletedEx
 import com.sparta.ordermanagement.application.exception.product.ProductNotBelongToShopException;
 import com.sparta.ordermanagement.application.exception.product.ProductUuidInvalidException;
 import com.sparta.ordermanagement.application.output.ProductOutputPort;
+import com.sparta.ordermanagement.bootstrap.rest.dto.product.ProductDetailResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -92,5 +93,12 @@ public class ProductService {
         Product product = validateProductUuidAndGetProduct(productUuid);
         validateProductBelongToShop(product, shopUuid);
         validateProductIsNotDeleted(product);
+    }
+
+    public Product validateProductNotDeletedAndGetProduct(Product product) {
+        if (product.getIsDeleted()) {
+            throw new ProductDeletedException(product.getProductUuid());
+        }
+        return product;
     }
 }
