@@ -1,6 +1,7 @@
 package com.sparta.ordermanagement.bootstrap.rest.exception;
 
 import com.sparta.ordermanagement.application.exception.ConstraintException;
+import com.sparta.ordermanagement.application.exception.DeletedException;
 import com.sparta.ordermanagement.application.exception.ForbiddenException;
 import com.sparta.ordermanagement.application.exception.InvalidValueException;
 import com.sparta.ordermanagement.bootstrap.rest.exception.exceptions.RequestValidationException;
@@ -66,5 +67,12 @@ public class GlobalExceptionHandler {
         log.error("RequestValidationExceptionHandle", e);
 
         return ApiResponse.error(HttpStatus.BAD_REQUEST, e.getMessage());
+    }
+
+    @ExceptionHandler(DeletedException.class)
+    public ResponseEntity<Error> exceptionHandle(DeletedException e) {
+        log.error("deletedExceptionHandle", e);
+
+        return ApiResponse.error(HttpStatus.NOT_FOUND, e.getMessage());
     }
 }
