@@ -114,5 +114,4 @@ public class ProductCommandController {
 
         return ProductDeleteResponse.from(product);
     }
-
 }

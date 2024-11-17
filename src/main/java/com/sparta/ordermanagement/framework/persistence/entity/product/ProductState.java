@@ -1,6 +1,5 @@
 package com.sparta.ordermanagement.framework.persistence.entity.product;
 
-
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 

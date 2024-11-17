@@ -9,8 +9,6 @@ import lombok.Getter;
 @AllArgsConstructor
 public class ReviewDetailResponse {
 
-    // TODO: User 추가하기
-
     private final String reviewUuid;
     private final String userStringId;
     private final String shopUuid;
