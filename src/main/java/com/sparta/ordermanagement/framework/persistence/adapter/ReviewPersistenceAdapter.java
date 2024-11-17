@@ -4,7 +4,6 @@ import com.sparta.ordermanagement.application.domain.review.Review;
 import com.sparta.ordermanagement.application.domain.review.ReviewForCreate;
 import com.sparta.ordermanagement.application.domain.review.ReviewForDelete;
 import com.sparta.ordermanagement.application.domain.review.ReviewForUpdate;
-import com.sparta.ordermanagement.application.exception.shop.ShopUuidInvalidException;
 import com.sparta.ordermanagement.application.output.ReviewOutputPort;
 import com.sparta.ordermanagement.framework.persistence.entity.review.ReviewEntity;
 import com.sparta.ordermanagement.framework.persistence.entity.shop.ShopEntity;
@@ -49,9 +48,7 @@ public class ReviewPersistenceAdapter implements ReviewOutputPort {
     @Override
     public Review saveReview(ReviewForCreate reviewForCreate, String shopUuid) {
 
-        // TODO : Exception 분리하기
-        ShopEntity shopEntity = shopRepository.findByShopUuid(shopUuid)
-            .orElseThrow(() -> new ShopUuidInvalidException(shopUuid));
+        ShopEntity shopEntity = shopRepository.findByShopUuid(shopUuid).get();
 
         UserEntity userEntity = userRepository.findByUserStringId(reviewForCreate.userStringId()).get();
 

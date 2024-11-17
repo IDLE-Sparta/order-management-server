@@ -5,8 +5,6 @@ import com.sparta.ordermanagement.application.domain.product.ProductForCreate;
 import com.sparta.ordermanagement.application.domain.product.ProductForDelete;
 import com.sparta.ordermanagement.application.domain.product.ProductForUpdate;
 import com.sparta.ordermanagement.application.domain.product.ProductStateForUpdate;
-import com.sparta.ordermanagement.application.exception.product.ProductUuidInvalidException;
-import com.sparta.ordermanagement.application.exception.shop.ShopUuidInvalidException;
 import com.sparta.ordermanagement.application.output.ProductOutputPort;
 import com.sparta.ordermanagement.framework.persistence.entity.product.ProductEntity;
 import com.sparta.ordermanagement.framework.persistence.entity.shop.ShopEntity;
@@ -50,8 +48,7 @@ public class ProductPersistenceAdapter implements ProductOutputPort {
     @Override
     public Product saveProduct(ProductForCreate productForCreate) {
 
-        ShopEntity shopEntity = shopRepository.findByShopUuid(productForCreate.shopUuid())
-            .orElseThrow(() -> new ShopUuidInvalidException(productForCreate.shopUuid()));
+        ShopEntity shopEntity = shopRepository.findByShopUuid(productForCreate.shopUuid()).get();
 
         return productRepository.save(ProductEntity.from(productForCreate, shopEntity)).toDomain();
     }
@@ -87,7 +84,6 @@ public class ProductPersistenceAdapter implements ProductOutputPort {
     }
 
     private ProductEntity getProductByUuid(String productUuid) {
-        return productRepository.findByProductUuid(productUuid)
-            .orElseThrow(() -> new ProductUuidInvalidException(productUuid));
+        return productRepository.findByProductUuid(productUuid).get();
     }
 }
