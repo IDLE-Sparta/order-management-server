@@ -2,6 +2,7 @@ package com.sparta.ordermanagement.bootstrap.rest.controller;
 
 import com.sparta.ordermanagement.application.domain.review.Review;
 import com.sparta.ordermanagement.application.domain.shop.Shop;
+import com.sparta.ordermanagement.application.service.ShopService;
 import com.sparta.ordermanagement.bootstrap.rest.dto.review.ReviewListResponse;
 import com.sparta.ordermanagement.bootstrap.rest.pagination.cursor.CursorPagination;
 import com.sparta.ordermanagement.bootstrap.rest.pagination.cursor.CursorRequest;
@@ -35,6 +36,7 @@ public class ShopQueryController {
 
     private final ShopPersistenceAdapter shopPersistenceAdapter;
     private final ReviewPersistenceAdapter reviewPersistenceAdapter;
+    private final ShopService shopService;
 
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/{shopId}")
@@ -87,6 +89,7 @@ public class ShopQueryController {
         ReviewSort reviewSort = ReviewSort.of(cursorPagination.getSortedColumn());
         Cursor cursor = cursorPagination.toCursor(reviewSort);
 
+        shopService.validateNotDeletedShopUuid(shopUuid);
         List<Review> reviews  = reviewPersistenceAdapter.findAllByShopUuidAndIsDeletedFalse(shopUuid, cursor);
 
         return ReviewListResponse.GetReviewsResponse.of(reviews);
