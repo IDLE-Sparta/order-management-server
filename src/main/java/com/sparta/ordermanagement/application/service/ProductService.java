@@ -10,7 +10,6 @@ import com.sparta.ordermanagement.application.exception.product.ProductDeletedEx
 import com.sparta.ordermanagement.application.exception.product.ProductNotBelongToShopException;
 import com.sparta.ordermanagement.application.exception.product.ProductUuidInvalidException;
 import com.sparta.ordermanagement.application.output.ProductOutputPort;
-import com.sparta.ordermanagement.bootstrap.rest.dto.product.ProductDetailResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -28,6 +27,7 @@ public class ProductService {
     public Product createProduct(ProductForCreate productForCreate) {
 
         userService.validateOwnerRole(productForCreate.userRole());
+        shopService.validateShopOwner(productForCreate.shopUuid(), productForCreate.userStringId());
         shopService.validateNotDeletedShopUuid(productForCreate.shopUuid());
 
         return productOutputPort.saveProduct(productForCreate);

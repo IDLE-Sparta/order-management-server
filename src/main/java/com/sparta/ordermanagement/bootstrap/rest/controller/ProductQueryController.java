@@ -63,6 +63,7 @@ public class ProductQueryController {
         ProductSort productSort = ProductSort.of(cursorPagination.getSortedColumn());
         Cursor cursor = cursorPagination.toCursor(productSort);
 
+        shopService.validateNotDeletedShopUuid(shopUuid);
         List<Product> products = productPersistenceAdapter.findAllByShopUuidAndIsDeletedFalseAndProductStateShow(shopUuid, cursor);
 
         return ProductListResponse.GetProductsResponse.of(products);
