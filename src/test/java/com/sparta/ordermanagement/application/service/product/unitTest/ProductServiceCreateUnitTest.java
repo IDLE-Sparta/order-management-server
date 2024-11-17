@@ -3,6 +3,7 @@ package com.sparta.ordermanagement.application.service.product.unitTest;
 import com.sparta.ordermanagement.application.domain.product.Product;
 import com.sparta.ordermanagement.application.domain.product.ProductForCreate;
 import com.sparta.ordermanagement.application.domain.user.User;
+import com.sparta.ordermanagement.application.exception.shop.ShopDeletedException;
 import com.sparta.ordermanagement.application.exception.shop.ShopUuidInvalidException;
 import com.sparta.ordermanagement.application.exception.user.UserAccessDeniedException;
 import com.sparta.ordermanagement.application.service.TestDataForUnitTest;
@@ -114,6 +115,33 @@ class ProductServiceCreateUnitTest extends BaseProductServiceUnitTest {
             exception.getMessage());
 
         Mockito.verify(shopService, Mockito.times(1)).validateNotDeletedShopUuid(invalidShopUuid);
+        Mockito.verifyNoInteractions(productOutputPort);
+    }
+
+    @Test
+    @DisplayName("[상품 생성 실패 단위 테스트] OWNER 권한의 사용자가 삭제된 가게의 식별자로 상품을 생성하려고 하는 경우 예외를 발생시킨다.")
+    public void createProduct_failureTest_ownerRole_deletedShopUuid() {
+        // Given
+        String deletedShopUuid = "deleted-shop-uuid";
+
+        ProductForCreate productForCreate = new ProductForCreate(productName, productPrice,
+            productDescription, ProductState.SHOW, deletedShopUuid,
+            owner.getUserStringId(),
+            owner.getRole());
+
+        Mockito.doThrow(new ShopDeletedException(deletedShopUuid))
+            .when(shopService).validateNotDeletedShopUuid(deletedShopUuid);
+
+        // When & Then
+        ShopDeletedException exception = Assertions.assertThrows(
+            ShopDeletedException.class,
+            () -> productService.createProduct(productForCreate)
+        );
+
+        Assertions.assertEquals(String.format("삭제된 가게 식별자 입니다. : %s", deletedShopUuid),
+            exception.getMessage());
+
+        Mockito.verify(shopService, Mockito.times(1)).validateNotDeletedShopUuid(deletedShopUuid);
         Mockito.verifyNoInteractions(productOutputPort);
     }
 }
