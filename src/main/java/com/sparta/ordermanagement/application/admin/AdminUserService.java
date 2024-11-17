@@ -2,9 +2,8 @@ package com.sparta.ordermanagement.application.admin;
 
 import com.sparta.ordermanagement.application.domain.user.User;
 import com.sparta.ordermanagement.application.exception.InvalidValueException;
-import com.sparta.ordermanagement.application.output.UserOutputPort;
+import com.sparta.ordermanagement.application.output.user.UserOutputPort;
 import com.sparta.ordermanagement.framework.persistence.entity.user.Role;
-import com.sparta.ordermanagement.framework.persistence.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;

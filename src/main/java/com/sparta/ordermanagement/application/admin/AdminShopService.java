@@ -10,8 +10,7 @@ import com.sparta.ordermanagement.framework.admin.repository.AdminShopRepository
 import com.sparta.ordermanagement.framework.persistence.entity.shop.ShopCategoryEntity;
 import com.sparta.ordermanagement.framework.persistence.entity.shop.ShopEntity;
 import com.sparta.ordermanagement.framework.persistence.entity.user.UserEntity;
-import com.sparta.ordermanagement.framework.persistence.repository.UserRepository;
-import java.util.List;
+import com.sparta.ordermanagement.framework.persistence.repository.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;

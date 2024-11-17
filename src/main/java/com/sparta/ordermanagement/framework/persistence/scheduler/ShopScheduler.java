@@ -1,6 +1,6 @@
 package com.sparta.ordermanagement.framework.persistence.scheduler;
 
-import com.sparta.ordermanagement.framework.persistence.repository.ShopQueryRepository;
+import com.sparta.ordermanagement.framework.persistence.repository.shop.ShopQueryRepository;
 import java.time.LocalDateTime;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

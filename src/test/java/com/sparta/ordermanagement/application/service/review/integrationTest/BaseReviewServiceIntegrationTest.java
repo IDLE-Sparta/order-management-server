@@ -1,6 +1,6 @@
 package com.sparta.ordermanagement.application.service.review.integrationTest;
 
-import com.sparta.ordermanagement.application.service.ReviewService;
+import com.sparta.ordermanagement.application.service.review.ReviewService;
 import com.sparta.ordermanagement.application.service.TestDataForIntegrationTest;
 import com.sparta.ordermanagement.framework.persistence.entity.order.OrderEntity;
 import com.sparta.ordermanagement.framework.persistence.entity.product.ProductEntity;
@@ -10,13 +10,13 @@ import com.sparta.ordermanagement.framework.persistence.entity.shop.ShopCategory
 import com.sparta.ordermanagement.framework.persistence.entity.shop.ShopEntity;
 import com.sparta.ordermanagement.framework.persistence.entity.user.Role;
 import com.sparta.ordermanagement.framework.persistence.entity.user.UserEntity;
-import com.sparta.ordermanagement.framework.persistence.repository.OrderRepository;
-import com.sparta.ordermanagement.framework.persistence.repository.ProductRepository;
-import com.sparta.ordermanagement.framework.persistence.repository.RegionRepository;
-import com.sparta.ordermanagement.framework.persistence.repository.ReviewRepository;
-import com.sparta.ordermanagement.framework.persistence.repository.ShopCategoryRepository;
-import com.sparta.ordermanagement.framework.persistence.repository.ShopRepository;
-import com.sparta.ordermanagement.framework.persistence.repository.UserRepository;
+import com.sparta.ordermanagement.framework.persistence.repository.order.OrderRepository;
+import com.sparta.ordermanagement.framework.persistence.repository.product.ProductRepository;
+import com.sparta.ordermanagement.framework.persistence.repository.region.RegionRepository;
+import com.sparta.ordermanagement.framework.persistence.repository.review.ReviewRepository;
+import com.sparta.ordermanagement.framework.persistence.repository.shop.ShopCategoryRepository;
+import com.sparta.ordermanagement.framework.persistence.repository.shop.ShopRepository;
+import com.sparta.ordermanagement.framework.persistence.repository.user.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
