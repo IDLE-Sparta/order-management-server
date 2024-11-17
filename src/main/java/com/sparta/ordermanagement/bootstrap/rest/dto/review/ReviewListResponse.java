@@ -2,21 +2,19 @@ package com.sparta.ordermanagement.bootstrap.rest.dto.review;
 
 import com.sparta.ordermanagement.application.domain.review.Review;
 import java.time.LocalDateTime;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
+import java.util.List;
+import java.util.stream.Collectors;
 
-@Getter
-@AllArgsConstructor
-public class ReviewListResponse {
-
-    private final String reviewUuid;
-    private final String userStringId;
-    private final Integer rating;
-    private final String content;
-    private final LocalDateTime createdAt;
-    private final String createdBy;
-    private final LocalDateTime updatedAt;
-    private final String updatedBy;
+public record ReviewListResponse(
+    String reviewUuid,
+    String userStringId,
+    Integer rating,
+    String content,
+    LocalDateTime createdAt,
+    String createdBy,
+    LocalDateTime updatedAt,
+    String updatedBy
+) {
 
     public static ReviewListResponse from(Review review) {
         return new ReviewListResponse(
@@ -29,5 +27,17 @@ public class ReviewListResponse {
             review.getUpdatedAt(),
             review.getUpdatedBy()
         );
+    }
+
+    public static List<ReviewListResponse> from(List<Review> reviews) {
+        return reviews.stream().map(ReviewListResponse::from).collect(Collectors.toList());
+    }
+
+    public record GetReviewsResponse(
+        List<ReviewListResponse> reviews
+    ) {
+        public static GetReviewsResponse of(List<Review> reviews) {
+            return new GetReviewsResponse(ReviewListResponse.from(reviews));
+        }
     }
 }
