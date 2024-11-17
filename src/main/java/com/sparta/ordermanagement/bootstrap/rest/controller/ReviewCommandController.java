@@ -29,9 +29,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/v1/orders/{orderUuid}/reviews")
 public class ReviewCommandController {
 
-    // TODO: 추후에 지울 예정
-    private static final String TEST_CREATED_USER_ID = "0000";
-
     private final ReviewService reviewService;
 
     @ResponseStatus(HttpStatus.CREATED)
