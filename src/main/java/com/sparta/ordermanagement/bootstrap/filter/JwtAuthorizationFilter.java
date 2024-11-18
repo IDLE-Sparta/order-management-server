@@ -45,14 +45,14 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
         Map.entry(Pattern.compile("^/api/v1/example$"), Set.of("GET")),
         Map.entry(Pattern.compile(String.format("^/api/v1/shops/%s/products$", UUID_PATTERN)), Set.of("POST", "PUT", "DELETE")),
         Map.entry(Pattern.compile(String.format("^/api/v1/shops/%s/products/%s$", UUID_PATTERN, UUID_PATTERN)), Set.of("POST", "PUT", "PATCH", "DELETE")),
-        Map.entry(Pattern.compile("^/api/v1/orders$"), Set.of("GET", "POST", "PUT", "DELETE")),
-        Map.entry(Pattern.compile("^/api/v1/orders/payments$"), Set.of("GET", "POST", "PUT", "DELETE")),
-        Map.entry(Pattern.compile("^/api/v1/orders/owner$"), Set.of("GET", "POST", "PUT", "DELETE")),
-        Map.entry(Pattern.compile(String.format("^/api/v1/orders/%s$", UUID_PATTERN)), Set.of("GET", "POST", "PUT", "DELETE")),
-        Map.entry(Pattern.compile(String.format("^/api/v1/orders/%s/cancel$", UUID_PATTERN)), Set.of("GET", "POST", "PUT", "DELETE")),
-        Map.entry(Pattern.compile(String.format("^/api/v1/orders/%s/reviews$", UUID_PATTERN)), Set.of("GET", "POST", "PUT", "DELETE")),
-        Map.entry(Pattern.compile(String.format("^/api/v1/orders/%s/reviews/%s$", UUID_PATTERN, UUID_PATTERN)), Set.of("GET", "POST", "PUT", "DELETE")),
-        Map.entry(Pattern.compile("^/api/v1/ai$"), Set.of("GET", "POST", "PUT", "DELETE"))
+        Map.entry(Pattern.compile("^/api/v1/orders$"), Set.of("GET", "POST", "PUT", "PATCH", "DELETE")),
+        Map.entry(Pattern.compile("^/api/v1/orders/payments$"), Set.of("GET", "POST", "PUT", "PATCH", "DELETE")),
+        Map.entry(Pattern.compile("^/api/v1/orders/owner$"), Set.of("GET", "POST", "PUT", "PATCH", "DELETE")),
+        Map.entry(Pattern.compile(String.format("^/api/v1/orders/%s$", UUID_PATTERN)), Set.of("GET", "POST", "PUT", "PATCH", "DELETE")),
+        Map.entry(Pattern.compile(String.format("^/api/v1/orders/%s/cancel$", UUID_PATTERN)), Set.of("GET", "POST", "PUT", "PATCH", "DELETE")),
+        Map.entry(Pattern.compile(String.format("^/api/v1/orders/%s/reviews$", UUID_PATTERN)), Set.of("GET", "POST", "PUT", "PATCH", "DELETE")),
+        Map.entry(Pattern.compile(String.format("^/api/v1/orders/%s/reviews/%s$", UUID_PATTERN, UUID_PATTERN)), Set.of("GET", "POST", "PUT", "PATCH", "DELETE")),
+        Map.entry(Pattern.compile("^/api/v1/ai$"), Set.of("GET", "POST", "PUT", "PATCH", "DELETE"))
     );
 
     public static boolean isFilteringUri(String uri, String method) {
