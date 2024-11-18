@@ -56,3 +56,68 @@ https://github.com/IDLE-Sparta/order-management-server/wiki
 
 ### 🛠 프로젝트 아키텍처
 ![image](https://github.com/user-attachments/assets/f1536167-e562-4899-9858-6dd5b39319f1)
+
+### How To Start
+
+1. git clone 
+    ```
+   git clone https://github.com/sososo0/shopping-app.git
+   ```
+
+2. docker 설치 
+    ```
+   sudo apt-get update
+   sudo apt-get install apt-transport-https ca-certificates curl software-properties-common
+   curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+   sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+   sudo apt-get update
+   sudo apt-get install docker-ce
+   sudo docker --version
+   ```
+
+3. docker-compose 설치
+    ```
+   sudo curl -L "https://github.com/docker/compose/releases/download/v2.12.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+   sudo chmod +x /usr/local/bin/docker-compose
+   docker-compose --version
+   ```
+
+    > +) docker 관련 오류가 발생할 시
+    > docker 그룹에 사용자 추가하기 
+    > ```
+    > sudo usermod -aG docker $USER
+    > ```
+    > 
+    > 변경사항을 저장하기 위해 docker 로그아웃 후 다시 로그인
+
+4. .env, schema.sql, swagger.yml 파일 만들기 
+
+- 보안과 유지보수를 용이하게 하기 위해 .env 파일을 생성했습니다. 
+- database에 테이블을 생성하기 위한 schema.sql을 생성합니다. 
+- Swagger를 위한 swagger.yml을 생성합니다. 
+- 프로젝트의 루트 디렉토리에 생성합니다.
+    ```
+    /order-management-server
+    │
+    ├── .env
+    ├── schema.sql
+    ├── swagger.yml
+    ```
+
+```
+DB_NAME=    # DB 명 
+DB_USER=    # 사용자 명 
+DB_PW=      # 비밀번호
+JWT_KEY=    # JWT Key
+AI_KEY=     # AI Key
+```
+
+- template은 위와 같습니다. 
+
+5. docker-compose를 실행합니다.
+
+    ```
+    docker-compose up -d --build
+    ```
+
+- Dockerfile이 빌드되고 SpringBoot Web Application과 PostgreSQL의 docker container가 생성되고 실행됩니다.
