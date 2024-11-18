@@ -7,18 +7,18 @@ services:
     restart: always
     ports:
       - "5433:5432"
-    environment:
-      POSTGRES_USER: ${DB_USER}
-      POSTGRES_PASSWORD: ${DB_PW}
-      POSTGRES_DB: ${DB_NAME}
-      DB_USER: ${DB_USER}
     env_file: .env
+    environment:
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_PASSWORD: ${DB_PW}
+      POSTGRES_USER: ${DB_USER}
     volumes:
       - db_data:/var/lib/postgresql/data
+      - ./schema.sql:/docker-entrypoint-initdb.d/schema.sql
     networks:
       - app-network
     healthcheck:
-      test: [ "CMD-SHELL", "pg_isready -U $${DB_USER}" ]
+      test: [ "CMD-SHELL", "pg_isready -U ${DB_USER}" ]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -31,12 +31,6 @@ services:
     ports:
       - "8080:8080"
     env_file: .env
-    environment:
-      - DB_NAME=${DB_NAME}
-      - DB_USER=${DB_USER}
-      - DB_PW=${DB_PW}
-      - JWT_KEY=${JWT_KEY}
-      - AI_KEY=${AI_KEY}
     depends_on:
       - postgres
     networks:

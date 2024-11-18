@@ -16,7 +16,6 @@ COPY . .
 RUN chmod +x gradlew
 
 # Gradle 빌드 실행 및 결과 확인
-#RUN ./gradlew clean build && ls build/libs
 RUN ./gradlew clean build -x test && ls build/libs
 
 # 2단계: 실행 이미지
@@ -30,7 +29,7 @@ RUN chmod +x /wait-for-it.sh
 # 빌드 단계에서 생성된 JAR 파일 복사
 COPY --from=builder /app/build/libs/order-management-server-0.0.1.jar app.jar
 
-ENV PROFILE=deploy
+ENV SPRING_PROFILES_ACTIVE=deploy
 
 # 애플리케이션 실행
 ENTRYPOINT ["/wait-for-it.sh", "postgres:5432", "--", "java", "-jar", "/app.jar"]

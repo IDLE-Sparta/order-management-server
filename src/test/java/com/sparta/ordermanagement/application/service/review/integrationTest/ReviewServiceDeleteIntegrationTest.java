@@ -1,6 +1,5 @@
 package com.sparta.ordermanagement.application.service.review.integrationTest;
 
-import com.fasterxml.jackson.annotation.JsonTypeInfo.As;
 import com.sparta.ordermanagement.application.domain.review.Review;
 import com.sparta.ordermanagement.application.domain.review.ReviewForDelete;
 import com.sparta.ordermanagement.application.exception.review.ReviewUuidInvalidException;

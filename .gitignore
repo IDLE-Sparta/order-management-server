@@ -39,3 +39,5 @@ application.yml
 .vscode/
 
 .env
+schema.sql
+swagger.yml
